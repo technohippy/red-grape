@@ -13,7 +13,7 @@ module RedGrape
         @opts.empty? ? super : "#{super}(#{@opts.first})"
       end
 
-      def pass(obj, history)
+      def pass(obj, context)
         case obj
         when RedGrape::Vertex
           group =
@@ -26,7 +26,9 @@ module RedGrape
           if self.last?
             group
           else
-            group.pass_through self.next, :history => history + [obj]
+            context.push_history obj do |ctx|
+              group.pass_through self.next, ctx
+            end
           end
         end
       end

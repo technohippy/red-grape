@@ -16,7 +16,6 @@ end
 
 class Object
   def pass_through(pipe, context)
-    history = context[:history].dup
-    pipe.pass self, history
+    pipe.pass self, context
   end
 end

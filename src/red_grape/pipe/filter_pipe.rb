@@ -3,15 +3,17 @@ require 'red_grape/pipe/base'
 module RedGrape
   module Pipe
     class FilterPipe < Pipe::Base
-      def pass(obj, history)
+      def pass(obj, context)
         case obj
         when RedGrape::Vertex
           filter = self.opts.first
-          if obj.instance_eval &filter
+          if context.eval :it => obj, &filter
             if self.last?
               obj 
             else
-              obj.pass_through self.next, :history => history + [obj]
+              context.push_history obj do |ctx|
+                obj.pass_through self.next, ctx
+              end
             end
           else
             nil

@@ -1,3 +1,5 @@
+require 'red_grape/pipe/context'
+
 module RedGrape
   module Pipe
     class Base
@@ -28,7 +30,7 @@ module RedGrape
 
       def invoke
         if first?
-          @prev.pass_through self, :history => []
+          @prev.pass_through self, Pipe::Context.new
         elsif @prev.done? and last?
           @value
         else

@@ -21,8 +21,8 @@ module RedGrape
     end
 
     def pass_through(pipe, context)
-      history = context[:history].dup
-      pipe.pass self, history
+      #history = context[:history].dup
+      pipe.pass self, context
     end
 
     def add_out_edge(edge)
@@ -49,10 +49,8 @@ module RedGrape
     end
 
     def pass_through(pipe, context) 
-      history = context[:history].dup
-
       @group.map! do |v|
-        pipe.pass v, history
+        pipe.pass v, context
       end.compact!
       self
     end

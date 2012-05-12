@@ -7,14 +7,16 @@ module RedGrape
         "#{super}(#{@opts.first})"
       end
 
-      def pass(obj, history)
+      def pass(obj, context)
         case obj
         when RedGrape::Vertex
           prop = obj[self.opts.first]
           if self.last?
             prop
           else
-            prop.pass_through self.next, :history => history + [obj]
+            context.push_history obj do |ctx|
+              prop.pass_through self.next, ctx
+            end
           end
         end
       end

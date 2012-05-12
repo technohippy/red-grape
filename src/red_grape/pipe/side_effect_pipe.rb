@@ -9,7 +9,7 @@ module RedGrape
     end
 
     class SideEffectPipe < Pipe::Base
-      def pass(obj, history)
+      def pass(obj, context)
         side_effect = self.opts.first
         obj.instance_eval &side_effect
       end

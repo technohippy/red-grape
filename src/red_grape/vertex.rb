@@ -16,6 +16,10 @@ module RedGrape
       @id
     end
 
+    def _in_edges
+      @in_edges
+    end
+
     def _out_edges
       @out_edges
     end

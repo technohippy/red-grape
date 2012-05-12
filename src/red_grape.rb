@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'red_grape/pipe/in_pipe'
 require 'red_grape/pipe/out_pipe'
 require 'red_grape/pipe/property_pipe'
 require 'red_grape/pipe/paths_pipe'

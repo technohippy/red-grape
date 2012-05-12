@@ -1,10 +1,11 @@
 require 'nokogiri'
-require 'red_grape/graph'
 require 'red_grape/pipe/out_pipe'
 require 'red_grape/pipe/property_pipe'
 require 'red_grape/pipe/paths_pipe'
 require 'red_grape/pipe/filter_pipe'
 require 'red_grape/pipe/transform_pipe'
+require 'red_grape/pipe/side_effect_pipe'
+require 'red_grape/graph'
 
 module RedGrape
   module_function

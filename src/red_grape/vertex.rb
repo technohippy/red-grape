@@ -1,9 +1,9 @@
 require 'red_grape/propertied_object'
-require 'red_grape/pipe/out_pipe'
 
 module RedGrape
   class Vertex < PropertiedObject
     include RedGrape::Pipe::Out
+    include RedGrape::Pipe::SideEffect
 
     def initialize(graph, id, opts={})
       super graph, opts

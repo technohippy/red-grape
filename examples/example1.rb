@@ -2,7 +2,6 @@
 
 $: << 'src'
 require 'red_grape'
-require 'pp'
 
 g = RedGrape.load_graph 'data/graph-example-1.xml'
 
@@ -19,7 +18,7 @@ puts "g.v(1).out('knows').filter{self.age < 30}.name: #{g.v(1).out('knows').filt
 puts "g.v(1).out('knows').filter{self.age < 30}.name.transform{self.size}: #{g.v(1).out('knows').filter{self.age < 30}.name.transform{self.size}}"
 puts "g.v(1).out('knows').filter{self.age < 30}.name.transform{self.size}.to_a: #{g.v(1).out('knows').filter{self.age < 30}.name.transform{self.size}.to_a}"
 
-#puts "g.v(1).side_effect{x = self}: #{g.v(1).side_effect{x = self}}"
+puts "g.v(1).side_effect{x = self}: #{g.v(1).side_effect{x = self}}"
 #puts "g.v(1).side_effect{x = self}.out('created'): #{g.v(1).side_effect{x = self}.out('created')}"
 #puts "g.v(1).side_effect{x = self}.out('created').in('created'): #{g.v(1).side_effect{x = self}.out('created').in('created')}"
 #puts "g.v(1).side_effect{x = self}.out('created').in('created').filter{self != x}: #{g.v(1).side_effect{x = self}.out('created').in('created').filter{self != x}}"

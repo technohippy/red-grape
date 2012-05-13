@@ -5,7 +5,6 @@ require 'red_grape'
 
 g = RedGrape.load_graph 'data/graph-example-1.xml'
 
-=begin
 puts "g.v(1): #{g.v(1)}"
 
 puts "g.v(1).out: #{g.v(1).out}"
@@ -24,14 +23,14 @@ puts "g.v(1).side_effect{@x = it}.out('created'): #{g.v(1).side_effect{@x = it}.
 puts "g.v(1).side_effect{@x = it}.out('created').in('created'): #{g.v(1).side_effect{@x = it}.out('created').in('created')}"
 puts "g.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}: #{g.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}}"
 puts "g.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}.to_a: #{g.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}.to_a}"
-=end
 
 puts "g.v(1).out('knows').if_then_else(proc{it.age < 30}, proc{it.name}, proc{it.out('created').name}): #{g.v(1).out('knows').if_then_else(proc{it.age < 30}, proc{it.name}, proc{it.out('created').name})}"
 
-#puts "g.v(1).out('knows').name: #{g.v(1).out('knows').name}"
-#puts "g.v(1).out('knows').name.filter{it[0] == 'v'}: #{g.v(1).out('knows').name.filter{it[0] == 'v'}}"
-#puts "g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2): #{g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2)}"
-#puts "g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).to_a: #{g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).to_a}"
+puts "g.v(1).out('knows').name: #{g.v(1).out('knows').name}"
+puts "g.v(1).out('knows').name.filter{it[0] == 'v'}: #{g.v(1).out('knows').name.filter{it[0] == 'v'}}"
+puts "g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2): #{g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2)}"
+puts "g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).to_a: #{g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).to_a}"
+
 #puts "g.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here'): #{g.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here')}"
 
 #puts "g.v(1).out.loop(1){it.loops < 3}: #{g.v(1).out.loop(1){it.loops < 3}}"

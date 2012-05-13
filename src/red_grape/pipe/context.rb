@@ -6,6 +6,7 @@ module RedGrape
 
       def initialize
         @history = []
+        @marks = {}
       end
 
       def push_history(obj, &block)
@@ -13,6 +14,14 @@ module RedGrape
         ret = block.call self
         @history.pop
         ret 
+      end
+
+      def mark!(label)
+        @marks[label] = @history.last
+      end
+
+      def mark(label)
+        @marks[label]
       end
 
       def eval(args={}, &block)

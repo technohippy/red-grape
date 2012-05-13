@@ -9,8 +9,7 @@ module RedGrape
         when Integer
           context.history[-label]
         else
-          label = label.to_s
-          # TODO
+          context.history.mark label
         end
       end
     end

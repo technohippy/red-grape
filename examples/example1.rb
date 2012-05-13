@@ -31,7 +31,7 @@ puts "g.v(1).out('knows').name.filter{it[0] == 'v'}: #{g.v(1).out('knows').name.
 puts "g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2): #{g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2)}"
 puts "g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).to_a: #{g.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).to_a}"
 
-#puts "g.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here'): #{g.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here')}"
+puts "g.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here'): #{g.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here')}"
 
 #puts "g.v(1).out.loop(1){it.loops < 3}: #{g.v(1).out.loop(1){it.loops < 3}}"
 #puts "g.v(1).out.loop(1){it.loops < 3}.name: #{g.v(1).out.loop(1){it.loops < 3}.name}"

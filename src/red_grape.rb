@@ -6,6 +6,7 @@ require 'red_grape/pipe/paths_pipe'
 require 'red_grape/pipe/filter_pipe'
 require 'red_grape/pipe/transform_pipe'
 require 'red_grape/pipe/side_effect_pipe'
+require 'red_grape/pipe/if_then_else_pipe'
 require 'red_grape/graph'
 
 module RedGrape

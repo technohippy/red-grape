@@ -3,6 +3,7 @@ module RedGrape
     class Context
       attr_accessor :it
       attr_reader :history
+
       def initialize
         @history = []
       end

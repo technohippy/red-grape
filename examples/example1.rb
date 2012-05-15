@@ -35,5 +35,5 @@ puts "g.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here'): #{g
 
 puts "g.v(1).out.out: #{g.v(1).out.out}"
 puts "g.v(1).out.loop(1){loops < 3}: #{g.v(1).out.loop(1){loops < 3}}"
-#puts "g.v(1).out.loop(1){loops < 3}.name: #{g.v(1).out.loop(1){loops < 3}.name}"
+puts "g.v(1).out.loop(1){loops < 3}.name: #{g.v(1).out.loop(1){loops < 3}.name}"
 puts "g.v(1).out.loop(1){loops < 3}.name: #{g.v(1).out.loop(1){loops < 3}.name.to_a}"

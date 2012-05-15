@@ -25,7 +25,14 @@ module RedGrape
           context.loops += 1
         end
         context.loops = 1
-        obj
+
+        if self.last?
+          obj
+        else
+          context.push_history obj do |ctx|
+            obj.pass_through self.next, ctx
+          end
+        end
       end
     end
   end

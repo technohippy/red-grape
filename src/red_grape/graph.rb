@@ -1,5 +1,7 @@
 require 'red_grape/vertex'
+require 'red_grape/vertex_group'
 require 'red_grape/edge'
+require 'red_grape/property_description'
 
 module RedGrape
   class Graph
@@ -80,37 +82,5 @@ module RedGrape
       {:vertices => @vertices, :edges => @edges}.to_s
     end
 =end
-  end
-
-  class PropertyDescription
-    attr_reader :name, :type, :default
-
-    def initialize(name, type, default=nil)
-      @name = name
-      @type = type
-      @default = default
-    end
-
-    def accessible?(v)
-      # TODO
-      true
-    end
-
-    def convert(val)
-      case type
-      when 'int'
-        val.to_i
-      else
-        val
-      end
-    end
-
-    def has_default?
-      not @default.nil?
-    end
-
-    def to_s
-      "{#{@name}:#{@type}:#{@default}}"
-    end
   end
 end

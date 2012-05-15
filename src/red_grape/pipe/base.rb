@@ -12,6 +12,11 @@ module RedGrape
         @block = block
       end
 
+# TODO
+def increment_loops_if_needed(context)
+  context.loops += 1 if @increment_loops
+end
+
       def pipe_name
         self.class.name.split('::').last
       end
@@ -31,8 +36,6 @@ module RedGrape
       def invoke
         if first?
           @prev.pass_through self, Pipe::Context.new
-        elsif @prev.done? and last?
-          @value
         else
           @prev.invoke
         end
@@ -51,6 +54,21 @@ module RedGrape
           ret.unshift pipe.pipe_name
         end
         ret
+      end
+
+      def size
+        len = 0
+        pipe = self
+        while pipe.is_a?(RedGrape::Pipe::Base) and pipe.prev
+          len += 1 
+          pipe = pipe.prev
+        end
+        len
+      end
+
+      # note: both prev and next are not copied.
+      def dup
+        self.class.new nil, @opts, &@block
       end
 
       def method_missing(name, *args, &block)

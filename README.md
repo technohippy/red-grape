@@ -1,4 +1,4 @@
-# RedGrape - Extremely Simple Graph DB
+# RedGrape - Extremely Simple GraphDB
 
 RedGrape is an on-memory graph database written in ruby.
 

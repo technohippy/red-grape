@@ -1,4 +1,5 @@
 require 'red_grape/pipe/base'
+require 'red_grape/path_group'
 
 module RedGrape
   module Pipe
@@ -9,7 +10,8 @@ module RedGrape
         else
           context.push_history obj do |ctx|
             if self.last?
-              ctx.history.dup
+              #ctx.history.dup
+              PathGroup.new ctx.history
             else
               # TODO
               raise 'not implemented'
@@ -20,4 +22,3 @@ module RedGrape
     end
   end
 end
-

@@ -25,7 +25,6 @@ module RedGrape
     end
 
     def pass_through(pipe, context)
-      #history = context[:history].dup
       pipe.pass self, context
     end
 
@@ -44,23 +43,6 @@ module RedGrape
 
     def method_missing(name, *args, &block)
       self[name.to_s] or raise NoMethodError.new(name)
-    end
-  end
-
-  class VertexGroup < Vertex
-    def initialize(group=[])
-      @group = group
-    end
-
-    def pass_through(pipe, context) 
-      @group.map! do |v|
-        pipe.pass v, context
-      end.compact!
-      self
-    end
-
-    def to_s
-      "[#{@group.map(&:to_s).join ', '}]"
     end
   end
 end

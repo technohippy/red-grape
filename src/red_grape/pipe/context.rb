@@ -1,12 +1,13 @@
 module RedGrape
   module Pipe
     class Context
-      attr_accessor :it
+      attr_accessor :it, :loops
       attr_reader :history
 
       def initialize
         @history = []
         @marks = {}
+        @loops = 1
       end
 
       def push_history(obj, &block)

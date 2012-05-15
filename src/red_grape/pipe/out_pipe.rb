@@ -17,7 +17,7 @@ module RedGrape
         case obj
         when RedGrape::Vertex
           group =
-            if self.opts.empty?
+            if self.opts.empty? or self.opts.first.empty? # TODO なぜかlabelに[]が入ってる
               VertexGroup.new obj._out_edges.map(&:target)
             else
               label = self.opts.first

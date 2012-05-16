@@ -13,10 +13,8 @@ module RedGrape
           else
             context.eval({:it => obj}, &else_block)
           end
+        ret = ret.invoke if ret.is_a? Pipe
         if self.last?
-puts ">>>>>>>>>>>>"
-puts ret.class.name
-puts "<<<<<<<<<<<<"
           ret
         else
           context.push_history ret do |ctx|

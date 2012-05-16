@@ -20,7 +20,7 @@ module RedGrape
         v.nil? or (v.respond_to?(:empty?) and v.empty?) # TODO
       end
       @group.map! do |v|
-        v.is_a?(RedGrape::VertexGroup) ? v._group : v
+        v.is_a?(VertexGroup) ? v._group : v
       end
       #@group.flatten!
       flatten_group!
@@ -60,6 +60,10 @@ module RedGrape
 
     def empty?
       @group.empty?
+    end
+
+    def to_a
+      @group.dup.map{|e| e.is_a?(VertexGroup) ? e.to_a : e}
     end
 
     def to_s

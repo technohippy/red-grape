@@ -8,19 +8,19 @@ RedGrape is an on-memory graph database written in ruby.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* load GraphML
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  g.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* Nokogiri (http://nokogiri.org/)
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* -
 
 == DEVELOPERS:
 
@@ -37,12 +37,11 @@ and generate the RDoc.
 ** Gremlin (https://github.com/tinkerpop/gremlin/wiki)
 ** Pipes (https://github.com/tinkerpop/pipes/wiki/)
 
-
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2012 FIX
+Copyright (c) 2012 ANDO Yasushi
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

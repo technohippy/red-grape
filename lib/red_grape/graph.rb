@@ -1,3 +1,4 @@
+require 'stringio'
 require 'red_grape/vertex'
 require 'red_grape/vertex_group'
 require 'red_grape/edge'
@@ -12,7 +13,11 @@ module RedGrape
 
     class <<self
       def load(filename)
-        self.new.load filename
+        if filename =~ /^<\?xml/
+          self.new.load StringIO.new(filename)
+        else
+          self.new.load filename
+        end
       end
     end
 
@@ -31,6 +36,39 @@ module RedGrape
       @edges[id.to_s]
     end
     alias e edge
+
+    def add_vertex(id, v=nil)
+      if v
+        if v.is_a? Hash
+          v = Vertex.new self, id, v
+        end
+      else
+        if id.is_a? Hash
+          v = id
+          id = v[:id] || v['id']
+        else
+          v = id
+          id = v._id
+        end
+      end
+      raise ArgumentError.new 'invalid id' unless id == v._id
+
+      @vertices[id.to_s] = v
+    end
+
+    def add_edge(id, label, from, to)
+      edge = if id.is_a? Edge
+          id
+        else
+          id = id.to_s
+          from = self.vertex[from.to_s] unless from.is_a? Vertex
+          to = self.vertex[to.to_s] unless to.is_a? Vertex
+          add_vertex from unless self.vertex(from._id)
+          add_vertex to unless self.vertex(to._id)
+          Edge.new self, id, from, to, label
+        end
+      @edges[edge._id] = edge
+    end
 
     def load(file, type=:xml)
       file = File.open file if file.is_a? String
@@ -77,10 +115,8 @@ module RedGrape
       xml.xpath(".//xmlns:#{elm}", NAMESPACES)
     end
 
-=begin
     def to_s
       {:vertices => @vertices, :edges => @edges}.to_s
     end
-=end
   end
 end

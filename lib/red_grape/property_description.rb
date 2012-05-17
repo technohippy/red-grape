@@ -9,13 +9,17 @@ module RedGrape
     end
 
     def accessible?(v)
-      # TODO
-      true
+      case type
+      when 'int', 'integer'
+        v.is_a? Integer
+      else
+        true
+      end
     end
 
     def convert(val)
       case type
-      when 'int'
+      when 'int', 'integer'
         val.to_i
       else
         val

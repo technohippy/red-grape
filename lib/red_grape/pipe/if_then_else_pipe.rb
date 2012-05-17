@@ -13,7 +13,7 @@ module RedGrape
           else
             context.eval({:it => obj}, &else_block)
           end
-        ret = ret.invoke if ret.is_a? Pipe
+        ret = ret.invoke if ret.is_a? Pipe::Base
         if self.last?
           ret
         else

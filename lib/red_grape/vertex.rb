@@ -42,7 +42,7 @@ module RedGrape
     end
 
     def method_missing(name, *args, &block)
-      self[name.to_s] or raise NoMethodError.new(name)
+      self[name.to_s] or raise NoMethodError.new(name.to_s)
     end
   end
 end

@@ -8,10 +8,19 @@ module RedGrape
       @default = default
     end
 
-    def accessible?(v)
+    def accessible?(val)
       case type
       when 'int', 'integer'
-        v.is_a? Integer
+        val.is_a? Integer
+      else
+        true
+      end
+    end
+
+    def convertable?(val)
+      case type
+      when 'int', 'integer'
+        val =~ /^\d+$/
       else
         true
       end

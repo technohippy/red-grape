@@ -51,7 +51,7 @@ module RedGrape
     end
 
     def map(&block)
-      @group.map &block
+      @group.map(&block)
     end
 
     def sort(&block)

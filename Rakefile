@@ -11,11 +11,7 @@ require 'hoe'
 # Hoe.plugin :rubyforge
 
 Hoe.spec 'red_grape' do
-  # HEY! If you fill these out in ~/.hoe_template/Rakefile.erb then
-  # you'll never have to touch them again!
-  # (delete this comment too, of course)
-
-  # developer('FIX', 'FIX@example.com')
+  developer('ANDO Yasushi', 'andyjpn@gmail.com')
 
   # self.rubyforge_name = 'red_grapex' # if different than 'red_grape'
 end

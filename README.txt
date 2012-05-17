@@ -4,7 +4,7 @@
 
 == DESCRIPTION:
 
-RedGrape is an on-memory graph database written in ruby.
+RedGrape is an in-memory graph database written in ruby.
 
 == FEATURES/PROBLEMS:
 
@@ -17,10 +17,6 @@ RedGrape is an on-memory graph database written in ruby.
 == REQUIREMENTS:
 
 * Nokogiri (http://nokogiri.org/)
-
-== INSTALL:
-
-* -
 
 == DEVELOPERS:
 

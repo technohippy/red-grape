@@ -27,7 +27,7 @@ module RedGrape
 
       def eval(args={}, &block)
         args.each {|k, v| self.send "#{k}=", v}
-        instance_eval &block
+        instance_eval(&block)
       end
     end
   end

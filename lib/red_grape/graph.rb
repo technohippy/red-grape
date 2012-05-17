@@ -6,6 +6,7 @@ require 'red_grape/property_description'
 
 module RedGrape
   class Graph
+    # TODO: https://github.com/tinkerpop/blueprints/blob/bed2e64010882be66bf3b46d3c3e4b4ef4f6f2d9/blueprints-core/src/main/java/com/tinkerpop/blueprints/pgm/impls/tg/TinkerGraphFactory.java
     NAMESPACES = {
       'xmlns' => 'http://graphml.graphdrawing.org/xmlns',
       'xsi' => 'http://www.w3.org/2001/XMLSchema-instance'

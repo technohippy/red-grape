@@ -3,8 +3,17 @@ require 'stringio'
 require 'red_grape'
 
 class GraphTest < Test::Unit::TestCase
-  def setup
-    @graph = RedGrape::Graph.new
+  def test_vertex
+    graph = RedGrape::Graph.new
+    graph.add_vertex id:1, val:'a'
+    graph.add_vertex id:2, val:'b'
+    graph.add_vertex id:3, val:'c'
+
+    assert_equal 3, graph.vertex.size
+    assert_equal 1, graph.vertex(1)._id
+    assert_equal 2, graph.vertex(1, 2).size
+    assert_equal 2, graph.vertex([1, 2]).size
+    assert_equal 3, graph.vertex(:all).size
   end
 
   def test_construct

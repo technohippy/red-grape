@@ -1,4 +1,4 @@
-#TODO delegate
+#TODO delegate to an array
 module RedGrape
   class PathGroup
     def initialize(ary)

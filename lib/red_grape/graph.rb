@@ -28,10 +28,24 @@ module RedGrape
       @property_descriptions = {}
     end
 
-    def vertex(id)
-      @vertices[id.to_s]
+    def vertex(*id)
+      if 1 < id.size
+        VertexGroup.new(id.map{|i| @vertices[i.to_s]})
+      elsif id.size == 0
+        VertexGroup.new @vertices.values
+      else
+        case id.first
+        when Array
+          VertexGroup.new(id.first.map{|i| @vertices[i.to_s]})
+        when :all
+          VertexGroup.new @vertices.values
+        else
+          @vertices[id.first.to_s]
+        end
+      end
     end
     alias v vertex
+    alias V vertex
 
     def edge(id)
       @edges[id.to_s]
@@ -51,6 +65,7 @@ module RedGrape
           v = id
           id = v._id
         end
+        v = Vertex.new self, id, v
       end
       raise ArgumentError.new 'invalid id' unless id == v._id
 

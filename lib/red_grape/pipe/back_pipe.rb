@@ -5,11 +5,19 @@ module RedGrape
     class BackPipe < Pipe::Base
       def pass(obj, context)
         label = self.opts.first
-        case label
-        when Integer
-          context.history[-label]
+        obj = case label
+          when Integer
+            context.history[-label]
+          else
+            context.history.mark label
+          end
+
+        if self.last?
+          obj 
         else
-          context.history.mark label
+          context.push_history obj do |ctx|
+            obj.pass_through self.next, ctx
+          end
         end
       end
     end

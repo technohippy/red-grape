@@ -1,6 +1,6 @@
 require 'red_grape/vertex'
 
-#TODO delegate
+#TODO delegate to array
 module RedGrape
   class VertexGroup < Vertex
     def initialize(group=[])
@@ -15,7 +15,6 @@ module RedGrape
       @group.map! do |v|
         pipe.pass v, context
       end
-      #end.compact!
       @group.reject! do |v|
         v.nil? or (v.respond_to?(:empty?) and v.empty?) # TODO
       end
@@ -24,7 +23,7 @@ module RedGrape
       end
       #@group.flatten!
       flatten_group!
-      self
+      @group.all? {|e| e.is_a? self.class} ? self : @group
     end
 
     def flatten_group

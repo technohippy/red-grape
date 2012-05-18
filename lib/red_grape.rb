@@ -10,6 +10,8 @@ require 'red_grape/pipe/if_then_else_pipe'
 require 'red_grape/pipe/back_pipe'
 require 'red_grape/pipe/as_pipe'
 require 'red_grape/pipe/loop_pipe'
+require 'red_grape/pipe/has_pipe'
+require 'red_grape/pipe/out_e_pipe'
 require 'red_grape/graph'
 
 module RedGrape

@@ -12,11 +12,6 @@ module RedGrape
         @block = block
       end
 
-# TODO
-def increment_loops_if_needed(context)
-  context.loops += 1 if @increment_loops
-end
-
       def pipe_name
         self.class.name.split('::').last
       end
@@ -33,17 +28,17 @@ end
         not @value.nil?
       end
 
-      def invoke
+      def take
         if first?
           @prev.pass_through self, Pipe::Context.new
         else
-          @prev.invoke
+          @prev.take
         end
       end
 
       def to_s
         #TODO: flag
-        invoke.to_s
+        take.to_s
       end
 
       def to_a

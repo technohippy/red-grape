@@ -26,10 +26,6 @@ module RedGrape
       @out_edges
     end
 
-    def pass_through(pipe, context)
-      pipe.pass self, context
-    end
-
     def add_out_edge(edge)
       @out_edges << edge
     end

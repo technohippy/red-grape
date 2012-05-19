@@ -9,6 +9,6 @@ class TraversalPatternsTest < Test::Unit::TestCase
   # https://github.com/tinkerpop/gremlin/wiki/Backtrack-Pattern
   def test_backtrack_pattern
     assert_equal [29], @graph.V.out('knows').has('age', :gt, 30).back(2).age.take
-    #assert_equal 29, @graph.V.as('x').outE('knows').inV.has('age', :gt, 30).back('x').age
+    assert_equal [29], @graph.V.as('x').outE('knows').inV.has('age', :gt, 30).back('x').age.take
   end
 end

@@ -1,4 +1,5 @@
 require 'red_grape/pipe/base'
+require 'red_grape/edge_group'
 
 module RedGrape
   module Pipe
@@ -11,7 +12,20 @@ module RedGrape
 
     class OutEPipe < Pipe::Base
       def pass(obj, context)
-puts :">>>>>out_e"
+        label = self.opts.first
+        edges = if label
+            EdgeGroup.new obj._out_edges.find_all{|e| e.label == label}
+          else
+            EdgeGroup.new obj._out_edges
+          end
+
+        if self.last?
+          edges
+        else
+          context.push_history obj do |ctx|
+            edges.pass_through self.next, ctx
+          end
+        end
       end
     end
   end

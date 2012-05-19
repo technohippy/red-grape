@@ -12,6 +12,7 @@ require 'red_grape/pipe/as_pipe'
 require 'red_grape/pipe/loop_pipe'
 require 'red_grape/pipe/has_pipe'
 require 'red_grape/pipe/out_e_pipe'
+require 'red_grape/pipe/in_v_pipe'
 require 'red_grape/graph'
 
 module RedGrape

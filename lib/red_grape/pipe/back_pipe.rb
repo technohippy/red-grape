@@ -9,7 +9,7 @@ module RedGrape
           when Integer
             context.history[-label]
           else
-            context.history.mark label
+            context.mark label
           end
 
         if self.last?

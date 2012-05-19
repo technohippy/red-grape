@@ -1,8 +1,8 @@
-require 'red_grape/vertex'
+require 'red_grape/edge'
 
 #TODO delegate to array
 module RedGrape
-  class VertexGroup < Vertex
+  class EdgeGroup < Edge
     def initialize(group=[])
       @group = group
     end
@@ -23,6 +23,7 @@ module RedGrape
       end
       #@group.flatten!
       flatten_group!
+      @group.uniq!
       @group.all? {|e| e.is_a? self.class} ? self : @group
     end
 

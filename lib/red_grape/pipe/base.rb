@@ -67,7 +67,7 @@ module RedGrape
       end
 
       def method_missing(name, *args, &block)
-        class_name = "#{name.capitalize.to_s.gsub(/_(.)/) {$1.upcase}}Pipe"
+        class_name = "#{name.to_s.sub(/^./){$&.upcase}.gsub(/_(.)/){$1.upcase}}Pipe"
         args.unshift block if block
         pipe_class =
           if RedGrape::Pipe.const_defined? class_name

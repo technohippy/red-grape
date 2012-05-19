@@ -31,7 +31,4 @@ module RedGrape
       "e[#{_id}:v[#{@source._id}]-v[#{@target._id}]]"
     end
   end
-
-  class EdgeGroup < Edge
-  end
 end

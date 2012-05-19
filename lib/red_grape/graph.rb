@@ -2,6 +2,7 @@ require 'stringio'
 require 'red_grape/vertex'
 require 'red_grape/vertex_group'
 require 'red_grape/edge'
+require 'red_grape/edge_group'
 require 'red_grape/property_description'
 
 module RedGrape

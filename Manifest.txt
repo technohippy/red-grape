@@ -10,7 +10,6 @@ lib/red_grape/edge.rb
 lib/red_grape/graph.rb
 lib/red_grape/path_group.rb
 lib/red_grape/pipe
-lib/red_grape/pipe/.if_then_else_pipe.rb.swp
 lib/red_grape/pipe/as_pipe.rb
 lib/red_grape/pipe/back_pipe.rb
 lib/red_grape/pipe/base.rb
@@ -29,6 +28,5 @@ lib/red_grape/property_description.rb
 lib/red_grape/vertex.rb
 lib/red_grape/vertex_group.rb
 lib/red_grape.rb
-test/.test_on_the_nature_of_pipes.rb.swp
 test/test_on_the_nature_of_pipes.rb
 test/test_red_grape.rb

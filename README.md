@@ -1,24 +1,30 @@
-= red_grape
+red_grape
+=========
 
 * RedGrape - Extremely Simple Graph DB (https://github.com/technohippy/red-grape)
 
-== DESCRIPTION:
+DESCRIPTION:
+------------
 
 RedGrape is an in-memory graph database written in ruby.
 
-== FEATURES/PROBLEMS:
+FEATURES/PROBLEMS:
+------------------
 
 * load GraphML
 
-== SYNOPSIS:
+SYNOPSIS:
+------------
 
   g.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}
 
-== REQUIREMENTS:
+REQUIREMENTS:
+-------------
 
-* Nokogiri (http://nokogiri.org/)
+* [Nokogiri](http://nokogiri.org/)
 
-== DEVELOPERS:
+DEVELOPERS:
+-----------
 
 After checking out the source, run:
 
@@ -27,13 +33,15 @@ After checking out the source, run:
 This task will install any missing dependencies, run the tests/specs,
 and generate the RDoc.
 
-== REFERENCE:
+REFERENCES:
+-----------
 
-* Tinkerpop (http://tinkerpop.com/)
-** Gremlin (https://github.com/tinkerpop/gremlin/wiki)
-** Pipes (https://github.com/tinkerpop/pipes/wiki/)
+* [Tinkerpop](http://tinkerpop.com/)
+  * [Gremlin](https://github.com/tinkerpop/gremlin/wiki)
+  * [Pipes](https://github.com/tinkerpop/pipes/wiki/)
 
-== LICENSE:
+LICENSE:
+--------
 
 (The MIT License)
 

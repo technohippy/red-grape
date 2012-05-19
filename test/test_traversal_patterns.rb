@@ -11,4 +11,8 @@ class TraversalPatternsTest < Test::Unit::TestCase
     assert_equal [29], @graph.V.out('knows').has('age', :gt, 30).back(2).age.take
     assert_equal [29], @graph.V.as('x').outE('knows').inV.has('age', :gt, 30).back('x').age.take
   end
+
+  # https://github.com/tinkerpop/gremlin/wiki/Except-Retain-Pattern
+  def test_except_retain_pattern
+  end
 end

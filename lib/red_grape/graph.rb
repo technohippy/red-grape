@@ -30,7 +30,9 @@ module RedGrape
     end
 
     def vertex(*id)
-      if 1 < id.size
+      if id.size == 2 # TODO: for the time being
+        VertexGroup.new @vertices.values.select{|e| e[id[0]] == id[1]}
+      elsif 1 < id.size
         VertexGroup.new(id.map{|i| @vertices[i.to_s]})
       elsif id.size == 0
         VertexGroup.new @vertices.values

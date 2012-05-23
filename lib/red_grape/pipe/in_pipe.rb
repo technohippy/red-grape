@@ -2,6 +2,12 @@ require 'red_grape/pipe/base'
 
 module RedGrape
   module Pipe
+    module In
+      def in(*opts)
+        InPipe.new self, *opts
+      end
+    end
+
     class InPipe < Pipe::Base
       def pipe_name
         @opts.empty? ? super : "#{super}(#{@opts.first})"

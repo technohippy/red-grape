@@ -3,10 +3,10 @@ require 'red_grape'
 require 'red_grape/propertied_object'
 require 'red_grape/property_description'
 
-class PropertiedObjectTest < Test::Unit::TestCase
+class GraphItemTest < Test::Unit::TestCase
   def test_new
     g = RedGrape::Graph.new
-    v = RedGrape::PropertiedObject.new g, property_description:{
+    v = RedGrape::GraphItem.new g, property_description:{
       name:RedGrape::PropertyDescription.new('name', 'string'),
       sex:RedGrape::PropertyDescription.new('sex', 'string', 'male'),
       age:RedGrape::PropertyDescription.new('age', 'integer')
@@ -17,7 +17,7 @@ class PropertiedObjectTest < Test::Unit::TestCase
     assert_nil desc[:name].default
     assert_equal 'male', desc[:sex].default
 
-    v = RedGrape::PropertiedObject.new g, property_description:{
+    v = RedGrape::GraphItem.new g, property_description:{
       name:['name', 'string'],
       sex:['sex', 'string', 'male'],
       age:['age', 'integer']
@@ -28,7 +28,7 @@ class PropertiedObjectTest < Test::Unit::TestCase
     assert_nil desc[:name].default
     assert_equal 'male', desc[:sex].default
     
-    v = RedGrape::PropertiedObject.new g, property_description:{
+    v = RedGrape::GraphItem.new g, property_description:{
       name:{name:'name', type:'string'},
       sex:{name:'sex', type:'string', default:'male'},
       age:{name:'age', type:'integer'}

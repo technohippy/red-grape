@@ -8,7 +8,8 @@ module RedGrape
         if self.last?
           target
         else
-          context.push_history target do |ctx|
+          #context.push_history target do |ctx|
+          context.push_history obj do |ctx|
             target.pass_through self.next, ctx
           end
         end

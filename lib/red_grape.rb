@@ -13,6 +13,12 @@ require 'red_grape/pipe/loop_pipe'
 require 'red_grape/pipe/has_pipe'
 require 'red_grape/pipe/out_e_pipe'
 require 'red_grape/pipe/in_v_pipe'
+require 'red_grape/pipe/aggregate_pipe'
+require 'red_grape/pipe/except_pipe'
+require 'red_grape/pipe/retain_pipe'
+require 'red_grape/pipe/fill_pipe'
+require 'red_grape/pipe/group_count_pipe'
+require 'red_grape/pipe/cap_pipe'
 require 'red_grape/graph'
 
 module RedGrape
@@ -27,5 +33,15 @@ end
 class Object
   def pass_through(pipe, context)
     pipe.pass self, context
+  end
+
+  def _
+    self
+  end
+end
+
+class Array
+  def _
+    RedGrape::VertexGroup.new self.dup
   end
 end

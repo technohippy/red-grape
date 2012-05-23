@@ -1,7 +1,7 @@
 require 'red_grape/propertied_object'
 
 module RedGrape
-  class Edge < PropertiedObject
+  class Edge < GraphItem
     attr_reader :source, :target, :label
 
     def initialize(graph, id, source, target, label, opts={})
@@ -27,8 +27,7 @@ module RedGrape
     end
 
     def to_s
-      #"e[id(#{_id}):v[#{@source._id}]-v[#{@target._id}]:#{@property}]"
-      "e[#{_id}:v[#{@source._id}]-v[#{@target._id}]]"
+      "e[#{_id}][#{@source._id}-#{@label}->#{@target._id}]"
     end
   end
 end

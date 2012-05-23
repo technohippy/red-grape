@@ -15,6 +15,11 @@ module RedGrape
       @group.map! do |v|
         pipe.pass v, context
       end
+      normalize
+      @group.all? {|e| e.is_a? self.class} ? self : @group
+    end
+
+    def normalize
       @group.reject! do |v|
         v.nil? or (v.respond_to?(:empty?) and v.empty?) # TODO
       end
@@ -23,7 +28,7 @@ module RedGrape
       end
       #@group.flatten!
       flatten_group!
-      @group.all? {|e| e.is_a? self.class} ? self : @group
+      self
     end
 
     def flatten_group

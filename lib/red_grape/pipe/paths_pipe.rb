@@ -20,5 +20,7 @@ module RedGrape
         end
       end
     end
+
+    PathPipe = PathsPipe
   end
 end

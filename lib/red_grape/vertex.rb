@@ -1,11 +1,13 @@
 require 'red_grape/propertied_object'
 
 module RedGrape
-  class Vertex < PropertiedObject
+  class Vertex < GraphItem
     include RedGrape::Pipe::Out
     include RedGrape::Pipe::OutE
+    include RedGrape::Pipe::In
     include RedGrape::Pipe::SideEffect
     include RedGrape::Pipe::As
+    include RedGrape::Pipe::Fill
 
     def initialize(graph, id, opts={})
       super graph, opts

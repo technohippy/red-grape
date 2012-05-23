@@ -30,7 +30,15 @@ module RedGrape
 
       def take
         if first?
-          @prev.pass_through self, Pipe::Context.new
+          context = Context.new
+          val = @prev.pass_through self, context
+          if context.aggregating?
+            context.resume_from_aggregating
+          elsif context.grouping?
+            context.resume_from_grouping
+          else
+            val
+          end
         else
           @prev.take
         end
@@ -54,7 +62,7 @@ module RedGrape
       def size
         len = 0
         pipe = self
-        while pipe.is_a?(RedGrape::Pipe::Base) and pipe.prev
+        while pipe.is_a?(Pipe::Base) and pipe.prev
           len += 1 
           pipe = pipe.prev
         end
@@ -70,11 +78,11 @@ module RedGrape
         class_name = "#{name.to_s.sub(/^./){$&.upcase}.gsub(/_(.)/){$1.upcase}}Pipe"
         args.unshift block if block
         pipe_class =
-          if RedGrape::Pipe.const_defined? class_name
+          if Pipe.const_defined? class_name
             eval "RedGrape::Pipe::#{class_name}"
           else
             args.unshift name
-            RedGrape::Pipe::PropertyPipe
+            PropertyPipe
           end
         @next = pipe_class.new self, *args
       end

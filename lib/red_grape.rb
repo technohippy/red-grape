@@ -1,4 +1,6 @@
 require 'nokogiri'
+require 'object_ext'
+require 'array_ext'
 require 'red_grape/pipe/in_pipe'
 require 'red_grape/pipe/out_pipe'
 require 'red_grape/pipe/property_pipe'
@@ -27,21 +29,5 @@ module RedGrape
   module_function
   def load_graph(filename)
     Graph.load filename
-  end
-end
-
-class Object
-  def pass_through(pipe, context)
-    pipe.pass self, context
-  end
-
-  def _
-    self
-  end
-end
-
-class Array
-  def _
-    RedGrape::VertexGroup.new self.dup
   end
 end

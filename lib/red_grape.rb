@@ -1,6 +1,6 @@
 require 'nokogiri'
-require 'object_ext'
-require 'array_ext'
+require 'ext/object_ext'
+require 'ext/array_ext'
 require 'red_grape/pipe/in_pipe'
 require 'red_grape/pipe/out_pipe'
 require 'red_grape/pipe/property_pipe'

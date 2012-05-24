@@ -17,6 +17,7 @@ module RedGrape
           context.mark! label
           obj
         when Vertex
+=begin
           if self.last?
             context.mark! label
             obj
@@ -25,6 +26,10 @@ module RedGrape
               context.mark! label
               obj.pass_through self.next, ctx
             end
+          end
+=end
+          pass_next context, obj do
+            context.mark! label
           end
         else
           raise 'not yet'

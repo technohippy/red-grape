@@ -19,6 +19,7 @@ module RedGrape
             EdgeGroup.new obj._out_edges.dup
           end
 
+=begin
         if self.last?
           edges
         else
@@ -26,6 +27,8 @@ module RedGrape
             edges.pass_through self.next, ctx
           end
         end
+=end
+        pass_next context, obj, edges
       end
     end
   end

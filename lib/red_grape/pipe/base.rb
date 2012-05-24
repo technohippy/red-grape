@@ -52,6 +52,19 @@ module RedGrape
         end
       end
 
+      def pass_next(context, pushed_obj, next_obj=nil, &block)
+        next_obj ||= pushed_obj
+        if self.last?
+          block.call if block
+          next_obj
+        else
+          context.push_history pushed_obj do |ctx|
+            block.call if block
+            next_obj.pass_through self.next, ctx
+          end
+        end
+      end
+
       def to_s
         Pipe.auto_take ? take.to_s : super
       end

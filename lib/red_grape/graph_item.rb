@@ -38,7 +38,6 @@ module RedGrape
       @property[k.to_s]
     end
 
-    # TODO: いらない？
     def pass_through(pipe, context)
       pipe.pass self, context
     end

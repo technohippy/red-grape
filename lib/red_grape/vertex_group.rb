@@ -1,8 +1,11 @@
 require 'red_grape/vertex'
+require 'forwardable'
 
-#TODO delegate to array
 module RedGrape
   class VertexGroup < Vertex
+    extend Forwardable
+    def_delegators :@group, :size, :map, :sort, :empty?
+
     def initialize(group=[])
       @group = group
     end
@@ -48,22 +51,6 @@ module RedGrape
 
     def flatten_group!
       @group = flatten_group
-    end
-
-    def size
-      @group.size
-    end
-
-    def map(&block)
-      @group.map(&block)
-    end
-
-    def sort(&block)
-      @group.sort
-    end
-
-    def empty?
-      @group.empty?
     end
 
     def to_a

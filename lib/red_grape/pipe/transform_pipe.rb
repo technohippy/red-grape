@@ -9,11 +9,7 @@ module RedGrape
         else
           transformer = self.opts.first
           val = context.eval :it => obj, &transformer
-          if self.last?
-            val
-          else
-            raise 'not implemented'
-          end
+          pass_next context, val
         end
       end
     end

@@ -11,14 +11,7 @@ module RedGrape
           else
             context.mark label
           end
-
-        if self.last?
-          obj 
-        else
-          context.push_history obj do |ctx|
-            obj.pass_through self.next, ctx
-          end
-        end
+        pass_next context, obj
       end
     end
   end

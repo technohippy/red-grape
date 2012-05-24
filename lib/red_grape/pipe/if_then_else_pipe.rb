@@ -14,13 +14,7 @@ module RedGrape
             context.eval({:it => obj}, &else_block)
           end
         ret = ret.take if ret.is_a? Pipe::Base
-        if self.last?
-          ret
-        else
-          context.push_history ret do |ctx|
-            ret.pass_through self.next, ctx
-          end
-        end
+        pass_next context, ret
       end
     end
   end

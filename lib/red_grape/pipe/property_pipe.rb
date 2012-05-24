@@ -11,13 +11,7 @@ module RedGrape
         case obj
         when RedGrape::Vertex
           prop = obj[self.opts.first]
-          if self.last?
-            prop
-          else
-            context.push_history obj do |ctx|
-              prop.pass_through self.next, ctx
-            end
-          end
+          pass_next context, obj, prop
         end
       end
     end

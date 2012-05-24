@@ -6,13 +6,7 @@ module RedGrape
       def pass(obj, context)
         filter = self.opts.first
         if context.eval :it => obj, &filter
-          if self.last?
-            obj 
-          else
-            context.push_history obj do |ctx|
-              obj.pass_through self.next, ctx
-            end
-          end
+          pass_next context, obj
         else
           nil
         end

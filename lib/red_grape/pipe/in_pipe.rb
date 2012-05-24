@@ -23,13 +23,7 @@ module RedGrape
               label = self.opts.first
               VertexGroup.new obj._in_edges.find_all{|e| e.label == label}.map(&:source)
             end
-          if self.last?
-            group
-          else
-            context.push_history obj do |ctx|
-              group.pass_through self.next, ctx
-            end
-          end
+          pass_next context, obj, group
         end
       end
     end

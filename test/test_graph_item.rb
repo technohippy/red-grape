@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'red_grape'
-require 'red_grape/propertied_object'
+require 'red_grape/graph_item'
 require 'red_grape/property_description'
 
 class GraphItemTest < Test::Unit::TestCase

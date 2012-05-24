@@ -1,4 +1,4 @@
-require 'red_grape/propertied_object'
+require 'red_grape/graph_item'
 
 module RedGrape
   class Edge < GraphItem

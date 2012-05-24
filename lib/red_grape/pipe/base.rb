@@ -2,6 +2,14 @@ require 'red_grape/pipe/context'
 
 module RedGrape
   module Pipe
+    @@auto_take = true
+    def self.auto_take
+      @@auto_take
+    end
+    def self.set_auto_take(val=true)
+      @@auto_take = val
+    end
+
     class Base
       attr_accessor :opts, :prev, :next, :value
 
@@ -45,8 +53,7 @@ module RedGrape
       end
 
       def to_s
-        #TODO: flag
-        take.to_s
+        Pipe.auto_take ? take.to_s : super
       end
 
       def to_a

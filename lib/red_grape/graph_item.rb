@@ -42,5 +42,9 @@ module RedGrape
     def pass_through(pipe, context)
       pipe.pass self, context
     end
+
+    def method_missing(name, *args, &block)
+      self[name.to_s] or raise NoMethodError.new(name.to_s)
+    end
   end
 end

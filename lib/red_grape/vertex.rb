@@ -1,4 +1,4 @@
-require 'red_grape/propertied_object'
+require 'red_grape/graph_item'
 
 module RedGrape
   class Vertex < GraphItem
@@ -39,10 +39,6 @@ module RedGrape
     def to_s
       "v[#{_id}]"
       #"v[id(#{_id}):#{@property}]"
-    end
-
-    def method_missing(name, *args, &block)
-      self[name.to_s] or raise NoMethodError.new(name.to_s)
     end
   end
 end

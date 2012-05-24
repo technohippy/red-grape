@@ -14,9 +14,9 @@ module RedGrape
       def pass(obj, context)
         label = self.opts.first
         edges = if label
-            EdgeGroup.new obj._out_edges.find_all{|e| e.label == label}
+            EdgeGroup.new obj._out_edges.dup.find_all{|e| e.label == label}
           else
-            EdgeGroup.new obj._out_edges
+            EdgeGroup.new obj._out_edges.dup
           end
 
         if self.last?

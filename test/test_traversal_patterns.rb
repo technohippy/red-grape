@@ -48,8 +48,11 @@ class TraversalPatternsTest < Test::Unit::TestCase
     assert_equal '[[v[1], v[2], "vadas"], [v[1], v[4], "josh"], [v[1], v[3], "lop"]]', path.to_s
 
     path = @graph.v(1).outE.inV.name.path.take
-    assert_equal 3, path.size
-    assert_equal 4, path.first.size
     assert_equal '[[v[1], e[7][1-knows->2], v[2], "vadas"], [v[1], e[8][1-knows->4], v[4], "josh"], [v[1], e[9][1-created->3], v[3], "lop"]]', path.to_s
+
+    assert_equal(
+      [["marko", "0.5", "vadas"], ["marko", "1.0", "josh"], ["marko", "0.4", "lop"]].to_s, 
+      @graph.v(1).outE.inV.path(proc{it.name}, proc{it.weight}, proc{it.name}).take.to_s
+    )
   end
 end

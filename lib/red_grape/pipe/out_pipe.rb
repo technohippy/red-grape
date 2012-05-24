@@ -14,17 +14,14 @@ module RedGrape
       end
 
       def pass(obj, context)
-        case obj
-        when RedGrape::Vertex
-          group =
-            if self.opts.empty? or self.opts.first.empty? # TODO なぜかlabelに[]が入ってる
-              VertexGroup.new obj._out_edges.map(&:target)
-            else
-              label = self.opts.first
-              VertexGroup.new obj._out_edges.find_all{|e| e.label == label}.map(&:target)
-            end
-          pass_next context, obj, group
-        end
+        group =
+          if self.opts.empty? or self.opts.first.empty? # TODO なぜかlabelに[]が入ってる
+            VertexGroup.new obj._out_edges.map(&:target)
+          else
+            label = self.opts.first
+            VertexGroup.new obj._out_edges.find_all{|e| e.label == label}.map(&:target)
+          end
+        pass_next context, obj, group
       end
     end
   end

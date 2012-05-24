@@ -8,11 +8,8 @@ module RedGrape
       end
 
       def pass(obj, context)
-        case obj
-        when RedGrape::Vertex
-          prop = obj[self.opts.first]
-          pass_next context, obj, prop
-        end
+        prop = obj[self.opts.first]
+        pass_next context, obj, prop
       end
     end
   end

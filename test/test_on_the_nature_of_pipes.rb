@@ -32,10 +32,10 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
     assert_equal %w(2 4), 
       @graph.v(1).out('knows').take.map(&:_id).sort
 
-    assert_equal %W(2), 
+    assert_equal %w(2), 
       @graph.v(1).out('knows').filter{it.age < 30}.take.map(&:_id).sort
 
-    assert_equal %W(vadas),
+    assert_equal %w(vadas),
       @graph.v(1).out('knows').filter{it.age < 30}.name.take.sort
 
     assert_equal [5], 

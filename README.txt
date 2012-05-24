@@ -4,14 +4,17 @@
 
 ## DESCRIPTION:
 
-RedGrape is an in-memory graph database written in ruby.
+RedGrape is an in-memory graph database written in ruby. I made this in order to learn how graph databases work so that please do not use this for serious purposes.
 
 ## FEATURES/PROBLEMS:
 
 * load GraphML
+* construct a graph programmatically
+* traverse nodes and edges
 
 ## SYNOPSIS:
 
+  g = RedGrape.load_graph 'data/graph-example-1.xml'
   g.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}
 
 ## REQUIREMENTS:

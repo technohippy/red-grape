@@ -9,10 +9,10 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
 
   def test_basic
     assert_equal '1',
-      @graph.v(1)._id
+      @graph.v(1).id
 
     assert_equal %w(2 3 4), 
-      @graph.v(1).out.take.map(&:_id).sort
+      @graph.v(1).out.take.map(&:id).sort
 
     assert_equal %w(josh lop vadas), 
       @graph.v(1).out.name.take.sort
@@ -30,10 +30,10 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
 
   def test_filter
     assert_equal %w(2 4), 
-      @graph.v(1).out('knows').take.map(&:_id).sort
+      @graph.v(1).out('knows').take.map(&:id).sort
 
     assert_equal %w(2), 
-      @graph.v(1).out('knows').filter{it.age < 30}.take.map(&:_id).sort
+      @graph.v(1).out('knows').filter{it.age < 30}.take.map(&:id).sort
 
     assert_equal %w(vadas),
       @graph.v(1).out('knows').filter{it.age < 30}.name.take.sort
@@ -50,13 +50,13 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
       @graph.v(1).side_effect{@x = it}.take.name
 
     assert_equal %w(3), 
-      @graph.v(1).side_effect{@x = it}.out('created').take.map(&:_id).sort
+      @graph.v(1).side_effect{@x = it}.out('created').take.map(&:id).sort
 
     assert_equal %w(1 4 6), 
-      @graph.v(1).side_effect{@x = it}.out('created').in('created').take.map(&:_id).sort
+      @graph.v(1).side_effect{@x = it}.out('created').in('created').take.map(&:id).sort
 
     assert_equal %w(4 6), 
-      @graph.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}.take.map(&:_id).sort
+      @graph.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}.take.map(&:id).sort
 
     assert_equal %w(SideEffectPipe OutPipe(created) InPipe(created) FilterPipe), 
       @graph.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}.to_a
@@ -76,21 +76,21 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
       @graph.v(1).out('knows').name.filter{it[0] == 'v'}.take.to_a
 
     assert_equal %w(2),
-      @graph.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).take.to_a.map(&:_id)
+      @graph.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).take.to_a.map(&:id)
 
     assert_equal %w(OutPipe(knows) PropertyPipe(name) FilterPipe BackPipe),
       @graph.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).to_a
 
     assert_equal %w(2 4),
-      @graph.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here').take.to_a.map(&:_id)
+      @graph.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here').take.to_a.map(&:id)
   end
 
   def test_loop
     assert_equal %w(3 5),
-      @graph.v(1).out.out.take.to_a.map(&:_id).sort
+      @graph.v(1).out.out.take.to_a.map(&:id).sort
 
     assert_equal %w(3 5),
-      @graph.v(1).out.loop(1){loops < 3}.take.to_a.map(&:_id).sort
+      @graph.v(1).out.loop(1){loops < 3}.take.to_a.map(&:id).sort
 
     assert_equal %w(lop ripple),
       @graph.v(1).out.loop(1){loops < 3}.name.take.sort

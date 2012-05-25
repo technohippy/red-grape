@@ -10,7 +10,7 @@ class GraphTest < Test::Unit::TestCase
     graph.add_vertex id:3, val:'c'
 
     assert_equal 3, graph.vertex.size
-    assert_equal 1, graph.vertex(1)._id
+    assert_equal 1, graph.vertex(1).id
     #assert_equal 2, graph.vertex(1, 2).size # TODO
     assert_equal 3, graph.vertex(1, 2, 3).size
     assert_equal 2, graph.vertex([1, 2]).size
@@ -23,13 +23,13 @@ class GraphTest < Test::Unit::TestCase
     v2 = graph.add_vertex 2, name:'ando'
     e12 = graph.add_edge 1, :fullname, v1, v2
 
-    assert_equal 1, v1._out_edges.size
-    assert_equal 0, v1._in_edges.size
-    assert_equal e12, v1._out_edges.first
+    assert_equal 1, v1.out_edges.size
+    assert_equal 0, v1.in_edges.size
+    assert_equal e12, v1.out_edges.first
 
-    assert_equal 0, v2._out_edges.size
-    assert_equal 1, v2._in_edges.size
-    assert_equal e12, v2._in_edges.first
+    assert_equal 0, v2.out_edges.size
+    assert_equal 1, v2.in_edges.size
+    assert_equal e12, v2.in_edges.first
   end
 
   def test_load

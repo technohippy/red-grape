@@ -6,12 +6,10 @@ module RedGrape
     extend Forwardable
     def_delegators :@group, :size, :map, :sort, :empty?
 
+    attr_reader :group
+
     def initialize(group=[])
       @group = group
-    end
-
-    def _group
-      @group
     end
 
     def pass_through(pipe, context) 
@@ -27,7 +25,7 @@ module RedGrape
         v.nil? or (v.respond_to?(:empty?) and v.empty?) # TODO
       end
       @group.map! do |v|
-        v.is_a?(self.class) ? v._group : v
+        v.is_a?(self.class) ? v.group : v
       end
       #@group.flatten!
       flatten_group!
@@ -41,7 +39,7 @@ module RedGrape
         when Array
           ret += v.flatten
         when self.class
-          ret += v._group.flatten_group
+          ret += v.group.flatten_group
         else
           ret << v
         end

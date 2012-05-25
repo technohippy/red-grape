@@ -15,18 +15,18 @@ class TraversalPatternsTest < Test::Unit::TestCase
 
   # https://github.com/tinkerpop/gremlin/wiki/Except-Retain-Pattern
   def test_except_retain_pattern
-    assert_equal %w(2 3 4), @graph.v(1).out.take.map(&:_id).sort
-    assert_equal %w(3 5), @graph.v(1).out.out.take.map(&:_id).sort
-    assert_equal %w(5), @graph.v(1).out.aggregate(:x).out.except(:x).take.map(&:_id).sort
-    assert_equal %w(3), @graph.v(1).out.aggregate(:x).out.retain(:x).take.map(&:_id).sort
+    assert_equal %w(2 3 4), @graph.v(1).out.take.map(&:id).sort
+    assert_equal %w(3 5), @graph.v(1).out.out.take.map(&:id).sort
+    assert_equal %w(5), @graph.v(1).out.aggregate(:x).out.except(:x).take.map(&:id).sort
+    assert_equal %w(3), @graph.v(1).out.aggregate(:x).out.retain(:x).take.map(&:id).sort
   end
 
   # https://github.com/tinkerpop/gremlin/wiki/Flow-Rank-Pattern
   def test_flow_rank_pattern
-    assert_equal %w(3 5), @graph.V('lang', 'java').map(&:_id).sort
+    assert_equal %w(3 5), @graph.V('lang', 'java').map(&:id).sort
     software = []
     @graph.V('lang', 'java').fill(software).take
-    assert_equal %w(3 5), software.map(&:_id).sort
+    assert_equal %w(3 5), software.map(&:id).sort
     assert_equal %w(marko josh peter josh), software._.in('created').name.take
     assert_equal(
       {'marko' => 1, 'josh' => 2, 'peter' => 1}, 

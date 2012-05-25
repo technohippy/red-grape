@@ -66,11 +66,11 @@ module RedGrape
           id = v[:id] || v['id']
         else
           v = id
-          id = v._id
+          id = v.id
         end
         v = Vertex.new self, id, v
       end
-      raise ArgumentError.new 'invalid id' unless id == v._id
+      raise ArgumentError.new 'invalid id' unless id == v.id
 
       @vertices[id.to_s] = v
     end
@@ -82,11 +82,11 @@ module RedGrape
           id = id.to_s
           from = self.vertex[from.to_s] unless from.is_a? Vertex
           to = self.vertex[to.to_s] unless to.is_a? Vertex
-          add_vertex from unless self.vertex(from._id)
-          add_vertex to unless self.vertex(to._id)
+          add_vertex from unless self.vertex(from.id)
+          add_vertex to unless self.vertex(to.id)
           Edge.new self, id, from, to, label
         end
-      @edges[edge._id] = edge
+      @edges[edge.id] = edge
     end
 
     def load(file, type=:xml)
@@ -113,7 +113,7 @@ module RedGrape
         data.each do |data_elm|
           vertex.set_property data_elm['key'], data_elm.children.first.to_s
         end
-        @vertices[vertex._id] = vertex
+        @vertices[vertex.id] = vertex
       end
       nodes(xml, 'edge').each do |edge_elm|
         edge = Edge.new self, edge_elm['id'], edge_elm['source'], edge_elm['target'], 
@@ -122,7 +122,7 @@ module RedGrape
         data.each do |data_elm|
           edge.set_property data_elm['key'], data_elm.children.first.to_s
         end
-        @edges[edge._id] = edge
+        @edges[edge.id] = edge
       end
     end
 

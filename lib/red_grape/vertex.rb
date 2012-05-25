@@ -9,23 +9,13 @@ module RedGrape
     include RedGrape::Pipe::As
     include RedGrape::Pipe::Fill
 
+    attr_reader :id, :out_edges, :in_edges
+
     def initialize(graph, id, opts={})
       super graph, opts
       @id = id
       @out_edges = []
       @in_edges = []
-    end
-
-    def _id
-      @id
-    end
-
-    def _in_edges
-      @in_edges
-    end
-
-    def _out_edges
-      @out_edges
     end
 
     def add_out_edge(edge)
@@ -37,8 +27,7 @@ module RedGrape
     end
 
     def to_s
-      "v[#{_id}]"
-      #"v[id(#{_id}):#{@property}]"
+      "v[#{@id}]"
     end
   end
 end

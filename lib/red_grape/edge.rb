@@ -2,7 +2,7 @@ require 'red_grape/graph_item'
 
 module RedGrape
   class Edge < GraphItem
-    attr_reader :source, :target, :label
+    attr_reader :id, :source, :target, :label
 
     def initialize(graph, id, source, target, label, opts={})
       super graph, opts
@@ -14,20 +14,8 @@ module RedGrape
       @label = label
     end
 
-    def _id
-      @id
-    end
-
-    def _source
-      @source
-    end
-
-    def _target
-      @target
-    end
-
     def to_s
-      "e[#{_id}][#{@source._id}-#{@label}->#{@target._id}]"
+      "e[#{@id}][#{@source.id}-#{@label}->#{@target.id}]"
     end
   end
 end

@@ -17,7 +17,7 @@ module RedGrape
         pipe.pass v, context
       end
       normalize
-      @group.all? {|e| e.is_a? self.class} ? self : @group
+      @group.all? {|e| e.instance_of? Vertex} ? self : @group
     end
 
     def normalize

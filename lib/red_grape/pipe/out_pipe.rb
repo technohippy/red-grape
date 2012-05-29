@@ -15,7 +15,7 @@ module RedGrape
 
       def pass(obj, context)
         group =
-          if self.opts.empty? or self.opts.first.empty? # TODO $B$J$<$+(Blabel$B$K(B[]$B$,F~$C$F$k(B
+          if self.opts.empty? or self.opts.first.empty? # TODO なぜかlabelに[]が入ってる
             VertexGroup.new obj.out_edges.map(&:target)
           else
             label = self.opts.first

@@ -8,6 +8,9 @@ module RedGrape
     attr_reader :group
 
     def initialize(group=[])
+      unless group.all?{|e| e.instance_of? Edge}
+        raise ArgumentError.new 'All items should be Edge objects.' 
+      end
       @group = group
     end
 
@@ -19,12 +22,19 @@ module RedGrape
         v.nil? or (v.respond_to?(:empty?) and v.empty?) # TODO
       end
       @group.map! do |v|
-        v.is_a?(self.class) ? v.group : v
+        v.instance_of?(self.class) ? v.group : v
       end
       #@group.flatten!
       flatten_group!
       @group.uniq!
-      @group.all? {|e| e.is_a? self.class} ? self : @group
+      #@group.all? {|e| e.instance_of? Edge} ? self : @group
+      if @group.all?{|e| e.instance_of? Edge} # TODO
+        self
+      elsif @group.all?{|e| e.instance_of? Vertex}
+        VertexGroup.new @group
+      else
+        @group
+      end
     end
 
     def flatten_group
@@ -47,7 +57,7 @@ module RedGrape
     end
 
     def to_a
-      @group.dup.map{|e| e.is_a?(self.class) ? e.to_a : e}
+      @group.dup.map{|e| e.instance_of?(self.class) ? e.to_a : e}
     end
 
     def to_s

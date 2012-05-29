@@ -13,6 +13,7 @@ module RedGrape
     class OutEPipe < Pipe::Base
       def pass(obj, context)
         label = self.opts.first
+        label = nil if label.is_a?(Array) && label.empty? # TODO
         edges = if label
             EdgeGroup.new obj.out_edges.dup.find_all{|e| e.label == label}
           else

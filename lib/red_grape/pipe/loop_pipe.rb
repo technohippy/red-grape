@@ -7,21 +7,12 @@ module RedGrape
         condition = self.opts.first
         label = self.opts[1]
 
-        looped_pipe = self.prev.dup
-        looped_pipe.prev = self.prev.prev
-        (label - 1).times do
-          prev = looped_pipe.prev.dup
-          prev.next = looped_pipe
-          looped_pipe = prev
-        end
+        looped_pipe = self.prev.copy(label - 1)
+        (label - 1).times {looped_pipe = looped_pipe.prev}
 
         context.loops += 1
         while context.eval :it => obj, &condition
-          pipe = looped_pipe
-          while pipe
-            obj = obj.pass_through pipe, context
-            pipe = pipe.next
-          end
+          obj = obj.pass_through looped_pipe, context
           context.loops += 1
         end
         context.loops = 1

@@ -94,6 +94,24 @@ module RedGrape
         self.class.new nil, @opts, &@block
       end
 
+      def copy(depth=nil)
+        obj = self.class.new nil, @opts, &@block
+        if depth.nil?
+          obj.prev = self.prev.copy
+          obj.prev.next = obj
+        elsif 0 < depth
+          obj.prev = self.prev.copy(depth - 1)
+          obj.prev.next = obj
+        end
+        obj
+      end
+
+=begin
+      def size
+        self.next ? self.next.size + 1 : 1
+      end
+=end
+
       def method_missing(name, *args, &block)
         class_name = "#{name.to_s.sub(/^./){$&.upcase}.gsub(/_(.)/){$1.upcase}}Pipe"
         args.unshift block if block

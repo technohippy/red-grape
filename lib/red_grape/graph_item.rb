@@ -17,6 +17,7 @@ module RedGrape
       end
     end
     
+    # set property value with type checking
     def set_property(kid, v)
       # TODO: should be refactored
       desc = @property_description[kid]
@@ -29,8 +30,8 @@ module RedGrape
       end
     end
 
+    # set property value without type checking
     def []=(k, v)
-      # TODO: type check?
       @property[k.to_s] = v
     end
 
@@ -40,6 +41,10 @@ module RedGrape
 
     def pass_through(pipe, context)
       pipe.pass self, context
+    end
+
+    def copy(depth=nil)
+      self # TODO
     end
 
     def method_missing(name, *args, &block)

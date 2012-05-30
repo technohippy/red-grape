@@ -30,8 +30,6 @@ module RedGrape
       #@group.all? {|e| e.instance_of? Edge} ? self : @group
       if @group.all?{|e| e.instance_of? Edge} # TODO
         self
-      elsif @group.all?{|e| e.instance_of? Vertex}
-        VertexGroup.new @group
       else
         @group
       end

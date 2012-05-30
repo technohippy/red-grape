@@ -3,9 +3,11 @@ require 'red_grape/pipe/context'
 module RedGrape
   module Pipe
     @@auto_take = true
+
     def self.auto_take
       @@auto_take
     end
+
     def self.set_auto_take(val=true)
       @@auto_take = val
     end
@@ -57,6 +59,9 @@ module RedGrape
         if self.last?
           block.call if block
           next_obj
+        elsif pushed_obj.nil?
+          block.call if block
+          next_obj.pass_through self.next, context
         else
           context.push_history pushed_obj do |ctx|
             block.call if block

@@ -16,10 +16,10 @@ module RedGrape
       def pass(obj, context)
         group =
           if self.opts.empty?
-            VertexGroup.new obj.in_edges.map(&:source)
+            obj.in_edges.map(&:source)
           else
             label = self.opts.first
-            VertexGroup.new obj.in_edges.find_all{|e| e.label == label}.map(&:source)
+            obj.in_edges.find_all{|e| e.label == label}.map(&:source)
           end
         pass_next context, obj, group
       end

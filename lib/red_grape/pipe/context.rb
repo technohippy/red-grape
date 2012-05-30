@@ -63,7 +63,7 @@ module RedGrape
             end
           end
         end
-        VertexGroup.new(ret).normalize
+        ret.graph_item_normalize
       end
 
       def group(val, next_pipe)

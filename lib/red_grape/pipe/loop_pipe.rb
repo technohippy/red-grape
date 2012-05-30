@@ -3,7 +3,7 @@ require 'red_grape/pipe/base'
 module RedGrape
   module Pipe
     class LoopPipe < Pipe::Base
-      def pass(obj, context) # TODO: 無理やりすぎる実装・・・
+      def pass(obj, context)
         condition = self.opts.first
         label = self.opts[1]
 
@@ -16,7 +16,7 @@ module RedGrape
           context.loops += 1
         end
         context.loops = 1
-        pass_next context, obj
+        pass_next context, nil, obj
       end
     end
   end

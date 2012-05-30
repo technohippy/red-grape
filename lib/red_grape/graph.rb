@@ -1,8 +1,6 @@
 require 'stringio'
 require 'red_grape/vertex'
-require 'red_grape/vertex_group'
 require 'red_grape/edge'
-require 'red_grape/edge_group'
 require 'red_grape/property_description'
 
 module RedGrape
@@ -31,17 +29,17 @@ module RedGrape
 
     def vertex(*id)
       if id.size == 2 # TODO: for the time being
-        VertexGroup.new @vertices.values.select{|e| e[id[0]] == id[1]}
+        @vertices.values.select{|e| e[id[0]] == id[1]}
       elsif 1 < id.size
-        VertexGroup.new(id.map{|i| @vertices[i.to_s]})
+        id.map{|i| @vertices[i.to_s]}
       elsif id.size == 0
-        VertexGroup.new @vertices.values
+        @vertices.values
       else
         case id.first
         when Array
-          VertexGroup.new(id.first.map{|i| @vertices[i.to_s]})
+          id.first.map{|i| @vertices[i.to_s]}
         when :all
-          VertexGroup.new @vertices.values
+          @vertices.values
         else
           @vertices[id.first.to_s]
         end

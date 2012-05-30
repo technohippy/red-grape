@@ -1,5 +1,4 @@
 require 'red_grape/pipe/base'
-require 'red_grape/edge_group'
 
 module RedGrape
   module Pipe
@@ -15,9 +14,9 @@ module RedGrape
         label = self.opts.first
         label = nil if label.is_a?(Array) && label.empty? # TODO
         edges = if label
-            EdgeGroup.new obj.out_edges.dup.find_all{|e| e.label == label}
+            obj.out_edges.dup.find_all{|e| e.label == label}
           else
-            EdgeGroup.new obj.out_edges.dup
+            obj.out_edges.dup
           end
         pass_next context, obj, edges
       end

@@ -17,9 +17,8 @@ module RedGrape
           context.mark! label
           obj
         when Vertex, Array
-          pass_next context, obj do
-            context.mark! label
-          end
+          context.mark! label, obj
+          obj.pass_through self.next, context
         else
           raise 'not yet'
         end

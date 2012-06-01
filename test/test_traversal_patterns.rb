@@ -67,5 +67,21 @@ class TraversalPatternsTest < Test::Unit::TestCase
     assert_equal RedGrape::Vertex, path[2].class
     assert_equal RedGrape::Edge, path[3].class
     assert_equal RedGrape::Vertex, path[4].class
+
+    path = g.v(89).as('x').outE.inV.loop('x'){loops < 3}.path.take.first
+    assert_equal '[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]]', path.to_s
+    assert_equal RedGrape::Vertex, path[0].class
+    assert_equal RedGrape::Edge, path[1].class
+    assert_equal RedGrape::Vertex, path[2].class
+    assert_equal RedGrape::Edge, path[3].class
+    assert_equal RedGrape::Vertex, path[4].class
+
+    path = g.v(89).outE.inV.outE.inV.path.take.first
+    assert_equal '[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]]', path.to_s
+    assert_equal RedGrape::Vertex, path[0].class
+    assert_equal RedGrape::Edge, path[1].class
+    assert_equal RedGrape::Vertex, path[2].class
+    assert_equal RedGrape::Edge, path[3].class
+    assert_equal RedGrape::Vertex, path[4].class
   end
 end

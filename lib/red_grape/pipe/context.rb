@@ -20,8 +20,8 @@ module RedGrape
         ret 
       end
 
-      def mark!(label)
-        @marks[label] = @history.last
+      def mark!(label, val=nil)
+        @marks[label] = val || @history.last
       end
 
       def mark(label)

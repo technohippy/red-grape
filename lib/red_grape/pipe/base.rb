@@ -111,12 +111,6 @@ module RedGrape
         obj
       end
 
-=begin
-      def size
-        self.next ? self.next.size + 1 : 1
-      end
-=end
-
       def method_missing(name, *args, &block)
         class_name = "#{name.to_s.sub(/^./){$&.upcase}.gsub(/_(.)/){$1.upcase}}Pipe"
         args.unshift block if block

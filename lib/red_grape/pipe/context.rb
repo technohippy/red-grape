@@ -63,7 +63,7 @@ module RedGrape
             end
           end
         end
-        ret.graph_item_normalize
+        ret.normalize_for_graph
       end
 
       def group(val, next_pipe)

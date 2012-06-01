@@ -1,11 +1,16 @@
 class Array
   def pass_through(pipe, context)
-    map! {|e| pipe.pass e, context}
-    graph_item_normalize
+    loops = context.loops
+    map! do |e| 
+      context.loops = loops
+      pipe.pass e._, context # TODO
+    end
+    context.loops = loops
+    normalize_for_graph
   end
 
-  def graph_item_normalize
-    reject! {|v| v.nil? or (v.respond_to?(:empty?) and v.empty?)}
+  def normalize_for_graph
+    reject! {|e| e.nil? or (e.respond_to?(:empty?) and e.empty?)}
     flatten!
     self
   end

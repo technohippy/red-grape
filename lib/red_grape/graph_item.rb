@@ -47,6 +47,10 @@ module RedGrape
       self # TODO
     end
 
+    def ==(obj)
+      self.class == obj.class && self.id == obj.id
+    end
+
     def method_missing(name, *args, &block)
       self[name.to_s] or raise NoMethodError.new(name.to_s)
     end

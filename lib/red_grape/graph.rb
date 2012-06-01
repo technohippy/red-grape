@@ -45,8 +45,11 @@ module RedGrape
         end
       end
     end
-    alias v vertex
-    alias V vertex
+
+    def v(*id)
+      vertex(*id)._
+    end
+    alias V v
 
     def edge(id)
       @edges[id.to_s]

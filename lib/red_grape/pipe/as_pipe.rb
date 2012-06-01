@@ -16,7 +16,7 @@ module RedGrape
           # TODO: why??
           context.mark! label
           obj
-        when Vertex
+        when Vertex, Array
           pass_next context, obj do
             context.mark! label
           end

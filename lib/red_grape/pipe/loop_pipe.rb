@@ -4,19 +4,17 @@ module RedGrape
   module Pipe
     class LoopPipe < Pipe::Base
       def pass(obj, context)
-        condition = self.opts.first
-        label = self.opts[1]
+        condition, label = *self.opts
 
-        looped_pipe = self.prev.copy(label - 1)
-        (label - 1).times {looped_pipe = looped_pipe.prev}
-
+        anchor_pipe = self;
+        label.times {anchor_pipe = anchor_pipe.prev}
         context.loops += 1
-        while context.eval :it => obj, &condition
-          obj = obj.pass_through looped_pipe, context
-          context.loops += 1
+        if context.eval :it => obj, &condition
+          obj.pass_through anchor_pipe, context
+        else
+          context.loops = 1
+          pass_next context, nil, obj
         end
-        context.loops = 1
-        pass_next context, nil, obj
       end
     end
   end

@@ -15,9 +15,10 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
 
 ## SYNOPSIS:
 
-  g = RedGrape.load_graph 'data/graph-example-1.xml'
-  g.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}.take
-  g.v(89).as('x').outE.inV.loop('x'){loops < 3}.path.take
+  g1 = RedGrape.load_graph 'data/graph-example-1.xml'
+  g1.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}.take
+  g2 = RedGrape.load_graph 'data/graph-example-2.xml'
+  g2.v(89).as('x').outE.inV.loop('x'){loops < 3}.path.take
 
 ## REPL:
 

@@ -14,4 +14,28 @@ class Array
     flatten!
     self
   end
+  
+  def vertex_array?
+    all?{|e| e.is_a? RedGrape::Vertex}
+  end
+  
+  def edge_array?
+    all?{|e| e.is_a? RedGrape::Edge}
+  end
+
+  def graph_item_array?
+    vertex_array? or edge_array?
+  end
+
+  alias method_missing_without_prop_pipe method_missing
+  def method_missing_with_prop_pipe(name, *args, &block)
+    if graph_item_array?
+      map! {|e| e.send name, *args, &block}
+    else
+      method_missing_without_prop_pipe name, *args, &block
+    end
+  end
+  alias method_missing method_missing_with_prop_pipe
+
+  
 end

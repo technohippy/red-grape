@@ -51,10 +51,27 @@ module RedGrape
     end
     alias V v
 
-    def edge(id)
-      @edges[id.to_s]
+    def edge(*id)
+      if 1 < id.size
+        id.map{|i| @edges[i.to_s]}
+      elsif id.size == 0
+        @edges.values
+      else
+        case id.first
+        when Array
+          id.first.map{|i| @edges[i.to_s]}
+        when :all
+          @edges.values
+        else
+          @edges[id.first.to_s]
+        end
+      end
     end
-    alias e edge
+
+    def e(*id)
+      edge(*id)._
+    end
+    alias E e
 
     def add_vertex(id, v=nil)
       if v

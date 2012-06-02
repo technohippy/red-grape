@@ -12,6 +12,8 @@ module RedGrape
       case type
       when 'int', 'integer'
         val.is_a? Integer
+      when 'float'
+        val.is_a? Numeric
       else
         true
       end
@@ -21,6 +23,8 @@ module RedGrape
       case type
       when 'int', 'integer'
         val =~ /^\d+$/
+      when 'float'
+        val =~ /^\d+(\.\d+)?$/
       else
         true
       end
@@ -30,6 +34,8 @@ module RedGrape
       case type
       when 'int', 'integer'
         val.to_i
+      when 'float'
+        val.to_f
       else
         val
       end

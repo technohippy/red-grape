@@ -18,7 +18,6 @@ RedGrape.set_auto_take
 
 puts %Q{        T
       ooooo
-      ooooo
 -----  ooo  -----
  RED    o   GRAPE
 -----------------

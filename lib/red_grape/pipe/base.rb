@@ -2,7 +2,7 @@ require 'red_grape/pipe/context'
 
 module RedGrape
   module Pipe
-    @@auto_take = true
+    @@auto_take = false
 
     def self.auto_take
       @@auto_take

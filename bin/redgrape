@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+$: << File.expand_path('../../lib', __FILE__)
+require 'red_grape'
+require 'irb'
+require 'irb/completion'
+
+RedGrape.set_auto_take
+
+# TODO: How can I setup my own prompt?
+#IRB.init_config 'redgrape'
+#IRB.conf[:PROMPT][:RED_GRAPE] = {
+#  :PROMPT_I => "abc%N(%m):%03n:%i> ",
+#  :PROMPT_S => "abc%N(%m):%03n:%i%l ",
+#  :PROMPT_C => "abc%N(%m):%03n:%i* ",
+#  :RETURN => "%s\n"
+#}
+#IRB.conf[:PROMPT_MODE] = :RED_GRAPE
+
+puts %Q{        T
+      ooooo
+      ooooo
+-----  ooo  -----
+ RED    o   GRAPE
+-----------------
+}
+IRB.start

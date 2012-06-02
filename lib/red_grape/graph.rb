@@ -136,7 +136,7 @@ module RedGrape
     end
 
     def to_s
-      {:vertices => @vertices, :edges => @edges}.to_s
+      "redgrape[vertices:#{@vertices.size} edges:#{@edges.size}]"
     end
   end
 end

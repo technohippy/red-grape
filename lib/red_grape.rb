@@ -27,6 +27,10 @@ module RedGrape
   VERSION = '0.0.1'
 
   module_function
+  def set_auto_take(val=true)
+    Pipe.set_auto_take val
+  end
+
   def load_graph(filename)
     Graph.load filename
   end

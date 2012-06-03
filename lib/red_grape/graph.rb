@@ -21,27 +21,28 @@ module RedGrape
       end
 
       def create_tinker_graph
-        g = self.new
-        v1 = g.add_vertex 1, name:'marko', age:29
-        v2 = g.add_vertex 2, name:'vadas', age:27
-        v3 = g.add_vertex 3, name:'lop', lang:'java'
-        v4 = g.add_vertex 4, name:'josh', age:32
-        v5 = g.add_vertex 5, name:'ripple', lang:'java'
-        v6 = g.add_vertex 6, name:'peter', age:35
-        g.add_edge 7, v1, v2, 'knows', weight:0.5
-        g.add_edge 8, v1, v4, 'knows', weight:1.0
-        g.add_edge 9, v1, v3, 'created', weight:0.4
-        g.add_edge 10, v4, v5, 'created', weight:1.0
-        g.add_edge 11, v4, v3, 'created', weight:0.4
-        g.add_edge 12, v6, v3, 'created', weight:0.2
-        g
+        self.new do |g|
+          v1 = g.add_vertex 1, name:'marko', age:29
+          v2 = g.add_vertex 2, name:'vadas', age:27
+          v3 = g.add_vertex 3, name:'lop', lang:'java'
+          v4 = g.add_vertex 4, name:'josh', age:32
+          v5 = g.add_vertex 5, name:'ripple', lang:'java'
+          v6 = g.add_vertex 6, name:'peter', age:35
+          g.add_edge 7, v1, v2, 'knows', weight:0.5
+          g.add_edge 8, v1, v4, 'knows', weight:1.0
+          g.add_edge 9, v1, v3, 'created', weight:0.4
+          g.add_edge 10, v4, v5, 'created', weight:1.0
+          g.add_edge 11, v4, v3, 'created', weight:0.4
+          g.add_edge 12, v6, v3, 'created', weight:0.2
+        end
       end
     end
 
-    def initialize
+    def initialize(&block)
       @vertices = {}
       @edges = {}
       @property_descriptions = {}
+      block.call self if block
     end
 
     def items(type, *id)

@@ -1,0 +1,2 @@
+* cut a GraphML reader function from Graph class
+* serialize a graph

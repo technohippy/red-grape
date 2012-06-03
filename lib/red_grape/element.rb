@@ -5,7 +5,17 @@ module RedGrape
     def initialize(graph, opts={})
       @graph = graph
       @property = {}
-      @property_description = opts[:property_description] || {}
+      if opts[:property_description]
+        @property_description = opts[:property_description]
+        (opts[:property] || {}).each do |k, v|
+          self[k] = v
+        end
+      else
+        @property_description = {}
+        opts.each do |k, v|
+          self[k] = v
+        end
+      end
       @property_description.each do |k ,v|
         if v.is_a? Array
           v = PropertyDescription.new(*v)

@@ -31,7 +31,7 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
   -----  ooo  -----
    RED    o   GRAPE
   -----------------
-  ruby :001 > g = RedGrape::Graph.create_tinker_graph
+  ruby :001 > g = RedGrape.create_tinker_graph
    => redgrape[vertices:6 edges:6] 
   ruby :002 > g.class
    => RedGrape::Graph 

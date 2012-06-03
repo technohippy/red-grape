@@ -34,4 +34,8 @@ module RedGrape
   def load_graph(filename)
     Graph.load filename
   end
+
+  def create_tinker_graph
+    Graph.create_tinker_graph
+  end
 end

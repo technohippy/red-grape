@@ -17,8 +17,11 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
 
   g1 = RedGrape.load_graph 'data/graph-example-1.xml'
   g1.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}.take
+  # => [5]
+
   g2 = RedGrape.load_graph 'data/graph-example-2.xml'
   g2.v(89).as('x').outE.inV.loop('x'){loops < 3}.path.take
+  # => [[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]], [v[89], 
 
 ## REPL:
 
@@ -76,9 +79,8 @@ and generate the RDoc.
 
 ## REFERENCES:
 
-* [Tinkerpop](http://tinkerpop.com/)
-** [Gremlin](https://github.com/tinkerpop/gremlin/wiki)
-** [Pipes](https://github.com/tinkerpop/pipes/wiki/)
+* [Gremlin](https://github.com/tinkerpop/gremlin/wiki)
+* [Pipes](https://github.com/tinkerpop/pipes/wiki/)
 
 ## LICENSE:
 

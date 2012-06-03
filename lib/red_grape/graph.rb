@@ -11,13 +11,17 @@ module RedGrape
       'xsi' => 'http://www.w3.org/2001/XMLSchema-instance'
     }
 
-    class <<self
+    class << self
       def load(filename)
         if filename =~ /^<\?xml/
           self.new.load StringIO.new(filename)
         else
           self.new.load filename
         end
+      end
+
+      def create_tinker_graph
+        g = self.new
       end
     end
 
@@ -27,23 +31,36 @@ module RedGrape
       @property_descriptions = {}
     end
 
-    def vertex(*id)
+    def items(type, *id)
+      items = case type
+        when :vertex, :vertices
+          @vertices
+        when :edge, :edges
+          @edges
+        else
+          raise ArgumentError.new('type should be :vertex or :edge')
+        end
+
       if id.size == 2 # TODO: for the time being
-        @vertices.values.select{|e| e[id[0]] == id[1]}
+        items.values.select{|e| e[id[0]] == id[1]}
       elsif 1 < id.size
-        id.map{|i| @vertices[i.to_s]}
+        id.map{|i| items[i.to_s]}
       elsif id.size == 0
-        @vertices.values
+        items.values
       else
         case id.first
         when Array
-          id.first.map{|i| @vertices[i.to_s]}
+          id.first.map{|i| items[i.to_s]}
         when :all
-          @vertices.values
+          items.values
         else
-          @vertices[id.first.to_s]
+          items[id.first.to_s]
         end
       end
+    end
+
+    def vertex(*id)
+      items :vertex, *id
     end
 
     def v(*id)
@@ -52,20 +69,7 @@ module RedGrape
     alias V v
 
     def edge(*id)
-      if 1 < id.size
-        id.map{|i| @edges[i.to_s]}
-      elsif id.size == 0
-        @edges.values
-      else
-        case id.first
-        when Array
-          id.first.map{|i| @edges[i.to_s]}
-        when :all
-          @edges.values
-        else
-          @edges[id.first.to_s]
-        end
-      end
+      items :edge, *id
     end
 
     def e(*id)

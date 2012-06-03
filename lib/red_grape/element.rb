@@ -1,7 +1,7 @@
 require 'red_grape/property_description'
 
 module RedGrape
-  class GraphItem
+  class Element
     def initialize(graph, opts={})
       @graph = graph
       @property = {}

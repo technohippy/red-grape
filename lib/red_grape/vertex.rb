@@ -1,7 +1,7 @@
-require 'red_grape/graph_item'
+require 'red_grape/element'
 
 module RedGrape
-  class Vertex < GraphItem
+  class Vertex < Element
     include RedGrape::Pipe::Out
     include RedGrape::Pipe::OutE
     include RedGrape::Pipe::In

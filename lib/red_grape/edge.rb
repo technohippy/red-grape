@@ -1,7 +1,7 @@
-require 'red_grape/graph_item'
+require 'red_grape/element'
 
 module RedGrape
-  class Edge < GraphItem
+  class Edge < Element
     attr_reader :id, :source, :target, :label
 
     def initialize(graph, id, source, target, label, opts={})

@@ -21,7 +21,7 @@ class GraphTest < Test::Unit::TestCase
     graph = RedGrape::Graph.new
     v1 = graph.add_vertex 1, name:'yasushi'
     v2 = graph.add_vertex 2, name:'ando'
-    e12 = graph.add_edge 1, :fullname, v1, v2
+    e12 = graph.add_edge 1, v1, v2, :fullname
 
     assert_equal 1, v1.out_edges.size
     assert_equal 0, v1.in_edges.size

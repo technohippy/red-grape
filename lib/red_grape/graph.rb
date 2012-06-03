@@ -22,6 +22,37 @@ module RedGrape
 
       def create_tinker_graph
         g = self.new
+        v1 = g.add_vertex 1
+        v1[:name] = 'marko'
+        v1[:age] = 29
+        v2 = g.add_vertex 2
+        v2[:name] = 'vadas'
+        v2[:age] = 27
+        v3 = g.add_vertex 3
+        v3[:name] = 'lop'
+        v3[:lang] = 'java'
+        v4 = g.add_vertex 4
+        v4[:name] = 'josh'
+        v4[:age] = 32
+        v5 = g.add_vertex 5
+        v5[:name] = 'ripple'
+        v5[:lang] = 'java'
+        v6 = g.add_vertex 6
+        v6[:name] = 'peter'
+        v6[:age] = 35
+        e12 = g.add_edge 7, v1, v2, 'knows'
+        e12[:weight] = 0.5
+        e14 = g.add_edge 8, v1, v4, 'knows'
+        e14[:weight] = 1.0
+        e13 = g.add_edge 9, v1, v3, 'created'
+        e13[:weight] = 0.4
+        e45 = g.add_edge 10, v4, v5, 'created'
+        e45[:weight] = 1.0
+        e43 = g.add_edge 11, v4, v3, 'created'
+        e43[:weight] = 0.4
+        e63 = g.add_edge 12, v6, v3, 'created'
+        e63[:weight] = 0.2
+        g
       end
     end
 
@@ -86,9 +117,11 @@ module RedGrape
         if id.is_a? Hash
           v = id
           id = v[:id] || v['id']
-        else
+        elsif id.respond_to?(:id)
           v = id
           id = v.id
+        else
+          v = {}
         end
         v = Vertex.new self, id, v
       end
@@ -97,7 +130,7 @@ module RedGrape
       @vertices[id.to_s] = v
     end
 
-    def add_edge(id, label, from, to)
+    def add_edge(id, from, to, label, opts={})
       edge = if id.is_a? Edge
           id
         else
@@ -106,7 +139,7 @@ module RedGrape
           to = self.vertex[to.to_s] unless to.is_a? Vertex
           add_vertex from unless self.vertex(from.id)
           add_vertex to unless self.vertex(to.id)
-          Edge.new self, id, from, to, label
+          Edge.new self, id, from, to, label, opts
         end
       @edges[edge.id] = edge
     end

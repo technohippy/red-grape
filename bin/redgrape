@@ -1,9 +1,12 @@
 #!/usr/bin/env ruby
 $: << File.expand_path('../../lib', __FILE__)
-require 'red_grape'
+
 require 'irb'
 require 'irb/completion'
+require 'optparse'
+require 'red_grape'
 
+RedGrape.set_auto_take
 module RedGrape
   module Help
     module_function
@@ -24,17 +27,16 @@ module RedGrape
 
     def help_message
       <<-EOS
-Shortform:
-  rg?
 Subcommands:
-  rg? :pipe
+  redgrape? :pipe         : list all pipes.
       EOS
+  #redgrape? '[pipe name]' : describe the given pipe.
     end
 
     def pipe_help_message
       pipes = RedGrape::Pipe.constants.map(&:to_s).select{|p| 
         p =~ /.*Pipe$/}.map{|p| underscore p.sub(/Pipe$/, '')}
-      "Available pipes: #{pipes.sort.join ', '}"
+      "Available pipes:\n  #{pipes.sort.join ', '}"
     end
 
     def underscore(str)
@@ -47,19 +49,29 @@ Subcommands:
   end
 end
 
-RedGrape.set_auto_take
-
 def redgrape?(key=nil)
-  RedGrape::Help.redgrape? key
+  RedGrape::Help.redgrape? key 
 end
+
 alias rg? redgrape?
 
-puts %Q{                T
-              ooooo
--------------  ooo  -------------
-         RED    o   GRAPE
----------------------------------
- Type 'redgrape?' to show helps
----------------------------------
+COMMAND_LINE = "#{$0} #{ARGV.join(' ')}"
+OPT = {}
+opts = OptionParser.new
+#opts.on('-a <abc>'){|v| OPT[:abc] = v}
+#opts.on('-x', '--xyz <xyz>'){|v| OPT[:xyz] = v}
+opts.on_tail('-v', '--version', 'Show version.'){puts(opts.ver); exit}
+opts.on_tail('-h', '--help', 'Show this message.'){puts(opts.help); exit}
+
+::Version = RedGrape::VERSION
+opts.order! ARGV
+CMD = ARGV.shift
+
+puts %Q{         T
+       ooooo
+------  ooo  ------
+  RED    o   GRAPE
+-------------------
 }
+
 IRB.start

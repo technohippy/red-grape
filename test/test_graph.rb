@@ -1,5 +1,4 @@
 require 'test/unit'
-require 'stringio'
 require 'red_grape'
 
 class GraphTest < Test::Unit::TestCase
@@ -61,15 +60,6 @@ class GraphTest < Test::Unit::TestCase
 </graphml>
     EOS
     graph = RedGrape::Graph.load data
-    assert_equal 'marko', graph.vertex(1).name
-    assert_equal 'vadas', graph.vertex(2).name
-    assert_equal 'lop', graph.vertex(3).name
-    assert_equal 'marko', graph.edge(4).source.name
-    assert_equal 'vadas', graph.edge(4).target.name
-    assert_equal 'marko', graph.edge(5).source.name
-    assert_equal 'lop', graph.edge(5).target.name
-    
-    graph = RedGrape::Graph.load StringIO.new(data)
     assert_equal 'marko', graph.vertex(1).name
     assert_equal 'vadas', graph.vertex(2).name
     assert_equal 'lop', graph.vertex(3).name

@@ -1,10 +1,13 @@
-* cut a GraphML reader function from Graph class
+TODO
 * serialize a graph
 * implement tinkerpop methods
 * use symbols for keys
-* use dRuby for persistance
+* use dRuby for persistence
 
-# TODO: How can I setup my own prompt?
+DONE
+* cut a GraphML reader function from Graph class
+
+MEMO
 #IRB.init_config 'redgrape'
 #IRB.conf[:PROMPT][:RED_GRAPE] = {
 #  :PROMPT_I => "abc%N(%m):%03n:%i> ",

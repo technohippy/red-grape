@@ -14,9 +14,14 @@ module RedGrape
         @graph = graph
       end
 
-      def load(file)
-        file = File.open file if file.is_a? String
-        parse_xml Nokogiri::XML(file)
+      def load(filename)
+        if filename =~ /^<\?xml/
+          parse_xml Nokogiri::XML(filename)
+        else
+          File.open(filename, 'r') do |file|
+            parse_xml Nokogiri::XML(file)
+          end
+        end
         @graph
       end
 

@@ -1,4 +1,3 @@
-require 'stringio'
 require 'nokogiri'
 require 'red_grape/vertex'
 require 'red_grape/edge'
@@ -9,11 +8,7 @@ module RedGrape
   class Graph
     class << self
       def load(filename)
-        if filename =~ /^<\?xml/
-          self.new.load StringIO.new(filename)
-        else
-          self.new.load filename
-        end
+        self.new.load filename
       end
 
       def create_tinker_graph
@@ -126,9 +121,13 @@ module RedGrape
       @edges[edge.id] = edge
     end
 
-    def load(file)
+    def load(filename)
+      @serializer.load filename
+    end
+
+    def save(file)
       file = File.open file if file.is_a? String
-      @serializer.load file
+      @serializer.save file
     end
 
     def find(*args)

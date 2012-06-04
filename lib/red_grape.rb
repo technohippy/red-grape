@@ -23,7 +23,7 @@ require 'red_grape/pipe/cap_pipe'
 require 'red_grape/graph'
 
 module RedGrape
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
 
   module_function
   def set_auto_take(val=true)

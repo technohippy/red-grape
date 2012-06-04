@@ -1,4 +1,3 @@
-require 'nokogiri'
 require 'ext/object_ext'
 require 'ext/array_ext'
 require 'red_grape/pipe/in_pipe'

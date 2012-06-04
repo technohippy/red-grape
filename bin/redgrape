@@ -4,22 +4,62 @@ require 'red_grape'
 require 'irb'
 require 'irb/completion'
 
+module RedGrape
+  module Help
+    module_function
+
+    def redgrape?(key=nil)
+      case key
+      when NilClass
+        puts help_message
+        :OK
+      when 'pipe', 'pipes', :pipe, :pieps
+        puts pipe_help_message
+        :OK
+      else
+        puts '?'
+        :NG
+      end
+    end
+
+    def help_message
+      <<-EOS
+Shortform:
+  rg?
+Subcommands:
+  rg? :pipe
+      EOS
+    end
+
+    def pipe_help_message
+      pipes = RedGrape::Pipe.constants.map(&:to_s).select{|p| 
+        p =~ /.*Pipe$/}.map{|p| underscore p.sub(/Pipe$/, '')}
+      "Available pipes: #{pipes.sort.join ', '}"
+    end
+
+    def underscore(str)
+      str.sub(/^[A-Z]/){|p| p.downcase}.gsub(/([a-z])([A-Z])/){"#{$1}_#{$2.downcase}"}
+    end
+
+    def camelcase(str)
+      str.sub(/^[a-z]/){|p| p.upcase}.gsub(/_([a-z])/){"#{$1.upcase}"}
+    end
+  end
+end
+
 RedGrape.set_auto_take
 
-# TODO: How can I setup my own prompt?
-#IRB.init_config 'redgrape'
-#IRB.conf[:PROMPT][:RED_GRAPE] = {
-#  :PROMPT_I => "abc%N(%m):%03n:%i> ",
-#  :PROMPT_S => "abc%N(%m):%03n:%i%l ",
-#  :PROMPT_C => "abc%N(%m):%03n:%i* ",
-#  :RETURN => "%s\n"
-#}
-#IRB.conf[:PROMPT_MODE] = :RED_GRAPE
+def redgrape?(key=nil)
+  RedGrape::Help.redgrape? key
+end
+alias rg? redgrape?
 
-puts %Q{        T
-      ooooo
------  ooo  -----
- RED    o   GRAPE
------------------
+puts %Q{                T
+              ooooo
+-------------  ooo  -------------
+         RED    o   GRAPE
+---------------------------------
+ Type 'redgrape?' to show helps
+---------------------------------
 }
 IRB.start

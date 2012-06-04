@@ -4,7 +4,7 @@
 
 ## DESCRIPTION:
 
-RedGrape is an in-memory graph database written in ruby. I made this in order to learn how graph databases work so that please do not use this for serious purposes.
+RedGrape is an in-memory graph database written in ruby. I made this in order to learn how graph databases work so that please do not use this for any serious purpose.
 
 ## FEATURES/PROBLEMS:
 

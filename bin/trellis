@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+$: << File.expand_path('../../lib', __FILE__)
+require 'red_grape/graph_store'
+
+#RedGrape::GraphStore.start(nil, 'dbfile.bin') do
+RedGrape::GraphStore.start do
+  puts <<-EOS
+Start server: #{DRb.uri}
+[Ctrl+C to stop]
+  EOS
+end

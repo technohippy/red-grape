@@ -1,11 +1,78 @@
 #!/usr/bin/env ruby
 $: << File.expand_path('../../lib', __FILE__)
-require 'red_grape/graph_store'
 
-#RedGrape::GraphStore.start(nil, 'dbfile.bin') do
-RedGrape::GraphStore.start do
-  puts <<-EOS
-Start server: #{DRb.uri}
-[Ctrl+C to stop]
-  EOS
+require 'drb/drb'
+require 'irb'
+require 'irb/completion'
+require 'optparse'
+require 'red_grape'
+
+RedGrape.set_auto_take
+module RedGrape
+  module Help
+    module_function
+
+    def redgrape?(key=nil)
+      case key
+      when NilClass
+        puts help_message
+        :OK
+      when 'pipe', 'pipes', :pipe, :pieps
+        puts pipe_help_message
+        :OK
+      else
+        puts '?'
+        :NG
+      end
+    end
+
+    def help_message
+      <<-EOS
+Subcommands:
+  redgrape? :pipe         : list all pipes.
+      EOS
+  #redgrape? '[pipe name]' : describe the given pipe.
+    end
+
+    def pipe_help_message
+      pipes = RedGrape::Pipe.constants.map(&:to_s).select{|p| 
+        p =~ /.*Pipe$/}.map{|p| underscore p.sub(/Pipe$/, '')}
+      "Available pipes:\n  #{pipes.sort.join ', '}"
+    end
+
+    def underscore(str)
+      str.sub(/^[A-Z]/){|p| p.downcase}.gsub(/([a-z])([A-Z])/){"#{$1}_#{$2.downcase}"}
+    end
+
+    def camelcase(str)
+      str.sub(/^[a-z]/){|p| p.upcase}.gsub(/_([a-z])/){"#{$1.upcase}"}
+    end
+  end
 end
+
+def redgrape?(key=nil)
+  RedGrape::Help.redgrape? key 
+end
+
+alias rg? redgrape?
+
+COMMAND_LINE = "#{$0} #{ARGV.join(' ')}"
+OPT = {}
+opts = OptionParser.new
+#opts.on('-a <abc>'){|v| OPT[:abc] = v}
+#opts.on('-x', '--xyz <xyz>'){|v| OPT[:xyz] = v}
+opts.on_tail('-v', '--version', 'Show version.'){puts(opts.ver); exit}
+opts.on_tail('-h', '--help', 'Show this message.'){puts(opts.help); exit}
+
+::Version = RedGrape::VERSION
+opts.order! ARGV
+CMD = ARGV.shift
+
+puts %Q{         T
+       ooooo
+------  ooo  ------
+  RED    o   GRAPE
+-------------------
+}
+
+IRB.start

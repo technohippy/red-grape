@@ -25,7 +25,7 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
 
 ## REPL:
 
-  $ bin/redgrape 
+  $ bin/irg
           T
         ooooo
   -----  ooo  -----

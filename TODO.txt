@@ -2,9 +2,13 @@ TODO
 * serialize a graph
 * implement tinkerpop methods
 * use symbols for keys
-* use dRuby for persistence
+* readonly graph
+  * make tinker graph readonly
+* show features
+* marshal
 
 DONE
+* use dRuby for persistence
 * cut a GraphML reader function from Graph class
 
 MEMO

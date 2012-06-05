@@ -107,18 +107,29 @@ module RedGrape
       @vertices[id.to_s] = v
     end
 
+    def remove_vertex(id)
+      v = @vertices.delete id.to_s
+      v.out_edges.each {|e| @edges.delete e.id}
+      v.in_edges.each {|e| @edges.delete e.id}
+      v
+    end
+
     def add_edge(id, from, to, label, opts={})
       edge = if id.is_a? Edge
           id
         else
           id = id.to_s
-          from = self.vertex[from.to_s] unless from.is_a? Vertex
-          to = self.vertex[to.to_s] unless to.is_a? Vertex
+          from = self.vertex(from.to_s) unless from.is_a? Vertex
+          to = self.vertex(to.to_s) unless to.is_a? Vertex
           add_vertex from unless self.vertex(from.id)
           add_vertex to unless self.vertex(to.id)
           Edge.new self, id, from, to, label, opts
         end
       @edges[edge.id] = edge
+    end
+
+    def remove_edge(id)
+      @edges.delete id.to_s
     end
 
     def load(filename)

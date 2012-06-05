@@ -14,6 +14,11 @@ module RedGrape
       @label = label
     end
 
+    def connected?(v)
+      id = v.is_a?(Vertex) ? v.id : v
+      @source.id == id.to_s || @target.id == id.to_s
+    end
+
     def to_s
       "e[#{@id}][#{@source.id}-#{@label}->#{@target.id}]"
     end

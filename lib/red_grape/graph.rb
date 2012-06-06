@@ -93,7 +93,7 @@ module RedGrape
       else
         if id.is_a? Hash
           v = id
-          id = v[:id] || v['id']
+          id = (v[:id] || v['id']).to_s
         elsif id.respond_to?(:id)
           v = id
           id = v.id
@@ -102,15 +102,23 @@ module RedGrape
         end
         v = Vertex.new self, id, v
       end
-      raise ArgumentError.new 'invalid id' unless id == v.id
+      id = id.to_s
+      raise ArgumentError.new "invalid id" unless id == v.id
 
-      @vertices[id.to_s] = v
+      @vertices[id] = v
     end
 
     def remove_vertex(id)
+      id = id.id if id.is_a? Vertex
       v = @vertices.delete id.to_s
-      v.out_edges.each {|e| @edges.delete e.id}
-      v.in_edges.each {|e| @edges.delete e.id}
+      if v
+        v.out_edges.each do |e| 
+          remove_edge e
+        end
+        v.in_edges.each do |e|
+          remove_edge e
+        end
+      end
       v
     end
 
@@ -129,7 +137,19 @@ module RedGrape
     end
 
     def remove_edge(id)
-      @edges.delete id.to_s
+      if id.is_a? Edge
+        e = id
+        id = id.id
+      else
+        id = id.to_s
+        e = @edges[id]
+      end
+      @edges.delete id
+      if e
+        e.source.out_edges.delete e
+        e.target.in_edges.delete e
+      end
+      e
     end
 
     def load(filename)

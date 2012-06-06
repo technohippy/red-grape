@@ -3,14 +3,23 @@ require 'red_grape'
 
 module RedGrape
   class GraphStore
-    def self.start(uri=nil, filename=nil, &block)
-      self.new(filename).start uri, &block
+    DEFAULT_PORT = 28282
+    DEFAULT_URI = "druby://localhost:#{DEFAULT_PORT}"
+
+    class << self
+      def start(uri=nil, filename=nil, &block)
+        self.new(filename).start uri, &block
+      end
+
+      def open(uri=nil)
+        DRbObject.new_with_uri(uri || DEFAULT_URI)
+      end
     end
 
     def initialize(filename=nil)
       @filename = filename
       @graphs =
-        if @filename
+        if @filename && File.exist?(@filename)
           File.open @filename, 'r' do |file|
             Marshal.load file
           end
@@ -24,16 +33,29 @@ module RedGrape
     end
 
     def graph(key)
+      self[key]
+    end
+
+    def put_graph(key, graph)
+      self[key] = graph
+    end
+
+    def [](key)
       @graphs[key.to_sym]
     end
 
-    def start(uri, &block)
+    def []=(key, graph)
+      @graphs[key.to_sym] = graph
+    end
+
+    def start(uri=nil, &block)
       at_exit do
         File.open @filename, 'w' do |file|
           Marshal.dump @graphs, file
         end if @filename
       end
 
+      uri = DEFAULT_URI if uri.nil? || uri == :default
       DRb.start_service uri, self
       block.call if block
       sleep

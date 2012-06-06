@@ -6,6 +6,7 @@ require 'irb'
 require 'irb/completion'
 require 'optparse'
 require 'red_grape'
+require 'red_grape/graph_store'
 
 RedGrape.set_auto_take
 module RedGrape
@@ -67,6 +68,8 @@ opts.on_tail('-h', '--help', 'Show this message.'){puts(opts.help); exit}
 ::Version = RedGrape::VERSION
 opts.order! ARGV
 CMD = ARGV.shift
+
+$store = RedGrape::GraphStore.open
 
 puts %Q{         T
        ooooo

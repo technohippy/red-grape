@@ -9,7 +9,7 @@ class GraphTest < Test::Unit::TestCase
     graph.add_vertex id:3, val:'c'
 
     assert_equal 3, graph.vertex.size
-    assert_equal 1, graph.vertex(1).id
+    assert_equal '1', graph.vertex(1).id
     #assert_equal 2, graph.vertex(1, 2).size # TODO
     assert_equal 3, graph.vertex(1, 2, 3).size
     assert_equal 2, graph.vertex([1, 2]).size
@@ -67,5 +67,77 @@ class GraphTest < Test::Unit::TestCase
     assert_equal 'vadas', graph.edge(4).target.name
     assert_equal 'marko', graph.edge(5).source.name
     assert_equal 'lop', graph.edge(5).target.name
+  end
+
+  def test_add_vertex
+    g = RedGrape::Graph.new
+    g.add_vertex id:1, val:'a'
+    v1 = g.v(1)
+    assert_equal '1', v1.id
+    assert_equal 'a', v1.val
+
+    g.add_vertex '2', val:'b'
+    v2 = g.v(2)
+    assert_equal '2', v2.id
+    assert_equal 'b', v2.val
+
+    v3 = RedGrape::Vertex.new nil, 3, val:'c'
+    g.add_vertex '3', v3
+    assert_equal v3, g.v(3)
+    assert_equal '3', v3.id
+    assert_equal 'c', v3.val
+
+    assert_raise(ArgumentError) do
+      g.add_vertex '4', v3
+    end
+  end
+
+  def test_remove_vertex
+    g = RedGrape::Graph.new
+    v1 = g.add_vertex 1
+    v2 = g.add_vertex 2
+    v3 = g.add_vertex 3
+    e12 = g.add_edge 1, 1, 2, :connect
+    e23 = g.add_edge 1, 2, 3, :connect
+    assert v1.out_edges.map(&:id).include?(e12.id)
+    assert v2.in_edges.map(&:id).include?(e12.id)
+    assert v2.out_edges.map(&:id).include?(e23.id)
+    assert v3.in_edges.map(&:id).include?(e23.id)
+
+    g.remove_vertex v2
+    assert !v1.out_edges.map(&:id).include?(e12.id)
+    assert !v3.in_edges.map(&:id).include?(e23.id)
+  end
+
+  def test_add_edge
+    g = RedGrape::Graph.new
+    v1 = g.add_vertex 1
+    v2 = g.add_vertex 2
+    v3 = g.add_vertex 3
+    e12 = g.add_edge 1, 1, 2, :connect
+    e23 = g.add_edge 1, 2, 3, :connect
+    assert v1.out_edges.map(&:id).include?(e12.id)
+    assert v2.in_edges.map(&:id).include?(e12.id)
+    assert v2.out_edges.map(&:id).include?(e23.id)
+    assert v3.in_edges.map(&:id).include?(e23.id)
+  end
+
+  def test_remove_edge
+    g = RedGrape::Graph.new
+    v1 = g.add_vertex 1
+    v2 = g.add_vertex 2
+    v3 = g.add_vertex 3
+    e12 = g.add_edge 1, 1, 2, :connect
+    e23 = g.add_edge 1, 2, 3, :connect
+    assert v1.out_edges.map(&:id).include?(e12.id)
+    assert v2.in_edges.map(&:id).include?(e12.id)
+    assert v2.out_edges.map(&:id).include?(e23.id)
+    assert v3.in_edges.map(&:id).include?(e23.id)
+
+    g.remove_edge e12
+    assert !v1.out_edges.map(&:id).include?(e12.id)
+    assert !v2.in_edges.map(&:id).include?(e12.id)
+    assert v2.out_edges.map(&:id).include?(e23.id)
+    assert v3.in_edges.map(&:id).include?(e23.id)
   end
 end

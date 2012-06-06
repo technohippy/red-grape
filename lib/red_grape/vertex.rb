@@ -13,7 +13,7 @@ module RedGrape
 
     def initialize(graph, id, opts={})
       super graph, opts
-      @id = id
+      @id = id.to_s
       @out_edges = []
       @in_edges = []
     end

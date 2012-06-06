@@ -25,7 +25,7 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
 
 ## REPL:
 
-  $ bin/irg
+  $ bin/redgrape
           T
         ooooo
   -----  ooo  -----
@@ -63,6 +63,35 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
    => ["ripple", "lop"] 
 
 In REPL, the `take' method which invokes all pipes is automatically called.
+
+## CLIENT/SERVER:
+
+### SERVER:
+
+    $ ./bin/trellis
+    Start server: druby://localhost:28282
+    [Ctrl+C to stop]
+
+### CLIENT:
+
+    $ ./bin/redgrape 
+             T
+           ooooo
+    ------  ooo  ------
+      RED    o   GRAPE
+    -------------------
+    ruby-1.9.3-head :001 > store = RedGrape::GraphStore.open
+     => #<RedGrape::GraphStore:0x007fb615137a90> 
+    ruby-1.9.3-head :002 > store.graphs
+     => [:tinker] 
+    ruby-1.9.3-head :003 > g = store.graph :tinker
+     => redgrape[vertices:6 edges:6] 
+    ruby-1.9.3-head :004 > g.v
+     => [v[1], v[2], v[3], v[4], v[5], v[6]] 
+    ruby-1.9.3-head :005 > g.v.out
+     => [v[2], v[4], v[3], v[5], v[3], v[3]] 
+    ruby-1.9.3-head :006 > g.v.out.name
+     => ["vadas", "josh", "lop", "ripple", "lop", "lop"] 
 
 ## REQUIREMENTS:
 

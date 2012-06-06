@@ -4,15 +4,15 @@ Rakefile
 README.txt
 History.txt
 bin/redgrape
+bin/trellis
 data/graph-example-1.xml
 data/graph-example-2.xml
 lib/ext/array_ext.rb
 lib/ext/object_ext.rb
-lib/red_grape.rb
-lib/red_grape/vertex.rb
 lib/red_grape/edge.rb
 lib/red_grape/element.rb
 lib/red_grape/graph.rb
+lib/red_grape/graph_store.rb
 lib/red_grape/path_group.rb
 lib/red_grape/pipe/aggregate_pipe.rb
 lib/red_grape/pipe/as_pipe.rb
@@ -38,6 +38,8 @@ lib/red_grape/pipe/side_effect_pipe.rb
 lib/red_grape/pipe/transform_pipe.rb
 lib/red_grape/property_description.rb
 lib/red_grape/serializer/graphml_serializer.rb
+lib/red_grape/vertex.rb
+lib/red_grape.rb
 test/test_element.rb
 test/test_graph.rb
 test/test_on_the_nature_of_pipes.rb

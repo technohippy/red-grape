@@ -1,3 +1,4 @@
+require 'ext/nil_class_ext'
 require 'ext/object_ext'
 require 'ext/array_ext'
 require 'red_grape/pipe/in_pipe'
@@ -23,7 +24,7 @@ require 'red_grape/pipe/cap_pipe'
 require 'red_grape/graph'
 
 module RedGrape
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 
   module_function
   def set_auto_take(val=true)

@@ -112,10 +112,10 @@ module RedGrape
       id = id.id if id.is_a? Vertex
       v = @vertices.delete id.to_s
       if v
-        v.out_edges.each do |e| 
+        v.out_edges.dup.each do |e| 
           remove_edge e
         end
-        v.in_edges.each do |e|
+        v.in_edges.dup.each do |e|
           remove_edge e
         end
       end

@@ -15,52 +15,52 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
 
 ## SYNOPSIS:
 
-  g1 = RedGrape.load_graph 'data/graph-example-1.xml'
-  g1.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}.take
-  # => [5]
+    g1 = RedGrape.load_graph 'data/graph-example-1.xml'
+    g1.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}.take
+    # => [5]
 
-  g2 = RedGrape.load_graph 'data/graph-example-2.xml'
-  g2.v(89).as('x').outE.inV.loop('x'){loops < 3}.path.take
-  # => [[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]], [v[89], 
+    g2 = RedGrape.load_graph 'data/graph-example-2.xml'
+    g2.v(89).as('x').outE.inV.loop('x'){loops < 3}.path.take
+    # => [[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]], [v[89], 
 
 ## REPL:
 
-  $ bin/redgrape
-          T
-        ooooo
-  -----  ooo  -----
-   RED    o   GRAPE
-  -----------------
-  ruby :001 > g = RedGrape.create_tinker_graph
-   => redgrape[vertices:6 edges:6] 
-  ruby :002 > g.class
-   => RedGrape::Graph 
-  ruby :003 > g.V
-   => [v[1], v[2], v[3], v[4], v[5], v[6]] 
-  ruby :004 > g.V.name
-   => ["marko", "vadas", "lop", "josh", "ripple", "peter"] 
-  ruby :005 > g.E
-   => [e[7][1-knows->2], e[8][1-knows->4], e[9][1-created->3], e[10][4-created->5], e[11][4-created->3], e[12][6-created->3]] 
-  ruby :006 > v = g.v(1)
-   => v[1] 
-  ruby :007 > "#{v.name} is #{v.age} years old."
-   => "marko is 29 years old." 
-  ruby :008 > v.out
-   => [v[2], v[4], v[3]] 
-  ruby :009 > v.out('knows')
-   => [v[2], v[4]] 
-  ruby :010 > v.outE
-   => [e[7][1-knows->2], e[8][1-knows->4], e[9][1-created->3]] 
-  ruby :011 > v.outE('knows')
-   => [e[7][1-knows->2], e[8][1-knows->4]] 
-  ruby :012 > v.outE.weight
-   => [0.5, 1.0, 0.4] 
-  ruby :013 > v.outE.has('weight', :lt, 1).inV
-   => [v[2], v[3]] 
-  ruby :014 > v.outE.filter{it.weight < 1}.inV
-   => [v[2], v[3]] 
-  ruby :015 > v.out('knows').filter{it.age > 30}.out('created').name
-   => ["ripple", "lop"] 
+    $ bin/redgrape
+            T
+          ooooo
+    -----  ooo  -----
+     RED    o   GRAPE
+    -----------------
+    ruby :001 > g = RedGrape.create_tinker_graph
+     => redgrape[vertices:6 edges:6] 
+    ruby :002 > g.class
+     => RedGrape::Graph 
+    ruby :003 > g.V
+     => [v[1], v[2], v[3], v[4], v[5], v[6]] 
+    ruby :004 > g.V.name
+     => ["marko", "vadas", "lop", "josh", "ripple", "peter"] 
+    ruby :005 > g.E
+     => [e[7][1-knows->2], e[8][1-knows->4], e[9][1-created->3], e[10][4-created->5], e[11][4-created->3], e[12][6-created->3]] 
+    ruby :006 > v = g.v(1)
+     => v[1] 
+    ruby :007 > "#{v.name} is #{v.age} years old."
+     => "marko is 29 years old." 
+    ruby :008 > v.out
+     => [v[2], v[4], v[3]] 
+    ruby :009 > v.out('knows')
+     => [v[2], v[4]] 
+    ruby :010 > v.outE
+     => [e[7][1-knows->2], e[8][1-knows->4], e[9][1-created->3]] 
+    ruby :011 > v.outE('knows')
+     => [e[7][1-knows->2], e[8][1-knows->4]] 
+    ruby :012 > v.outE.weight
+     => [0.5, 1.0, 0.4] 
+    ruby :013 > v.outE.has('weight', :lt, 1).inV
+     => [v[2], v[3]] 
+    ruby :014 > v.outE.filter{it.weight < 1}.inV
+     => [v[2], v[3]] 
+    ruby :015 > v.out('knows').filter{it.age > 30}.out('created').name
+     => ["ripple", "lop"] 
 
 In REPL, the `take' method which invokes all pipes is automatically called.
 
@@ -101,7 +101,7 @@ Changes on a graph are not committed until the put_graph method called.
 
 After checking out the source, run:
 
-  $ rake newb
+    $ rake newb
 
 This task will install any missing dependencies, run the tests/specs,
 and generate the RDoc.

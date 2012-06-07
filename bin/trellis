@@ -3,6 +3,7 @@ $: << File.expand_path('../../lib', __FILE__)
 
 require 'optparse'
 require 'red_grape/graph_store'
+require 'red_grape/version'
 
 DEFAULT_DBFILE = 'dbfile.bin'
 

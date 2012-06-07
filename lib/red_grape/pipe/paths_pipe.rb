@@ -6,26 +6,21 @@ module RedGrape
     class PathsPipe < Pipe::Base
       def pass(obj, context)
         context.push_history obj do |ctx|
-          if self.last?
-            history = ctx.history.dup
-            if self.opts.empty?
-              PathGroup.new history
-            else
-              ary = []
-              history.each_with_index do |h, index|
-                prc = self.opts[index]
-                if prc
-                  context.it = h
-                  ary << context.eval(&prc)
-                else
-                  ary << h
-                end
-              end 
-              PathGroup.new ary
-            end
+          history = ctx.history.dup
+          if self.opts.empty?
+            PathGroup.new history
           else
-            # TODO
-            raise 'not implemented'
+            ary = []
+            history.each_with_index do |h, index|
+              prc = self.opts[index]
+              if prc
+                context.it = h
+                ary << context.eval(&prc)
+              else
+                ary << h
+              end
+            end 
+            PathGroup.new ary
           end
         end
       end

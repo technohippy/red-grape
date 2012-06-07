@@ -2,12 +2,12 @@ TODO
 * serialize a graph
 * implement tinkerpop methods
 * use symbols for keys
-* readonly graph
-  * make tinker graph readonly
-* show features
-* marshal
+* customize irb prompt
 
 DONE
+* show features
+* marshal
+* readonly graph
 * use dRuby for persistence
 * cut a GraphML reader function from Graph class
 

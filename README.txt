@@ -86,12 +86,12 @@ In REPL, the `take' method which invokes all pipes is automatically called.
      => [:tinker] 
     ruby-1.9.3-head :003 > g = store.graph :tinker
      => redgrape[vertices:6 edges:6] 
-    ruby-1.9.3-head :004 > g.v
-     => [v[1], v[2], v[3], v[4], v[5], v[6]] 
-    ruby-1.9.3-head :005 > g.v.out
-     => [v[2], v[4], v[3], v[5], v[3], v[3]] 
-    ruby-1.9.3-head :006 > g.v.out.name
-     => ["vadas", "josh", "lop", "ripple", "lop", "lop"] 
+    ruby-1.9.3-head :004 > g.add_vertex 7
+     => redgrape[vertices:7 edges:6] 
+    ruby-1.9.3-head :005 > store.put_graph :tinker, g
+     => redgrape[vertices:7 edges:6] 
+
+Changes on a graph are not committed until the put_graph method called.
 
 ## REQUIREMENTS:
 

@@ -30,7 +30,13 @@ class Array
   alias method_missing_without_prop_pipe method_missing
   def method_missing_with_prop_pipe(name, *args, &block)
     if graph_item_array?
-      map! {|e| e.send name, *args, &block}
+      map! do |e| 
+        begin
+          e.send name, *args, &block
+        rescue NoMethodError
+          nil
+        end
+      end.compact!
     else
       method_missing_without_prop_pipe name, *args, &block
     end

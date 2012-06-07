@@ -53,10 +53,6 @@ module RedGrape
       pipe.pass self, context
     end
 
-    def copy(depth=nil)
-      self # TODO
-    end
-
     def ==(obj)
       self.class == obj.class && self.id == obj.id
     end

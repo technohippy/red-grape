@@ -55,7 +55,14 @@ module RedGrape
         end if @filename
       end
 
-      uri = DEFAULT_URI if uri.nil? || uri == :default
+      uri = case uri
+        when NilClass, :default
+          DEFAULT_URI
+        when Integer
+          "druby://localhost:#{uri}"
+        else
+          uri
+        end
       DRb.start_service uri, self
       block.call if block
       sleep

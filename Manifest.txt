@@ -9,6 +9,7 @@ data/graph-example-1.xml
 data/graph-example-2.xml
 lib/ext/array_ext.rb
 lib/ext/object_ext.rb
+lib/ext/nil_class_ext.rb
 lib/red_grape/edge.rb
 lib/red_grape/element.rb
 lib/red_grape/graph.rb

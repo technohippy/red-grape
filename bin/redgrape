@@ -72,10 +72,9 @@ CMD = ARGV.shift
 $store = RedGrape::GraphStore.open
 
 puts %Q{         T
-       ooooo
-------  ooo  ------
-  RED    o   GRAPE
--------------------
+       o000o
+        o0o 
+-------- 0 --oo-o--
 }
 
 IRB.start

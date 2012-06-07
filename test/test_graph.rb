@@ -69,6 +69,12 @@ class GraphTest < Test::Unit::TestCase
     assert_equal 'lop', graph.edge(5).target.name
   end
 
+  def test_features
+    features = RedGrape::Graph.features
+    assert_equal Hash, features.class
+    assert features.keys.include?(:ignores_supplied_ids)
+  end
+
   def test_add_vertex
     g = RedGrape::Graph.new
     g.add_vertex id:1, val:'a'
@@ -107,6 +113,13 @@ class GraphTest < Test::Unit::TestCase
     g.remove_vertex v2
     assert !v1.out_edges.map(&:id).include?(e12.id)
     assert !v3.in_edges.map(&:id).include?(e23.id)
+
+    g = RedGrape.create_tinker_graph
+    assert_equal 6, g.v.size
+    assert_equal 6, g.e.size
+    g.remove_vertex 1
+    assert_equal 5, g.v.size
+    assert_equal 3, g.e.size
   end
 
   def test_add_edge
@@ -139,5 +152,30 @@ class GraphTest < Test::Unit::TestCase
     assert !v2.in_edges.map(&:id).include?(e12.id)
     assert v2.out_edges.map(&:id).include?(e23.id)
     assert v3.in_edges.map(&:id).include?(e23.id)
+  end
+
+  def test_readonly
+    g1 = RedGrape::Graph.new
+
+    assert !g1.readonly?
+    g1.add_vertex 1
+
+    g2 = g1.readonly
+    assert !g1.readonly?
+    assert g2.readonly?
+    assert_equal 1, g2.v.size
+    assert_raise(NoMethodError) do
+      g2.add_vertex 2
+    end 
+    g1.add_vertex 2
+    assert_equal 2, g1.v.size
+    assert_equal 1, g2.v.size
+
+    g1.readonly!
+    assert g1.readonly?
+    assert_raise(NoMethodError) do
+      g1.add_vertex 3
+    end 
+    assert_equal 2, g1.v.size
   end
 end

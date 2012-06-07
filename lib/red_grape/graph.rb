@@ -27,6 +27,38 @@ module RedGrape
           g.add_edge 12, v6, v3, 'created', weight:0.2
         end
       end
+
+      def features
+        {
+          ignores_supplied_ids:false,
+          is_persistent:false,
+          is_rdf_model:false,
+          is_wrapper:false,
+          supports_boolean_property:true,
+          supports_double_property:true,
+          supports_duplicate_edges:true,
+          supports_edge_index:false,
+          supports_edge_iteration:true,
+          supports_edge_key_index:false,
+          supports_float_property:true,
+          supports_indices:false,
+          supports_integer_property:true,
+          supports_key_indices:false,
+          supports_long_property:true,
+          supports_map_property:true,
+          supports_mixed_list_property:true,
+          supports_primitive_array_property:true,
+          supports_self_loops:true,
+          supports_serializable_object_property:true,
+          supports_string_property:true,
+          supports_threded_transactions:false,
+          supports_transactions:false,
+          supports_uniform_list_property:true,
+          supports_vertex_index:false,
+          supports_vertex_iteration:true,
+          supports_vertex_key_index:false
+        }
+      end
     end
 
     attr_accessor :serializer
@@ -163,6 +195,31 @@ module RedGrape
 
     def find(*args)
       Graph::Vertex.new
+    end
+
+    def readonly
+      dup.readonly!
+    end
+
+    def readonly!
+      %w(add_vertex add_edge remove_vertex remove_edge load).each do |name|
+        eval "def self.#{name}(*args); raise NoMethodError end"
+      end
+      def self.readonly?; true end
+      self
+    end
+
+    def readonly?
+      false
+    end
+
+    def dup
+      obj = self.class.new
+      obj.instance_variable_set :@serializer, @serializer
+      obj.instance_variable_set :@vertices, @vertices.dup
+      obj.instance_variable_set :@edges, @edges.dup
+      obj.instance_variable_set :@property_descriptions, @property_descriptions.dup
+      obj
     end
 
     def to_s

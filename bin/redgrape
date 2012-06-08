@@ -23,8 +23,8 @@ opts.order! ARGV
 RedGrape::IRG.start(OPT[:port]) do
   puts <<-EOS
          T
-       o000o
-        o0o
--------- 0 --------
+       oOOOo
+        oOo
+-------- O --------
   EOS
 end

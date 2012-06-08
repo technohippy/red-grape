@@ -120,6 +120,7 @@ module RedGrape
     def add_vertex(id, v=nil)
       if v
         if v.is_a? Hash
+          id = id.to_s
           v = Vertex.new self, id, v
         end
       else
@@ -128,14 +129,15 @@ module RedGrape
           id = (v[:id] || v['id']).to_s
         elsif id.respond_to?(:id)
           v = id
-          id = v.id
+          id = v.id.to_s
         else
+          id = id.to_s
           v = {}
         end
         v = Vertex.new self, id, v
       end
-      id = id.to_s
       raise ArgumentError.new "invalid id" unless id == v.id
+      raise ArgumentError.new "#{id} already exists." if @vertices[id]
 
       @vertices[id] = v
     end
@@ -155,17 +157,19 @@ module RedGrape
     end
 
     def add_edge(id, from, to, label, opts={})
-      edge = if id.is_a? Edge
-          id
-        else
-          id = id.to_s
-          from = self.vertex(from.to_s) unless from.is_a? Vertex
-          to = self.vertex(to.to_s) unless to.is_a? Vertex
-          add_vertex from unless self.vertex(from.id)
-          add_vertex to unless self.vertex(to.id)
-          Edge.new self, id, from, to, label, opts
-        end
-      @edges[edge.id] = edge
+      if id.is_a? Edge
+        raise ArgumentError.new "#{id.id} already exists." if @edges[id.id]
+        @edges[id.id] = id
+      else
+        id = id.to_s
+        raise ArgumentError.new "#{id} already exists." if @edges[id]
+
+        from = self.vertex(from.to_s) unless from.is_a? Vertex
+        to = self.vertex(to.to_s) unless to.is_a? Vertex
+        add_vertex from unless self.vertex(from.id)
+        add_vertex to unless self.vertex(to.id)
+        @edges[id] = Edge.new self, id, from, to, label, opts
+      end
     end
 
     def remove_edge(id)

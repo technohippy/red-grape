@@ -27,16 +27,18 @@ module RedGrape
       end
     end
     
-    # set property value with type checking
+    # set property value with type checking if its definition exists
     def set_property(kid, v)
-      # TODO: should be refactored
-      desc = @property_description[kid]
-      if desc.accessible? v
-        self[desc.name] = v
-      elsif desc.convertable? v
-        self[desc.name] = desc.convert v
+      if @property_description && desc = @property_description[kid]
+        if desc.accessible? v
+          self[desc.name] = v
+        elsif desc.convertable? v
+          self[desc.name] = desc.convert v
+        else
+          raise ArgumentError.new "#{kid} should be #{desc.type}."
+        end
       else
-        raise ArgumentError.new "#{kid} should be #{desc.type}."
+        self[kid] = v
       end
     end
 

@@ -7,6 +7,9 @@ class GraphTest < Test::Unit::TestCase
     graph.add_vertex id:1, val:'a'
     graph.add_vertex id:2, val:'b'
     graph.add_vertex id:3, val:'c'
+    assert_raise(ArgumentError) do
+      graph.add_vertex id:3, val:'d'
+    end
 
     assert_equal 3, graph.vertex.size
     assert_equal '1', graph.vertex(1).id
@@ -104,7 +107,7 @@ class GraphTest < Test::Unit::TestCase
     v2 = g.add_vertex 2
     v3 = g.add_vertex 3
     e12 = g.add_edge 1, 1, 2, :connect
-    e23 = g.add_edge 1, 2, 3, :connect
+    e23 = g.add_edge 2, 2, 3, :connect
     assert v1.out_edges.map(&:id).include?(e12.id)
     assert v2.in_edges.map(&:id).include?(e12.id)
     assert v2.out_edges.map(&:id).include?(e23.id)
@@ -128,7 +131,7 @@ class GraphTest < Test::Unit::TestCase
     v2 = g.add_vertex 2
     v3 = g.add_vertex 3
     e12 = g.add_edge 1, 1, 2, :connect
-    e23 = g.add_edge 1, 2, 3, :connect
+    e23 = g.add_edge 2, 2, 3, :connect
     assert v1.out_edges.map(&:id).include?(e12.id)
     assert v2.in_edges.map(&:id).include?(e12.id)
     assert v2.out_edges.map(&:id).include?(e23.id)
@@ -141,7 +144,7 @@ class GraphTest < Test::Unit::TestCase
     v2 = g.add_vertex 2
     v3 = g.add_vertex 3
     e12 = g.add_edge 1, 1, 2, :connect
-    e23 = g.add_edge 1, 2, 3, :connect
+    e23 = g.add_edge 2, 2, 3, :connect
     assert v1.out_edges.map(&:id).include?(e12.id)
     assert v2.in_edges.map(&:id).include?(e12.id)
     assert v2.out_edges.map(&:id).include?(e23.id)

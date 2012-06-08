@@ -26,11 +26,10 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
 ## REPL:
 
     $ bin/redgrape
-            T
-          ooooo
-    -----  ooo  -----
-     RED    o   GRAPE
-    -----------------
+             T
+           oOOOo
+            oOo
+    -------- O --------
     ruby :001 > g = RedGrape.create_tinker_graph
      => redgrape[vertices:6 edges:6] 
     ruby :002 > g.class
@@ -69,6 +68,11 @@ In REPL, the `take' method which invokes all pipes is automatically called.
 ### SERVER:
 
     $ ./bin/trellis
+      +=================+
+      |  +     T     +  |
+      | oOo  oOOOo  oOo |
+      |  8    oOo    8  |
+      |        O        |       
     Start server: druby://localhost:28282
     [Ctrl+C to stop]
 
@@ -76,10 +80,9 @@ In REPL, the `take' method which invokes all pipes is automatically called.
 
     $ ./bin/redgrape 
              T
-           ooooo
-    ------  ooo  ------
-      RED    o   GRAPE
-    -------------------
+           oOOOo
+            oOo
+    -------- O --------
     ruby-1.9.3-head :001 > store = RedGrape::GraphStore.open
      => #<RedGrape::GraphStore:0x007fb615137a90> 
     ruby-1.9.3-head :002 > store.graphs

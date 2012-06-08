@@ -25,11 +25,11 @@ opts.order! ARGV
 Signal.trap :INT, 'EXIT'
 RedGrape::GraphStore.start(OPT[:port], OPT[:dbfile]) do
   puts <<-EOS
-+=================+
-|  +     T     +  |
-| o0o  o000o  o0o |
-|  8    o0o    8  |
-|        0        |       
+  +=================+
+  |  +     T     +  |
+  | oOo  oOOOo  oOo |
+  |  8    oOo    8  |
+  |        O        |       
 Start server: #{DRb.uri}
 [Ctrl+C to stop]
   EOS

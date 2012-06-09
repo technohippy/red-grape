@@ -63,7 +63,7 @@ redGrape is an in-memory graph database written in ruby. I made this in order to
 
 In REPL, the `take' method which invokes all pipes is automatically called.
 
-## Client/Server:
+## Server/Client:
 
 ### Server:
 
@@ -83,15 +83,15 @@ In REPL, the `take' method which invokes all pipes is automatically called.
            oOOOo
             oOo
     -------- O --------
-    ruby-1.9.3-head :001 > store = RedGrape::GraphStore.open
+    ruby :001 > $store
      => #<RedGrape::GraphStore:0x007fb615137a90> 
-    ruby-1.9.3-head :002 > store.graphs
+    ruby :002 > $store.graphs
      => [:tinker] 
-    ruby-1.9.3-head :003 > g = store.graph :tinker
+    ruby :003 > g = $store.graph :tinker
      => redgrape[vertices:6 edges:6] 
-    ruby-1.9.3-head :004 > g.add_vertex 7
+    ruby :004 > g.add_vertex 7
      => redgrape[vertices:7 edges:6] 
-    ruby-1.9.3-head :005 > store.put_graph :tinker, g
+    ruby :005 > store.put_graph :tinker, g
      => redgrape[vertices:7 edges:6] 
 
 Changes on a graph are not committed until the put_graph method called.

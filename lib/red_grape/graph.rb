@@ -1,4 +1,3 @@
-require 'nokogiri'
 require 'red_grape/vertex'
 require 'red_grape/edge'
 require 'red_grape/property_description'
@@ -11,6 +10,7 @@ module RedGrape
         self.new.load filename
       end
 
+      # Returns the default graph which has 6 vertices and 6 edges.
       def create_tinker_graph
         self.new do |g|
           v1 = g.add_vertex 1, name:'marko', age:29
@@ -28,6 +28,7 @@ module RedGrape
         end
       end
 
+      # Returns the features as a hash
       def features
         {
           ignores_supplied_ids:false,
@@ -63,6 +64,9 @@ module RedGrape
 
     attr_accessor :serializer
       
+    # Returns a new instance
+    # _block_ :: a block which is given the instance as the first argument 
+    # to initialize it
     def initialize(&block)
       @serializer = Serializer::GraphMLSerializer.new self
       @vertices = {}
@@ -71,7 +75,7 @@ module RedGrape
       block.call self if block
     end
 
-    def items(type, *id)
+    def items(type, *id) # :nodoc:
       items = case type
         when :vertex, :vertices
           @vertices

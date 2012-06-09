@@ -88,6 +88,12 @@ module RedGrape
 
       def eval(args={}, &block)
         args.each {|k, v| self.send "#{k}=", v}
+        if @it
+          # so aggressive way...
+          def @it.loops=(l); @loops = l end
+          def @it.loops; @loops end
+          @it.loops = @loops
+        end
         instance_eval(&block)
       end
     end

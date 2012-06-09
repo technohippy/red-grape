@@ -59,8 +59,7 @@ class TraversalPatternsTest < Test::Unit::TestCase
     g = RedGrape.load_graph 'data/graph-example-2.xml'
     assert_equal 36, g.v(89).outE.inV.path.take.size
     
-    #path = g.v(89).outE.inV.loop(2){it.loops < 3}.path.take #TODO: it.
-    path = g.v(89).outE.inV.loop(2){loops < 3}.path.take.first
+    path = g.v(89).outE.inV.loop(2){it.loops < 3}.path.take.first
     assert_equal '[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]]', path.to_s
     assert_equal RedGrape::Vertex, path[0].class
     assert_equal RedGrape::Edge, path[1].class
@@ -68,7 +67,7 @@ class TraversalPatternsTest < Test::Unit::TestCase
     assert_equal RedGrape::Edge, path[3].class
     assert_equal RedGrape::Vertex, path[4].class
 
-    path = g.v(89).as('x').outE.inV.loop('x'){loops < 3}.path.take.first
+    path = g.v(89).as('x').outE.inV.loop('x'){it.loops < 3}.path.take.first
     assert_equal '[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]]', path.to_s
     assert_equal RedGrape::Vertex, path[0].class
     assert_equal RedGrape::Edge, path[1].class

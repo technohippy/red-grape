@@ -2,25 +2,25 @@
 
 * https://github.com/technohippy/red-grape
 
-## DESCRIPTION:
+## Description:
 
-RedGrape is an in-memory graph database written in ruby. I made this in order to learn how graph databases work so that please do not use this for any serious purpose.
+redGrape is an in-memory graph database written in ruby. I made this in order to learn how graph databases work so that please do not use this for any serious purpose.
 
-## FEATURES/PROBLEMS:
+## Features/Problems:
 
 * REPL
 * load GraphML
 * construct a graph programmatically
 * traverse nodes and edges
 
-## SYNOPSIS:
+## Synopsis:
 
     g1 = RedGrape.load_graph 'data/graph-example-1.xml'
     g1.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}.take
     # => [5]
 
     g2 = RedGrape.load_graph 'data/graph-example-2.xml'
-    g2.v(89).as('x').outE.inV.loop('x'){loops < 3}.path.take
+    g2.v(89).as('x').outE.inV.loop('x'){it.loops < 3}.path.take
     # => [[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]], [v[89], 
 
 ## REPL:
@@ -63,9 +63,9 @@ RedGrape is an in-memory graph database written in ruby. I made this in order to
 
 In REPL, the `take' method which invokes all pipes is automatically called.
 
-## CLIENT/SERVER:
+## Client/Server:
 
-### SERVER:
+### Server:
 
     $ ./bin/trellis
       +=================+
@@ -76,7 +76,7 @@ In REPL, the `take' method which invokes all pipes is automatically called.
     Start server: druby://localhost:28282
     [Ctrl+C to stop]
 
-### CLIENT:
+### Client:
 
     $ ./bin/redgrape 
              T
@@ -96,25 +96,25 @@ In REPL, the `take' method which invokes all pipes is automatically called.
 
 Changes on a graph are not committed until the put_graph method called.
 
-## REQUIREMENTS:
+## Requirements:
 
 * Nokogiri (http://nokogiri.org/)
 
-## DEVELOPERS:
+## Developers:
 
-After checking out the source, run:
+after checking out the source, run:
 
     $ rake newb
 
 This task will install any missing dependencies, run the tests/specs,
 and generate the RDoc.
 
-## REFERENCES:
+## References:
 
 * [Gremlin](https://github.com/tinkerpop/gremlin/wiki)
 * [Pipes](https://github.com/tinkerpop/pipes/wiki/)
 
-## LICENSE:
+## License:
 
 (The MIT License)
 

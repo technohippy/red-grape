@@ -30,35 +30,35 @@ redGrape is an in-memory graph database written in ruby. I made this application
            oOOOo
             oOo
     -------- O --------
-    ruby :001 > g = RedGrape.create_tinker_graph
+    irb(main):001:0> g = RedGrape.create_tinker_graph
      => redgrape[vertices:6 edges:6] 
-    ruby :002 > g.class
+    irb(main):002:0> g.class
      => RedGrape::Graph 
-    ruby :003 > g.V
+    irb(main):003:0> g.V
      => [v[1], v[2], v[3], v[4], v[5], v[6]] 
-    ruby :004 > g.V.name
+    irb(main):004:0> g.V.name
      => ["marko", "vadas", "lop", "josh", "ripple", "peter"] 
-    ruby :005 > g.E
+    irb(main):005:0> g.E
      => [e[7][1-knows->2], e[8][1-knows->4], e[9][1-created->3], e[10][4-created->5], e[11][4-created->3], e[12][6-created->3]] 
-    ruby :006 > v = g.v(1)
+    irb(main):006:0> v = g.v(1)
      => v[1] 
-    ruby :007 > "#{v.name} is #{v.age} years old."
+    irb(main):007:0> "#{v.name} is #{v.age} years old."
      => "marko is 29 years old." 
-    ruby :008 > v.out
+    irb(main):008:0> v.out
      => [v[2], v[4], v[3]] 
-    ruby :009 > v.out('knows')
+    irb(main):009:0> v.out('knows')
      => [v[2], v[4]] 
-    ruby :010 > v.outE
+    irb(main):010:0> v.outE
      => [e[7][1-knows->2], e[8][1-knows->4], e[9][1-created->3]] 
-    ruby :011 > v.outE('knows')
+    irb(main):011:0> v.outE('knows')
      => [e[7][1-knows->2], e[8][1-knows->4]] 
-    ruby :012 > v.outE.weight
+    irb(main):012:0> v.outE.weight
      => [0.5, 1.0, 0.4] 
-    ruby :013 > v.outE.has('weight', :lt, 1).inV
+    irb(main):013:0> v.outE.has('weight', :lt, 1).inV
      => [v[2], v[3]] 
-    ruby :014 > v.outE.filter{it.weight < 1}.inV
+    irb(main):014:0> v.outE.filter{it.weight < 1}.inV
      => [v[2], v[3]] 
-    ruby :015 > v.out('knows').filter{it.age > 30}.out('created').name
+    irb(main):015:0> v.out('knows').filter{it.age:0> 30}.out('created').name
      => ["ripple", "lop"] 
 
 In REPL, the `take' method which invokes all pipes is automatically called.
@@ -83,15 +83,15 @@ In REPL, the `take' method which invokes all pipes is automatically called.
            oOOOo
             oOo
     -------- O --------
-    ruby :001 > $store
+    irb(main):001:0> $store
      => #<RedGrape::GraphStore:0x007fb615137a90> 
-    ruby :002 > $store.graphs
+    irb(main):002:0> $store.graphs
      => [:tinker] 
-    ruby :003 > g = $store.graph :tinker
+    irb(main):003:0> g = $store.graph :tinker
      => redgrape[vertices:6 edges:6] 
-    ruby :004 > g.add_vertex 7
+    irb(main):004:0> g.add_vertex 7
      => redgrape[vertices:7 edges:6] 
-    ruby :005 > store.put_graph :tinker, g
+    irb(main):005:0> store.put_graph :tinker, g
      => redgrape[vertices:7 edges:6] 
 
 Changes on a graph are not committed until the put_graph method is called.

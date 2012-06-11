@@ -26,6 +26,10 @@ module RedGrape
         set_property k, v.default if v.has_default?
       end
     end
+
+    def property_keys
+      @property.keys
+    end
     
     # set property value with type checking if its definition exists
     def set_property(kid, v)
@@ -40,6 +44,18 @@ module RedGrape
       else
         self[kid] = v
       end
+    end
+
+    def property(k=nil)
+      if k
+        self[k]
+      else
+        @property
+      end
+    end
+
+    def remove_property(k)
+      @property.delete k.to_s
     end
 
     # set property value without type checking

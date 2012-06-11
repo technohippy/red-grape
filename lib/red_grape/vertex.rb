@@ -18,6 +18,35 @@ module RedGrape
       @in_edges = []
     end
 
+    # Returns edges
+    # _direction_ :: :out or :in
+    # _labels_ :: labels
+    def edges(direction, *labels)
+      edges = case direction
+        when :out, 'out'
+          @out_edges
+        when :in, 'in'
+          @in_edges
+        else
+          raise ArgumentError.new(':out or :in')
+        end
+      if labels.empty?
+        edges
+      else
+        edges.select {|e| labels.include? e.label}
+      end
+    end
+
+    def vertices(direction, *labels)
+      edges = edges direction, *labels
+      case direction
+      when :out, 'out'
+        edges.map &:target
+      when :in, 'in'
+        edges.map &:source
+      end
+    end
+
     def add_out_edge(edge)
       @out_edges << edge
     end

@@ -22,6 +22,22 @@ class VertexTest < Test::Unit::TestCase
     assert_raise(ArgumentError) {v.set_property :age, 'not integer'}
   end
 
+  def test_edges
+    g = RedGrape::Graph.create_tinker_graph
+    v = g.v(1)
+    assert_equal %w(7 8 9), v.edges(:out).map(&:id).sort
+    assert_equal %w(created), v.edges(:out, 'created').map(&:label)
+    assert_equal %w(knows knows), v.edges(:out, 'knows').map(&:label)
+  end
+
+  def test_vertices
+    g = RedGrape::Graph.create_tinker_graph
+    v = g.v(1)
+    assert_equal %w(2 3 4), v.vertices(:out).map(&:id).sort
+    assert_equal %w(lop), v.vertices(:out, 'created').map(&:name)
+    assert_equal %w(vadas josh), v.vertices(:out, 'knows').map(&:name)
+  end
+
   def test_method_missing
     g = RedGrape::Graph.new
     v = RedGrape::Vertex.new g, '12345'

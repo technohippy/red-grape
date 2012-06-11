@@ -4,14 +4,14 @@
 
 ## Description:
 
-redGrape is an in-memory graph database written in ruby. I made this in order to learn how graph databases work so that please do not use this for any serious purpose.
+redGrape is an in-memory graph database written in ruby. I made this application in order to learn how a graph database works so that please do not use this for any serious purpose.
 
 ## Features/Problems:
 
 * REPL
 * load GraphML
 * construct a graph programmatically
-* traverse nodes and edges
+* traverse nodes and edges using a gremlin-like DSL
 
 ## Synopsis:
 
@@ -94,7 +94,7 @@ In REPL, the `take' method which invokes all pipes is automatically called.
     ruby :005 > store.put_graph :tinker, g
      => redgrape[vertices:7 edges:6] 
 
-Changes on a graph are not committed until the put_graph method called.
+Changes on a graph are not committed until the put_graph method is called.
 
 ## Requirements:
 

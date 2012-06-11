@@ -5,6 +5,7 @@ module RedGrape
     include RedGrape::Pipe::Out
     include RedGrape::Pipe::OutE
     include RedGrape::Pipe::In
+    include RedGrape::Pipe::InE
     include RedGrape::Pipe::SideEffect
     include RedGrape::Pipe::As
     include RedGrape::Pipe::Fill

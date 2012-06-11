@@ -2,15 +2,15 @@
 $: << File.expand_path('../../lib', __FILE__)
 
 require 'optparse'
-require 'red_grape/graph_store'
-require 'red_grape/irg'
+require 'red_grape/tools/graph_store'
+require 'red_grape/tools/irg'
 require 'red_grape/version'
 
 # interprete options
 ::Version = RedGrape::VERSION
 COMMAND_LINE = "#{$0} #{ARGV.join(' ')}"
 OPT = {
-  port:RedGrape::GraphStore::DEFAULT_PORT
+  port:RedGrape::Tools::GraphStore::DEFAULT_PORT
 }
 opts = OptionParser.new
 opts.on('-p', '--port <port number>', 
@@ -20,7 +20,7 @@ opts.on_tail('-h', '--help', 'Show this message.'){puts(opts.help); exit}
 opts.order! ARGV
 
 # start
-RedGrape::IRG.start(OPT[:port]) do
+RedGrape::Tools::IRG.start(OPT[:port]) do
   puts <<-EOS
          T
        oOOOo

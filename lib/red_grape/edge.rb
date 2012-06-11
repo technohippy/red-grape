@@ -2,6 +2,9 @@ require 'red_grape/element'
 
 module RedGrape
   class Edge < Element
+    include RedGrape::Pipe::OutV
+    include RedGrape::Pipe::InV
+
     attr_reader :id, :source, :target, :label
 
     def initialize(graph, id, source, target, label, opts={})

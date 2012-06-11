@@ -22,6 +22,8 @@ require 'red_grape/pipe/retain_pipe'
 require 'red_grape/pipe/fill_pipe'
 require 'red_grape/pipe/group_count_pipe'
 require 'red_grape/pipe/cap_pipe'
+require 'red_grape/pipe/v_pipe'
+require 'red_grape/pipe/e_pipe'
 require 'red_grape/graph'
 
 module RedGrape

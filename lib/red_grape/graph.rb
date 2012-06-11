@@ -5,6 +5,9 @@ require 'red_grape/serializer/graphml_serializer'
 
 module RedGrape
   class Graph
+    include RedGrape::Pipe::V
+    include RedGrape::Pipe::E
+
     class << self
       def load(filename)
         self.new.load filename
@@ -107,19 +110,9 @@ module RedGrape
       items :vertex, *id
     end
 
-    def v(*id)
-      vertex(*id)._
-    end
-    alias V v
-
     def edge(*id)
       items :edge, *id
     end
-
-    def e(*id)
-      edge(*id)._
-    end
-    alias E e
 
     def add_vertex(id, v=nil)
       if v
@@ -219,6 +212,10 @@ module RedGrape
 
     def readonly?
       false
+    end
+
+    def shutdown
+      # do nothing
     end
 
     def dup

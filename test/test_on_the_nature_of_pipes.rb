@@ -9,7 +9,7 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
 
   def test_basic
     assert_equal '1',
-      @graph.v(1).id
+      @graph.v(1).take.id
 
     assert_equal %w(2 3 4), 
       @graph.v(1).out.take.map(&:id).sort
@@ -21,10 +21,10 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
     assert_equal 3, 
       paths.size
 
-    assert_equal [3, 3, 3], 
+    assert_equal [4, 4, 4], 
       paths.map(&:size)
 
-    assert_equal %w[OutPipe PropertyPipe(name) PathsPipe], 
+    assert_equal %w[V Out Property(name) Paths], 
       @graph.v(1).out.name.paths.to_a
   end
 
@@ -41,7 +41,7 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
     assert_equal [5], 
       @graph.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}.take.sort
 
-    assert_equal %w[OutPipe(knows) FilterPipe PropertyPipe(name) TransformPipe], 
+    assert_equal %w[V Out(knows) Filter Property(name) Transform], 
       @graph.v(1).out('knows').filter{it.age < 30}.name.transform{it.size}.to_a
   end
 
@@ -58,7 +58,7 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
     assert_equal %w(4 6), 
       @graph.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}.take.map(&:id).sort
 
-    assert_equal %w(SideEffectPipe OutPipe(created) InPipe(created) FilterPipe), 
+    assert_equal %w(V SideEffect Out(created) In(created) Filter), 
       @graph.v(1).side_effect{@x = it}.out('created').in('created').filter{it != @x}.to_a
   end
 
@@ -78,10 +78,10 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
     assert_equal %w(2),
       @graph.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).take.to_a.map(&:id)
 
-    assert_equal %w(OutPipe(knows) PropertyPipe(name) FilterPipe BackPipe),
+    assert_equal %w(V Out(knows) Property(name) Filter Back),
       @graph.v(1).out('knows').name.filter{it[0] == 'v'}.back(2).to_a
 
-    assert_equal %w(2 4),
+    assert_equal %w(2),
       @graph.v(1).out('knows').as('here').name.filter{it[0] == 'v'}.back('here').take.to_a.map(&:id)
   end
 
@@ -95,7 +95,7 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
     assert_equal %w(lop ripple),
       @graph.v(1).out.loop(1){loops < 3}.name.take.sort
 
-    assert_equal %w(OutPipe LoopPipe PropertyPipe(name)),
+    assert_equal %w(V Out Loop Property(name)),
       @graph.v(1).out.loop(1){loops < 3}.name.to_a
   end
 end

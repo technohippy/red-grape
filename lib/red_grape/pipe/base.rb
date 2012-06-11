@@ -23,7 +23,7 @@ module RedGrape
       end
 
       def pipe_name
-        self.class.name.split('::').last
+        self.class.name.split('::').last.sub(/Pipe$/, '')
       end
 
       def first?

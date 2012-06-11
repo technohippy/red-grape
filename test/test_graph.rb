@@ -81,18 +81,18 @@ class GraphTest < Test::Unit::TestCase
   def test_add_vertex
     g = RedGrape::Graph.new
     g.add_vertex id:1, val:'a'
-    v1 = g.v(1)
+    v1 = g.vertex(1)
     assert_equal '1', v1.id
     assert_equal 'a', v1.val
 
     g.add_vertex '2', val:'b'
-    v2 = g.v(2)
+    v2 = g.vertex(2)
     assert_equal '2', v2.id
     assert_equal 'b', v2.val
 
     v3 = RedGrape::Vertex.new nil, 3, val:'c'
     g.add_vertex '3', v3
-    assert_equal v3, g.v(3)
+    assert_equal v3, g.vertex(3)
     assert_equal '3', v3.id
     assert_equal 'c', v3.val
 
@@ -118,11 +118,11 @@ class GraphTest < Test::Unit::TestCase
     assert !v3.in_edges.map(&:id).include?(e23.id)
 
     g = RedGrape.create_tinker_graph
-    assert_equal 6, g.v.size
-    assert_equal 6, g.e.size
+    assert_equal 6, g.vertex.size
+    assert_equal 6, g.edge.size
     g.remove_vertex 1
-    assert_equal 5, g.v.size
-    assert_equal 3, g.e.size
+    assert_equal 5, g.vertex.size
+    assert_equal 3, g.edge.size
   end
 
   def test_add_edge
@@ -166,19 +166,19 @@ class GraphTest < Test::Unit::TestCase
     g2 = g1.readonly
     assert !g1.readonly?
     assert g2.readonly?
-    assert_equal 1, g2.v.size
+    assert_equal 1, g2.vertex.size
     assert_raise(NoMethodError) do
       g2.add_vertex 2
     end 
     g1.add_vertex 2
-    assert_equal 2, g1.v.size
-    assert_equal 1, g2.v.size
+    assert_equal 2, g1.vertex.size
+    assert_equal 1, g2.vertex.size
 
     g1.readonly!
     assert g1.readonly?
     assert_raise(NoMethodError) do
       g1.add_vertex 3
     end 
-    assert_equal 2, g1.v.size
+    assert_equal 2, g1.vertex.size
   end
 end

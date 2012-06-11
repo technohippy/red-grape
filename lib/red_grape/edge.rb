@@ -14,6 +14,10 @@ module RedGrape
       @label = label
     end
 
+    def vertex(direction)
+      directed_value direction, @target, @source
+    end
+
     def connected?(v)
       id = v.is_a?(Vertex) ? v.id : v
       @source.id == id.to_s || @target.id == id.to_s

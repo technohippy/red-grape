@@ -57,6 +57,8 @@ class ElementTest < Test::Unit::TestCase
     v = RedGrape::Vertex.new nil, 1, name:'ando', lang:'ruby'
     assert_equal 'ando', v.name 
     assert_equal 'ruby', v.lang
+    v.lang = 'javascript'
+    assert_equal 'javascript', v.lang
     assert_raise(NoMethodError) do
       v.unknow
     end

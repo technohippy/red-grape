@@ -75,8 +75,36 @@ module RedGrape
       self.class == obj.class && self.id == obj.id
     end
 
+    def directed_value(direction, out_value, in_value, error=true)
+      case direction.to_s
+      when 'out'
+        if out_value.is_a? Proc
+          out_value.call
+        else
+          out_value
+        end
+      when 'in'
+        if in_value.is_a? Proc
+          in_value.call
+        else
+          in_value
+        end
+      else error
+        raise ArgumentError.new '"out" or "in"'
+      end
+    end
+
     def method_missing(name, *args, &block)
-      self[name.to_s] or raise NoMethodError.new(name.to_s)
+      if name.to_s =~ /(.*)=$/
+        name = $1
+        if self[name]
+          self[name] = args.first
+        else
+          raise NoMethodError.new(name.to_s)
+        end
+      else
+        self[name.to_s] or raise NoMethodError.new(name.to_s)
+      end
     end
   end
 end

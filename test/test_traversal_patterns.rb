@@ -22,7 +22,7 @@ class TraversalPatternsTest < Test::Unit::TestCase
 
   # https://github.com/tinkerpop/gremlin/wiki/Flow-Rank-Pattern
   def test_flow_rank_pattern
-    assert_equal %w(3 5), @graph.V('lang', 'java').map(&:id).sort
+    assert_equal %w(3 5), @graph.V('lang', 'java').take.map(&:id).sort
     software = []
     @graph.V('lang', 'java').fill(software).take
     assert_equal %w(3 5), software.map(&:id).sort
@@ -39,27 +39,30 @@ class TraversalPatternsTest < Test::Unit::TestCase
 
   # https://github.com/tinkerpop/gremlin/wiki/Path-Pattern
   def test_path_pattern
-    assert_equal %w(josh lop vadas), @graph.v(1).out.name.take.sort
+    v1 = @graph.vertex(1)
 
-    path = @graph.v(1).out.name.path.take
+    assert_equal %w(josh lop vadas), v1.out.name.take.sort
+
+    path = v1.out.name.path.take
     assert_equal 3, path.size
     assert_equal 3, path.first.size
     assert_equal '[[v[1], v[2], "vadas"], [v[1], v[4], "josh"], [v[1], v[3], "lop"]]', path.to_s
 
-    path = @graph.v(1).outE.inV.name.path.take
+    path = v1.outE.inV.name.path.take
     assert_equal '[[v[1], e[7][1-knows->2], v[2], "vadas"], [v[1], e[8][1-knows->4], v[4], "josh"], [v[1], e[9][1-created->3], v[3], "lop"]]', path.to_s
 
     assert_equal(
       [["marko", 0.5, "vadas"], ["marko", 1.0, "josh"], ["marko", 0.4, "lop"]].to_s, 
-      @graph.v(1).outE.inV.path(proc{it.name}, proc{it.weight}, proc{it.name}).take.to_s
+      v1.outE.inV.path(proc{it.name}, proc{it.weight}, proc{it.name}).take.to_s
     )
   end
 
   def test_loop_pattern
     g = RedGrape.load_graph 'data/graph-example-2.xml'
+    v89 = g.vertex 89
     assert_equal 36, g.v(89).outE.inV.path.take.size
     
-    path = g.v(89).outE.inV.loop(2){it.loops < 3}.path.take.first
+    path = v89.outE.inV.loop(2){it.loops < 3}.path.take.first
     assert_equal '[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]]', path.to_s
     assert_equal RedGrape::Vertex, path[0].class
     assert_equal RedGrape::Edge, path[1].class
@@ -67,7 +70,7 @@ class TraversalPatternsTest < Test::Unit::TestCase
     assert_equal RedGrape::Edge, path[3].class
     assert_equal RedGrape::Vertex, path[4].class
 
-    path = g.v(89).as('x').outE.inV.loop('x'){it.loops < 3}.path.take.first
+    path = v89.as('x').outE.inV.loop('x'){it.loops < 3}.path.take.first
     assert_equal '[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]]', path.to_s
     assert_equal RedGrape::Vertex, path[0].class
     assert_equal RedGrape::Edge, path[1].class
@@ -75,7 +78,7 @@ class TraversalPatternsTest < Test::Unit::TestCase
     assert_equal RedGrape::Edge, path[3].class
     assert_equal RedGrape::Vertex, path[4].class
 
-    path = g.v(89).outE.inV.outE.inV.path.take.first
+    path = v89.outE.inV.outE.inV.path.take.first
     assert_equal '[v[89], e[7006][89-followed_by->127], v[127], e[7786][127-sung_by->340], v[340]]', path.to_s
     assert_equal RedGrape::Vertex, path[0].class
     assert_equal RedGrape::Edge, path[1].class

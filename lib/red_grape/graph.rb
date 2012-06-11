@@ -115,6 +115,7 @@ module RedGrape
     end
 
     def add_vertex(id, v=nil)
+      id = uid(@vertices.keys) unless id
       if v
         if v.is_a? Hash
           id = id.to_s
@@ -154,6 +155,7 @@ module RedGrape
     end
 
     def add_edge(id, from, to, label, opts={})
+      id = uid(@edges.keys) unless id
       if id.is_a? Edge
         raise ArgumentError.new "#{id.id} already exists." if @edges[id.id]
         @edges[id.id] = id
@@ -225,6 +227,15 @@ module RedGrape
       obj.instance_variable_set :@edges, @edges.dup
       obj.instance_variable_set :@property_descriptions, @property_descriptions.dup
       obj
+    end
+
+    def uid(denies=[])
+      id = "#{Time.now.to_i}-#{rand(10000)}"
+      if denies.include? id
+        uid denies
+      else
+        id
+      end
     end
 
     def to_s

@@ -9,7 +9,7 @@ module RedGrape
       end
 
       def pass(obj, context)
-        #pipelines = self.opts
+        #pipelines = self.opts.map do |pipeline|
         pipelines = @opts2.map do |pipeline| # TODO: opts2??
           pipe = pipeline.first_pipe
           pipe.prev = obj

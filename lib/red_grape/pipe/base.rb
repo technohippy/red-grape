@@ -2,6 +2,16 @@ require 'red_grape/pipe/context'
 
 module RedGrape
   module Pipe
+    class Pipelines # TODO: Arrayのpass_throughが邪魔して使えないので・・・
+      def initialize(pipes)
+        @pipes = pipes
+      end
+
+      def take(context)
+        @pipes.map {|p| p.take(context)}
+      end
+    end
+
     @@auto_take = false
 
     def self.auto_take
@@ -26,6 +36,12 @@ module RedGrape
         self.class.name.split('::').last.sub(/Pipe$/, '')
       end
 
+      def first_pipe
+        pipe = self
+        pipe = pipe.prev until pipe.first?
+        pipe
+      end
+
       def first?
         not @prev.kind_of? RedGrape::Pipe::Base
       end
@@ -38,9 +54,9 @@ module RedGrape
         not @value.nil?
       end
 
-      def take
+      def take(context=Context.new)
         if first?
-          context = Context.new
+          #context = Context.new
           val = @prev.pass_through self, context
           if context.aggregating?
             context.resume_from_aggregating
@@ -53,6 +69,7 @@ module RedGrape
           @prev.take
         end
       end
+      alias [] take
 
       def pass_next(context, pushed_obj, next_obj=nil, &block)
         next_obj ||= pushed_obj
@@ -73,6 +90,8 @@ module RedGrape
       def to_s
         Pipe.auto_take ? take.to_s : super
       end
+
+      def to_ary; nil end # TODO: i dont know why.
 
       def to_a
         pipe = self
@@ -112,8 +131,10 @@ module RedGrape
       end
 
       def method_missing(name, *args, &block)
+        #auto_take = name =~ /(.*)!$/ # TODO
+        #name = $1
         class_name = "#{name.to_s.sub(/^./){$&.upcase}.gsub(/_(.)/){$1.upcase}}Pipe"
-        args.unshift block if block
+        args.unshift block if block # 引数の数は変わるので、blockは必ず1番目に追加しておく
         pipe_class =
           if Pipe.const_defined? class_name
             eval "RedGrape::Pipe::#{class_name}"

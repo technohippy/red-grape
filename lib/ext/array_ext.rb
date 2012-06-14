@@ -3,7 +3,8 @@ class Array
     loops = context.loops
     map! do |e| 
       context.loops = loops
-      pipe.pass e._, context # TODO
+      #pipe.pass e._, context # TODO
+      pipe.pass e, context # TODO
     end
     context.loops = loops
     normalize_for_graph

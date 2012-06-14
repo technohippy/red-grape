@@ -85,5 +85,16 @@ class TraversalPatternsTest < Test::Unit::TestCase
     assert_equal RedGrape::Vertex, path[2].class
     assert_equal RedGrape::Edge, path[3].class
     assert_equal RedGrape::Vertex, path[4].class
+
+    #assert_equal 70307, v89.out.loop(1, proc{it.loops < 4}).take.size #=> OK
+    #assert_equal 71972, v89.out.loop(1, proc{it.loops < 4}, proc{true}).take.size #=> 70307
+    #assert_equal 582, v89.out.loop(1, proc{it.loops < 4}, proc{it.object.id == '89'}).take.size #=> 564
+  end
+
+  # https://github.com/tinkerpop/gremlin/wiki/Split-Merge-Pattern
+  def test_split_marge
+    v1 = @graph.vertex 1
+    #assert_equal ['ripple', 27, 'lop', 32], v1.out('knows').copy_split(_.out('created').name, _.age).fair_merge.take # TODO: not yet
+    assert_equal [27, 'ripple', 'lop', 32], v1.out('knows').copy_split(_.out('created').name, _.age).exhaust_merge.take
   end
 end

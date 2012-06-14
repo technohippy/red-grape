@@ -138,6 +138,13 @@ class GraphTest < Test::Unit::TestCase
     assert v3.in_edges.map(&:id).include?(e23.id)
   end
 
+  def test_auto_index
+    g = RedGrape::Graph.new
+    g.add_vertex RedGrape::Graph::UID, name:'ando'
+    assert_equal 1, g.vertex.size
+    assert_not_nil g.vertex.first.id
+  end
+
   def test_remove_edge
     g = RedGrape::Graph.new
     v1 = g.add_vertex 1

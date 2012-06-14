@@ -5,6 +5,8 @@ require 'red_grape/serializer/graphml_serializer'
 
 module RedGrape
   class Graph
+    UID = nil
+
     include RedGrape::Pipe::V
     include RedGrape::Pipe::E
 
@@ -229,8 +231,8 @@ module RedGrape
       obj
     end
 
-    def uid(denies=[])
-      id = "#{Time.now.to_i}-#{rand(10000)}"
+    def uid(denies=[]) # :nodoc:
+      id = "##{Time.now.to_i}-#{rand(10000)}"
       if denies.include? id
         uid denies
       else

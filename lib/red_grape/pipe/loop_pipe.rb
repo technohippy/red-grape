@@ -3,8 +3,14 @@ require 'red_grape/pipe/base'
 module RedGrape
   module Pipe
     class LoopPipe < Pipe::Base
+      LoopContext = Struct.new :loops, :path, :object
+
       def pass(obj, context)
-        condition, label = *self.opts
+        if self.opts.first.is_a? Proc
+          loop_condition, label = *self.opts
+        else
+          label, loop_condition, emit_condition = *self.opts
+        end
 
         anchor_pipe = self;
         case label
@@ -18,11 +24,16 @@ module RedGrape
           raise 'label should be an integer or a string.'
         end
         context.loops += 1
-        if context.eval :it => obj, &condition
+        it = LoopContext.new context.loops, context.history, obj
+        if context.eval :it => it, &loop_condition
           obj.pass_through anchor_pipe, context
         else
           context.loops = 1
-          pass_next context, nil, obj
+          if emit_condition && !context.eval(:it => it, &emit_condition)
+            nil
+          else
+            pass_next context, nil, obj
+          end
         end
       end
     end

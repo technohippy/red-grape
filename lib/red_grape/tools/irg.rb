@@ -55,7 +55,7 @@ Subcommands:
       def start(port=nil, &block)
         Kernel.module_eval %Q{
           def redgrape?(key=nil)
-            RedGrape::IRG::Help.redgrape? key
+            RedGrape::Tools::IRG::Help.redgrape? key
           end
           alias rg? redgrape?
         }

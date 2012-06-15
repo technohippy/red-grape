@@ -1,7 +1,10 @@
+module RedGrape
+  VERSION = '0.0.10'
+end
+
 require 'ext/nil_class_ext'
 require 'ext/object_ext'
 require 'ext/array_ext'
-require 'red_grape/version'
 require 'red_grape/pipe/aggregate_pipe'
 require 'red_grape/pipe/as_pipe'
 require 'red_grape/pipe/back_pipe'
@@ -11,8 +14,10 @@ require 'red_grape/pipe/except_pipe'
 require 'red_grape/pipe/exhaust_merge_pipe'
 require 'red_grape/pipe/fill_pipe'
 require 'red_grape/pipe/filter_pipe'
+require 'red_grape/pipe/group_by_pipe'
 require 'red_grape/pipe/group_count_pipe'
 require 'red_grape/pipe/has_pipe'
+require 'red_grape/pipe/has_not_pipe'
 require 'red_grape/pipe/if_then_else_pipe'
 require 'red_grape/pipe/in_pipe'
 require 'red_grape/pipe/in_e_pipe'

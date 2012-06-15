@@ -23,7 +23,7 @@ module RedGrape
     end
 
     class Base
-      attr_accessor :opts, :prev, :next, :value
+      attr_accessor :opts, :prev, :next, :value, :it
 
       def initialize(prev, *opts, &block)
         @prev = prev
@@ -56,7 +56,6 @@ module RedGrape
 
       def take(context=Context.new)
         if first?
-          #context = Context.new
           val = @prev.pass_through self, context
           if context.aggregating?
             context.resume_from_aggregating
@@ -85,6 +84,11 @@ module RedGrape
             next_obj.pass_through self.next, ctx
           end
         end
+      end
+
+      def pipe_eval(params={}, &block)
+        params.each {|k, v| self.send "#{k}=", v}
+        instance_eval(&block)
       end
 
       def to_s

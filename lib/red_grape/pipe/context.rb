@@ -76,7 +76,7 @@ module RedGrape
       end
 
       def resume_from_grouping
-        obj, pipe = *@grouping_items.first # TODO: is '.first' ok?
+        obj, pipe = *@grouping_items.first # TODO: '.first' is used to get next_pipe.
         if pipe
           push_history obj do |ctx|
             obj.pass_through(pipe, ctx)

@@ -9,7 +9,7 @@ module RedGrape
         @marks = {}
         @aggregating_items = {}
         @aggregated_items = {}
-        @grouping_items = []
+        @grouping_items = {}
         @loops = 1
       end
 
@@ -66,8 +66,8 @@ module RedGrape
         ret.normalize_for_graph
       end
 
-      def group(val, next_pipe)
-        @grouping_items << [val, next_pipe]
+      def group(next_pipe, key, val=key)
+        (@grouping_items[key] ||= []) << [val, next_pipe]
         val
       end
 
@@ -76,10 +76,10 @@ module RedGrape
       end
 
       def resume_from_grouping
-        obj, pipe = *@grouping_items.first # TODO: '.first' is used to get next_pipe.
+        obj, pipe = *@grouping_items.values.first.first # TODO: '.first' is used to get next_pipe.
         if pipe
           push_history obj do |ctx|
-            obj.pass_through(pipe, ctx)
+            obj.pass_through pipe, ctx
           end
         else
           obj

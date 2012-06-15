@@ -123,9 +123,34 @@ class TraversalPatternsTest < Test::Unit::TestCase
       {'cover'=>313, 'original'=>184}, 
       @g2.V.has_not('song_type', nil).group_count(proc{it.song_type}).cap.take
     )
-    assert_equal(
-      {},
-      @g2.V.has_not('song_type', nil).group_by(proc{it.song_type}, proc{it}).cap.take
-    )
+
+    ret = @g2.V.has_not('song_type', nil).group_by(proc{it.song_type}, proc{it}).cap.take
+    assert_equal 2, ret.keys.size
+    assert_equal 313, ret.values[0].size
+    assert ret.values[0].all?{|e| e.is_a? RedGrape::Vertex}
+    assert_equal 184, ret.values[1].size
+    assert ret.values[1].all?{|e| e.is_a? RedGrape::Vertex}
+
+    ret = @g2.V.has_not('song_type', nil).group_by(_{it.song_type}, _{it.name}).cap.take
+    assert_equal 2, ret.keys.size
+    assert_equal 313, ret.values[0].size
+    assert ret.values[0].all?{|e| e.is_a? String}
+    assert_equal 184, ret.values[1].size
+    assert ret.values[1].all?{|e| e.is_a? String}
+    assert_equal 'HEY BO DIDDLEY', ret.values[0][0]
+    assert_equal 'BERTHA', ret.values[1][0]
+
+    ret = @g2.V.has_not('song_type', nil).group_by(_{it.song_type}, _{1}).cap.take
+    assert_equal 2, ret.keys.size
+    assert ret.values[0].all?{|e| e == 1}
+    assert ret.values[1].all?{|e| e == 1}
+
+    ret = @g2.V.has_not('song_type', nil).group_by(_{it.song_type}, _{1}, _{it.size}).cap.take
+    assert_equal 313, ret.values[0]
+    assert_equal 184, ret.values[1]
+
+    ret = @g2.V.has_not('song_type', nil).group_by(_{it.song_type}, _{it.out('sung_by').take}, _{it._.name.group_count.cap.take}).cap.take
+    assert_equal 66, ret[0]['cover']['Weir']
+    assert_equal 33, ret[0]['original']['Weir']
   end
 end

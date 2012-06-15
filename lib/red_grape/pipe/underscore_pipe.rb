@@ -3,8 +3,12 @@ require 'red_grape/pipe/base'
 module RedGrape
   module Pipe
     module Underscore
-      def _(*opts)
-        UnderscorePipe.new self.dup, *opts#
+      def _(*opts, &block)
+        if block
+          Proc.new &block
+        else
+          UnderscorePipe.new self.dup, *opts#
+        end
       end
     end
 

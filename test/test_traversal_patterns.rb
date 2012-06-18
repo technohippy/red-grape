@@ -53,7 +53,7 @@ class TraversalPatternsTest < Test::Unit::TestCase
 
     assert_equal(
       [["marko", 0.5, "vadas"], ["marko", 1.0, "josh"], ["marko", 0.4, "lop"]].to_s, 
-      v1.outE.inV.path(proc{it.name}, proc{it.weight}, proc{it.name}).take.to_s
+      v1.outE.inV.path(_{it.name}, _{it.weight}, _{it.name}).take.to_s
     )
   end
 
@@ -88,17 +88,17 @@ class TraversalPatternsTest < Test::Unit::TestCase
 
     #assert_equal(
     #  70307, 
-    #  v89.out.loop(1, proc{it.loops < 4}).take.size
+    #  v89.out.loop(1, _{it.loops < 4}).take.size
     #) #=> OK
 
     #assert_equal(
     #  71972, 
-    #  v89.out.loop(1, proc{it.loops < 4}, proc{true}).take.size
+    #  v89.out.loop(1, _{it.loops < 4}, _{true}).take.size
     #) #=> 70307
 
     #assert_equal(
     #  582, 
-    #  v89.out.loop(1, proc{it.loops < 4}, proc{it.object.id == '89'}).take.size 
+    #  v89.out.loop(1, _{it.loops < 4}, _{it.object.id == '89'}).take.size 
     #) #=> 564
   end
 
@@ -122,10 +122,10 @@ class TraversalPatternsTest < Test::Unit::TestCase
     @g2 ||= RedGrape.load_graph 'data/graph-example-2.xml'
     assert_equal(
       {'cover'=>313, 'original'=>184}, 
-      @g2.V.has_not('song_type', nil).group_count(proc{it.song_type}).cap.take
+      @g2.V.has_not('song_type', nil).group_count(_{it.song_type}).cap.take
     )
 
-    ret = @g2.V.has_not('song_type', nil).group_by(proc{it.song_type}, proc{it}).cap.take
+    ret = @g2.V.has_not('song_type', nil).group_by(_{it.song_type}, _{it}).cap.take
     assert_equal 2, ret.keys.size
     assert_equal 313, ret.values[0].size
     assert ret.values[0].all?{|e| e.is_a? RedGrape::Vertex}

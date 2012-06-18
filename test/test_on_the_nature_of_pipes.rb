@@ -65,7 +65,7 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
   def test_if_then_else
     #assert_equal ['vadas', ['ripple', 'lop']], 
     assert_equal ['vadas', 'ripple', 'lop'], 
-      @graph.v(1).out('knows').if_then_else(proc{it.age < 30}, proc{it.name}, proc{it.out('created').name}).take.to_a
+      @graph.v(1).out('knows').if_then_else(_{it.age < 30}, _{it.name}, _{it.out('created').name}).take.to_a
   end
 
   def test_back

@@ -2,9 +2,9 @@
 $: << File.expand_path('../../lib', __FILE__)
 
 require 'optparse'
+require 'red_grape'
 require 'red_grape/tools/graph_store'
 require 'red_grape/tools/irg'
-require 'red_grape/version'
 
 # interprete options
 ::Version = RedGrape::VERSION

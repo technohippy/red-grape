@@ -10,6 +10,7 @@ module RedGrape
         @aggregating_items = {}
         @aggregated_items = {}
         @grouping_items = {}
+        @gathering_items = []
         @loops = 1
       end
 
@@ -83,6 +84,32 @@ module RedGrape
           end
         else
           obj
+        end
+      end
+
+      def gather(obj, next_pipe)
+        @gathering_items << [obj, next_pipe]
+      end
+
+      def gathering?
+        not @gathering_items.empty?
+      end
+
+      def clear_gathering
+        @gathering_items.clear
+      end
+
+      def resume_from_gathering
+        obj, pipe = *@gathering_items.first
+        objs = @gathering_items.map &:first
+        objs.should_pass_through_whole = true
+        if pipe
+          push_history objs do |ctx|
+            pipe.prev = objs
+            pipe.take ctx
+          end
+        else
+          objs
         end
       end
 

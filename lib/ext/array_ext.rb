@@ -1,12 +1,18 @@
 class Array
+  attr_accessor :should_pass_through_whole #TODO
+
   def pass_through(pipe, context)
-    loops = context.loops
-    map! do |e| 
+    if @should_pass_through_whole
+      super
+    else
+      loops = context.loops
+      map! do |e| 
+        context.loops = loops
+        pipe.pass e, context
+      end
       context.loops = loops
-      pipe.pass e, context
+      normalize_for_graph
     end
-    context.loops = loops
-    normalize_for_graph
   end
 
   def normalize_for_graph

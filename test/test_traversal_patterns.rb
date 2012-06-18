@@ -117,6 +117,7 @@ class TraversalPatternsTest < Test::Unit::TestCase
     )
   end
 
+  # https://github.com/tinkerpop/gremlin/wiki/MapReduce-Pattern
   def test_map_reduce_pattern
     @g2 ||= RedGrape.load_graph 'data/graph-example-2.xml'
     assert_equal(
@@ -152,5 +153,11 @@ class TraversalPatternsTest < Test::Unit::TestCase
     ret = @g2.V.has_not('song_type', nil).group_by(_{it.song_type}, _{it.out('sung_by').take}, _{it._.name.group_count.cap.take}).cap.take
     assert_equal 66, ret[0]['cover']['Weir']
     assert_equal 33, ret[0]['original']['Weir']
+  end
+
+  # https://github.com/tinkerpop/gremlin/wiki/Depth-First-vs.-Breadth-First
+  def test_depth_first_vs_bredth_first
+    assert_equal %w(1 4 6), @g1.v(1).out_e('created').in_v.in_e('created').out_v.take.map(&:id)
+    assert_equal %w(1 4 6), @g1.v(1).out_e('created').gather.scatter.in_v.gather.scatter.in_e('created').gather.scatter.out_v.gather.scatter.take.map(&:id)
   end
 end

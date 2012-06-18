@@ -4,6 +4,7 @@ module RedGrape
   module Pipe
     class GroupByPipe < Pipe::Base
       attr_accessor :reduce_function
+
       def pass(obj, context)
         key_function, value_function, @reduce_function = *self.opts
         value_function ||= proc{it}

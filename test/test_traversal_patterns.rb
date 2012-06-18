@@ -103,7 +103,7 @@ class TraversalPatternsTest < Test::Unit::TestCase
   end
 
   # https://github.com/tinkerpop/gremlin/wiki/Split-Merge-Pattern
-  def test_split_marge_pattern
+  def test_split_merge_pattern
     v1 = @g1.vertex 1
 
     #assert_equal(

@@ -11,6 +11,7 @@ module RedGrape
         @aggregated_items = {}
         @grouping_items = {}
         @gathering_items = []
+        @counting_items = []
         @loops = 1
       end
 
@@ -111,6 +112,20 @@ module RedGrape
         else
           objs
         end
+      end
+
+      def count(obj, next_pipe)
+        @counting_items << obj
+      end
+
+      def counting?
+        not @counting_items.empty?
+      end
+
+      def resume_from_counting
+        size = @counting_items.size
+        @counting_items.clear
+        size
       end
 
       def eval(args={}, &block)

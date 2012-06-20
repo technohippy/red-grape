@@ -17,4 +17,3 @@ module RedGrape
     end
   end
 end
-

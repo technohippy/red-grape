@@ -57,12 +57,15 @@ module RedGrape
       def take(context=Context.new)
         if first?
           val = @prev.pass_through self, context
+          # TODO: should be refactored
           if context.aggregating?
             context.resume_from_aggregating
           elsif context.grouping?
             context.resume_from_grouping
           elsif context.gathering?
             context.resume_from_gathering
+          elsif context.counting?
+            context.resume_from_counting
           else
             val
           end

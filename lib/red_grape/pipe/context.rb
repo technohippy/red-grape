@@ -2,7 +2,7 @@ module RedGrape
   module Pipe
     class Context
       attr_accessor :it, :loops
-      attr_reader :history, :grouping_items
+      attr_reader :history, :grouping_items, :marks
 
       def initialize
         @history = []

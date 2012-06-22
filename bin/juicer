@@ -4,7 +4,7 @@ $: << File.expand_path('../../lib', __FILE__)
 require 'sinatra'
 require 'red_grape'
 
-use Rack::Static, :urls => ["/js"], :root => "public"
+use Rack::Static, :urls => ['/cellar', '/js', '/css'], :root => 'public'
 
 graphs = {
   'tinkergraph' => RedGrape.create_tinker_graph
@@ -25,7 +25,7 @@ get '/' do
         '/graphs/[graph]/vertices/[vertex]/both',
         '/graphs/[graph]/vertices/[vertex]/[dir]?_label=[label]',
         '/graphs/[graph]/edges',
-        '/graphs/[graph]/edges/[edge]'
+        '/graphs/[graph]/edges/[edge]',
         '/graphs/[graph]/vertices/[edge]/outE',
         '/graphs/[graph]/vertices/[edge]/inE',
         '/graphs/[graph]/vertices/[edge]/bothE',
@@ -108,3 +108,4 @@ get %r{/graphs/([^/]+)/vertices/([^/]+)/(out_e|in_e|both_e|outE|inE|bothE)/?$} d
     vertex.send(dir)[].map(&:to_h).to_pretty_json
   end
 end
+

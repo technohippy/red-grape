@@ -2,9 +2,9 @@ require 'red_grape/pipe/base'
 
 module RedGrape
   module Pipe
-    class MapPipe < Pipe::Base
+    class SelectPipe < Pipe::Base
       def pass(obj, context)
-        obj.property
+        context.marks
       end
     end
   end

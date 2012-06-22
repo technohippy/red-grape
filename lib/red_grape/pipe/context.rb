@@ -12,6 +12,7 @@ module RedGrape
         @grouping_items = {}
         @gathering_items = []
         @counting_items = []
+        @ordering_items = []
         @loops = 1
       end
 
@@ -127,6 +128,19 @@ module RedGrape
         @counting_items.clear
         size
       end
+
+      def order(obj, next_pipe)
+        @ordering_items << obj
+      end
+
+      def ordering?
+        not @ordering_items.empty?
+      end
+
+      def resume_from_ordering
+        @ordering_items.sort
+      end
+
 
       def eval(args={}, &block)
         args.each {|k, v| self.send "#{k}=", v}

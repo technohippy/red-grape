@@ -66,6 +66,8 @@ module RedGrape
             context.resume_from_gathering
           elsif context.counting?
             context.resume_from_counting
+          elsif context.ordering?
+            context.resume_from_ordering
           else
             val
           end

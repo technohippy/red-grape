@@ -75,6 +75,10 @@ module RedGrape
       self.class == obj.class && self.id == obj.id
     end
 
+    def <=>(other)
+      self.id <=> other.id
+    end
+
     def directed_value(direction, out_value, in_value, error=true)
       case direction.to_s
       when 'out'

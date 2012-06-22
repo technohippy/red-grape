@@ -99,6 +99,7 @@ Changes on a graph are not committed until the put_graph method is called.
 ## Requirements:
 
 * Nokogiri (http://nokogiri.org/)
+* Sinatra (http://www.sinatrarb.com/)
 
 ## Developers:
 

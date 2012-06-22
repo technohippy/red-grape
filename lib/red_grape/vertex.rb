@@ -2,6 +2,7 @@ require 'red_grape/element'
 
 module RedGrape
   class Vertex < Element
+    include RedGrape::Pipe::Both
     include RedGrape::Pipe::Out
     include RedGrape::Pipe::OutE
     include RedGrape::Pipe::In
@@ -46,6 +47,16 @@ module RedGrape
 
     def to_s
       "v[#{@id}]"
+    end
+
+    def to_h
+      {
+        version: RedGrape::VERSION,
+        results: {
+          _type: '_vertex',
+          _id: @id
+        }.merge(@property)
+      }
     end
   end
 end

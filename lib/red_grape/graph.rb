@@ -243,5 +243,16 @@ module RedGrape
     def to_s
       "redgrape[vertices:#{@vertices.size} edges:#{@edges.size}]"
     end
+
+    def to_h
+      {
+        version:RedGrape::VERSION,
+        name:'-',
+        graph:to_s,
+        features:self.class.features,
+        readOnly:readonly?,
+        type:self.class.name
+      }
+    end
   end
 end

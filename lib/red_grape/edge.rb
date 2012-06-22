@@ -29,5 +29,18 @@ module RedGrape
     def to_s
       "e[#{@id}][#{@source.id}-#{@label}->#{@target.id}]"
     end
+
+    def to_h
+      {
+        version: RedGrape::VERSION,
+        results: {
+          _type: '_edge',
+          _id: @id,
+          _label: @label,
+          _source: @source.id,
+          _target: @target.id
+        }.merge(@property)
+      }
+    end
   end
 end

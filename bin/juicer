@@ -1,0 +1,110 @@
+#!/usr/bin/env ruby
+$: << File.expand_path('../../lib', __FILE__)
+
+require 'sinatra'
+require 'red_grape'
+
+use Rack::Static, :urls => ["/js"], :root => "public"
+
+graphs = {
+  'tinkergraph' => RedGrape.create_tinker_graph
+}
+
+get '/' do
+  {
+    version: RedGrape::VERSION,
+    supportedPaths: {
+      GET: [
+        '/graphs',
+        '/graphs/[graph]',
+        '/graphs/[graph]/vertices',
+        '/graphs/[graph]/vertices?key=[key]&value=[value]',
+        '/graphs/[graph]/vertices/[vertex]',
+        '/graphs/[graph]/vertices/[vertex]/out',
+        '/graphs/[graph]/vertices/[vertex]/in',
+        '/graphs/[graph]/vertices/[vertex]/both',
+        '/graphs/[graph]/vertices/[vertex]/[dir]?_label=[label]',
+        '/graphs/[graph]/edges',
+        '/graphs/[graph]/edges/[edge]'
+        '/graphs/[graph]/vertices/[edge]/outE',
+        '/graphs/[graph]/vertices/[edge]/inE',
+        '/graphs/[graph]/vertices/[edge]/bothE',
+        '/graphs/[graph]/vertices/[edge]/[dir]E?_label=[label]',
+      ],
+      POST: [
+        #'/graphs/[graph]/vertices',
+        #'/graphs/[graph]/vertices/[vertex]',
+        #'/graphs/[graph]/vertices/[vertex]?[key1]=[value1]&[key2]=[value2]',
+        #'/graphs/[graph]/edges?_outV=[vertex1]&_label=[label]&_inV=[vertex2]&[key1]=[value1]&=[key2]=[value2]',
+        #'/graphs/[graph]/edges/[edge]?_outV=[vertex1]&_label=[label]&_inV=[vertex2]&[key1]=[value1]&=[key2]=[value2]',
+        #'/graphs/[graph]/edges/[edge]?[key1]=[key2]'
+      ],
+      PUT: [
+        #'/graphs/[graph]/vertices/[vertex]?[key1]=[value1]&[key2]=[value2]',
+        #'/graphs/[graph]/edges/[edge]?[key1]=[value1]&[key2]=[value2]'
+      ],
+      DELETE: [
+        #'/graphs/[graph]/vertices/[vertex]',
+        #'/graphs/[graph]/vertices/[vertex]?[key1]&[key2]',
+        #'/graphs/[graph]/edges/[edge]',
+        #'/graphs/[graph]/edges/[edge]?[key1]&[key2]'
+      ]
+    }
+  }.to_pretty_json
+end
+
+get %r{/graphs/?$} do
+  {
+    version: RedGrape::VERSION,
+    name: 'Juicer: A Graph Server',
+    graphs: graphs.keys
+  }.to_pretty_json
+end
+
+get %r{/graphs/([^/]+)/?$} do |graph_id|
+  graphs[graph_id].to_h.to_pretty_json
+end
+
+get %r{/graphs/([^/]+)/vertices/?$} do |graph_id|
+  graph = graphs[graph_id]
+  k, v = params['key'], params['value']
+  vertices =
+    if k
+      graph.vertex.find_all{|e| e[k].to_s == v}
+    else
+      graph.vertex
+    end
+  vertices.map(&:to_h).to_pretty_json
+end
+
+get %r{/graphs/([^/]+)/vertices/([^/]+)/?$} do |graph_id, vertex_id|
+  graphs[graph_id].vertex(vertex_id).to_h.to_pretty_json
+end
+
+get %r{/graphs/([^/]+)/vertices/([^/]+)/(out|in|both)/?$} do |graph_id, vertex_id, dir|
+  label = params['_label']
+  vertex = graphs[graph_id].vertex(vertex_id)
+  if label
+    vertex.send(dir, label)[].map(&:to_h).to_pretty_json
+  else
+    vertex.send(dir)[].map(&:to_h).to_pretty_json
+  end
+end
+
+get %r{/graphs/([^/]+)/edges/?$} do |graph_id|
+  graphs[graph_id].edge.map(&:to_h).to_pretty_json
+end
+
+get %r{/graphs/([^/]+)/edges/([^/]+)/?$} do |graph_id, edge_id|
+  graphs[graph_id].edge(edge_id).to_h.to_pretty_json
+end
+
+get %r{/graphs/([^/]+)/vertices/([^/]+)/(out_e|in_e|both_e|outE|inE|bothE)/?$} do |graph_id, vertex_id, dir|
+  label = params['_label']
+  vertex = graphs[graph_id].vertex(vertex_id)
+  if label
+    vertex.send(dir, label)[].map(&:to_h).to_pretty_json
+  else
+    vertex.send(dir)[].map(&:to_h).to_pretty_json
+  end
+end

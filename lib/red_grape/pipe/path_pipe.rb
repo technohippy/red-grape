@@ -1,9 +1,18 @@
+require 'forwardable'
 require 'red_grape/pipe/base'
-require 'red_grape/path_group'
 
 module RedGrape
+  class PathGroup
+    extend Forwardable
+    def_delegators :@paths, :size, :to_s, :[], :first, :last
+
+    def initialize(ary)
+      @paths = ary.dup
+    end
+  end
+
   module Pipe
-    class PathsPipe < Pipe::Base
+    class PathPipe < Pipe::Base
       def pass(obj, context)
         context.push_history obj do |ctx|
           history = ctx.history.dup
@@ -26,6 +35,6 @@ module RedGrape
       end
     end
 
-    PathPipe = PathsPipe
+    PathsPipe = PathPipe
   end
 end

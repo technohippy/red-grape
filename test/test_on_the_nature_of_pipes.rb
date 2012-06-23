@@ -17,7 +17,6 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
     assert_equal %w(josh lop vadas), 
       @graph.v(1).out.name[].sort
 
-    #paths = @graph.v(1).out.name.paths[]
     paths = @graph.v(1).out.name.paths[]
     assert_equal 3, 
       paths.size
@@ -25,7 +24,7 @@ class OnTheNatureOfPipesTest < Test::Unit::TestCase
     assert_equal [4, 4, 4], 
       paths.map(&:size)
 
-    assert_equal %w[V Out Property(name) Paths], 
+    assert_equal %w[V Out Property(name) Path], 
       @graph.v(1).out.name.paths.to_a
   end
 

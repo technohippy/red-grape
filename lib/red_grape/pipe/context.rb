@@ -11,8 +11,11 @@ module RedGrape
         @aggregated_items = {}
         @grouping_items = {}
         @gathering_items = []
-        @counting_items = []
-        @ordering_items = []
+        #@counting_items = []
+        #@ordering_items = []
+
+        @accumulated_items = {}
+
         @loops = 1
       end
 
@@ -97,13 +100,10 @@ module RedGrape
         not @gathering_items.empty?
       end
 
-      def clear_gathering
-        @gathering_items.clear
-      end
-
       def resume_from_gathering
         obj, pipe = *@gathering_items.first
         objs = @gathering_items.map &:first
+        @gathering_items.clear
         objs.should_pass_through_whole = true
         if pipe
           push_history objs do |ctx|
@@ -115,30 +115,59 @@ module RedGrape
         end
       end
 
+      def accumulate(key, obj, &block)
+        items = (@accumulated_items[key] ||= {})
+        (items[:objects] ||= []) << obj
+        items[:resume_block] = block if block
+      end
+
+      def accumulating?(key)
+        not @accumulated_items[key].nil?
+      end
+
+      def resume_from_accumulating(key, should_clear=true)
+        ret = nil
+        if items = @accumulated_items[key]
+          ret = items[:resume_block].call(items[:objects]) if items[:resume_block]
+        end
+        @accumulated_items[key] = nil if should_clear
+        ret
+      end
+
       def count(obj, next_pipe)
-        @counting_items << obj
+        #@counting_items << obj
+        accumulate :count, obj do |objs|
+          objs.size
+        end
       end
 
       def counting?
-        not @counting_items.empty?
+        #not @counting_items.empty?
+        accumulating? :count
       end
 
       def resume_from_counting
-        size = @counting_items.size
-        @counting_items.clear
-        size
+        #size = @counting_items.size
+        #@counting_items.clear
+        #size
+        resume_from_accumulating :count
       end
 
       def order(obj, next_pipe)
-        @ordering_items << obj
+        #@ordering_items << obj
+        accumulate :order, obj do |objs|
+          objs.sort
+        end
       end
 
       def ordering?
-        not @ordering_items.empty?
+        #not @ordering_items.empty?
+        accumulating? :order
       end
 
       def resume_from_ordering
-        @ordering_items.sort
+        #@ordering_items.sort
+        resume_from_accumulating :order
       end
 
 

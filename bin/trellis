@@ -3,13 +3,13 @@ $: << File.expand_path('../../lib', __FILE__)
 
 require 'optparse'
 require 'red_grape'
-require 'red_grape/tools/graph_store'
+require 'red_grape/tools/trellis'
 
 # interprete options
 ::Version = RedGrape::VERSION
 COMMAND_LINE = "#{$0} #{ARGV.join(' ')}"
 OPT = {
-  port:RedGrape::Tools::GraphStore::DEFAULT_PORT,
+  port:RedGrape::Tools::Trellis::DEFAULT_PORT,
   dbfile:'dbfile.bin'
 }
 opts = OptionParser.new
@@ -23,7 +23,7 @@ opts.order! ARGV
 
 # start
 Signal.trap :INT, 'EXIT'
-RedGrape::Tools::GraphStore.start(OPT[:port], OPT[:dbfile]) do
+RedGrape::Tools::Trellis.start(OPT[:port], OPT[:dbfile]) do
   puts <<-EOS
   +=================+
   |  +     T     +  |

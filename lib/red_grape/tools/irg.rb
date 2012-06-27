@@ -2,7 +2,7 @@ require 'drb/drb'
 require 'irb'
 require 'irb/completion'
 require 'red_grape'
-require 'red_grape/tools/graph_store'
+require 'red_grape/tools/trellis'
 
 module RedGrape
   module Tools
@@ -61,7 +61,7 @@ Subcommands:
         }
 
         RedGrape.set_auto_take
-        $store = RedGrape::Tools::GraphStore.open port if port
+        $store = RedGrape::Tools::Trellis.open port if port
         block.call if block
         IRB.start
       end

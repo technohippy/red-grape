@@ -2,4 +2,4 @@
 dbfile.bin
 pkg/
 red_grape-*.gem
-public
+public/js/d3

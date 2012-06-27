@@ -41,6 +41,7 @@ require 'red_grape/pipe/transform_pipe'
 require 'red_grape/pipe/v_pipe'
 require 'red_grape/pipe/e_pipe'
 require 'red_grape/graph'
+require 'red_grape/graph_store'
 
 module RedGrape
   module_function

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Force-Directed Layout</title>
+    <!--script type='text/javascript' src='/js/d3.v3.js'></script-->
+    <script type='text/javascript' src='/js/d3/d3.v2.js'></script>
+    <style type='text/css'>
+
+div.node {
+  border-radius: 6px;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  position: absolute;
+
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  color: white;
+  text-align:center;
+  vertical-align:middle;
+  font-size:0.5em;
+}
+
+div.link {
+  position: absolute;
+  border-bottom: solid #999 1px;
+  height: 0;
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  transform-origin: 0 0;
+
+  font-size:0.1em;
+  padding-left:10px;
+  white-space:nowrap;
+}
+
+div.graph {
+  border:1px solid black;
+}
+
+div.inspector {
+  position:absolute;
+  top:30px;
+  left:30px;
+  width:150px;
+  height:200px;
+  border:1px solid black;
+}
+    </style>
+  </head>
+  <body>
+    <script type='text/javascript'>
+function isIn(array, key) {
+  for (var i in array) {
+    if (array[i] == key) return true
+  }
+  return false;
+}
+
+var graphId = window.location.hash.substring(1);
+
+var width = 960,
+    height = 500,
+    radius = 6,
+    fill = d3.scale.category20();
+
+var force = d3.layout.force()
+    .charge(-120)
+    .linkDistance(100)
+    .gravity(0)
+    .size([width, height]);
+
+var vis = d3.select('body').append('div')
+    .attr('class', 'graph')
+    .style('width', width + 'px')
+    .style('height', height + 'px');
+
+/*
+setTimeout(function() {
+  force.linkDistance(30);
+  force.stop();
+  vis.selectAll('div.link').style('font-size', '0');
+  force.start();
+}, 5000);
+
+setTimeout(function() {
+  force.linkDistance(100);
+  force.stop();
+  vis.selectAll('div.link').style('font-size', '0.1em');
+  force.start();
+}, 10000);
+*/
+
+var vertices = [];
+var edges = [];
+d3.json('/graphs/' + graphId + '/vertices', function(json) {
+  for (var i = 0; i < json.length; i++) {
+    vertices.push(json[i].results);
+  }
+
+  function getVertexIndex(id) {
+    for (var i = 0; i < vertices.length; i++) {
+      if (vertices[i]._id == id) return i;
+    }
+    return -1;
+  }
+
+  d3.json('/graphs/' + graphId + '/edges', function(json) {
+    for (var i = 0; i < json.length; i++) {
+      var result = json[i].results;
+      edges.push({
+        source:getVertexIndex(result._source),
+        target:getVertexIndex(result._target),
+        data:result
+      });
+    }
+
+    var link = vis.selectAll('div.link')
+        .data(edges)
+      .enter().append('div')
+        .attr('class', 'link');
+
+    link.append('text')
+     .attr('text-anchor', 'middle')
+     .attr('dy', '.1em')
+     .text(function(d) { return '-[' + d.data._label + ']->'; });
+
+    var node = vis.selectAll('div.node')
+        .data(vertices)
+      .enter().append('div')
+        .attr('class', 'node')
+        .style('background', function(d) { return fill(d.group); })
+        .style('border-color', function(d) { return d3.rgb(fill(d.group)).darker(); })
+        .on('click', function(d) { 
+          var props = '';
+          for (var k in d) {
+            if (!isIn(['_type', 'index', 'weight', 'x', 'y', 'px', 'py', 'fixed'], k)) {
+              props += k + ':' + d[k] + '<br/>'; 
+            }
+          }
+          d3.select('.inspector').html(props); 
+        })
+        .call(force.drag);
+
+    node.append('text')
+     .attr('text-anchor', 'middle')
+     .attr('dy', '.3em')
+     .text(function(d) { return d._id; });
+
+    force
+        .nodes(vertices)
+        .links(edges)
+        .on('tick', tick)
+        .start();
+
+    function tick() {
+      node.style('left', function(d) { return (d.x = Math.max(radius, Math.min(width - radius, d.x))) + 'px'; })
+          .style('top', function(d) { return (d.y = Math.max(radius, Math.min(height - radius, d.y))) + 'px'; });
+
+      link.style('left', function(d) { return d.source.x + 'px'; })
+          .style('top', function(d) { return d.source.y + 'px'; })
+          .style('width', length)
+          .style('-webkit-transform', transform)
+          .style('-moz-transform', transform)
+          .style('-ms-transform', transform)
+          .style('-o-transform', transform)
+          .style('transform', transform);
+    }
+
+    function transform(d) {
+      return 'rotate(' + Math.atan2(d.target.y - d.source.y, d.target.x - d.source.x) * 180 / Math.PI + 'deg)';
+    }
+
+    function length(d) {
+      var dx = d.target.x - d.source.x,
+          dy = d.target.y - d.source.y;
+      return Math.sqrt(dx * dx + dy * dy) + 'px';
+    }
+  });
+});
+    </script>
+    <div class='inspector'>
+    </div>
+  </body>
+</html>

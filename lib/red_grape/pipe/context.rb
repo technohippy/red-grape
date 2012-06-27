@@ -7,6 +7,7 @@ module RedGrape
       def initialize
         @history = []
         @marks = {}
+
         @aggregating_items = {}
         @aggregated_items = {}
         @grouping_items = {}

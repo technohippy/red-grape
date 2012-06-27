@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Flare Dendrogram</title>
+    <script type='text/javascript' src='/js/d3.v3.js'></script>
+    <style type='text/css'>
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+    </style>
+  </head>
+  <body>
+    <div id="chart"></div>
+    <script type='text/javascript'>
+    var json = {
+      "name":"node1",
+      "children":[
+        {
+          "name":"node2",
+        },
+        {
+          "name":"node3",
+        },
+        {
+          "name":"node4",
+          "children":[
+            {
+              "name":"node3",
+            },
+            {
+              "name":"node5"
+            }
+          ]
+        }
+      ]
+    };
+/*
+var node1 = { "name":"node1" };
+var node2 = { "name":"node2" };
+var node3 = { "name":"node3" };
+var node4 = { "name":"node4" };
+var node5 = { "name":"node5" };
+node1.children = [ node2, node3, node4 ];
+node3.children = [ node3, node5 ];
+var json = node1;
+*/
+
+
+var radius = 960 / 2;
+
+var cluster = d3.layout.cluster()
+    .size([360, radius - 120]);
+cluster.sort(function(a, b) { console.log(a.name, b.name); return d3.ascending(a.name, b.name)});
+
+var diagonal = d3.svg.diagonal.radial()
+    .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
+
+var vis = d3.select("#chart").append("svg")
+    .attr("width", radius * 2)
+    .attr("height", radius * 2)
+  .append("g")
+    .attr("transform", "translate(" + radius + "," + radius + ")");
+
+  var nodes = cluster.nodes(json);
+
+  var link = vis.selectAll("path.link")
+      .data(cluster.links(nodes))
+    .enter().append("path")
+      .attr("class", "link")
+      .attr("d", diagonal);
+
+  var node = vis.selectAll("g.node")
+      .data(nodes)
+    .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+
+  node.append("circle")
+      .attr("r", 4.5);
+
+  node.append("text")
+      .attr("dx", function(d) { return d.x < 180 ? 8 : -8; })
+      .attr("dy", ".31em")
+      .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+      .attr("transform", function(d) { return d.x < 180 ? null : "rotate(180)"; })
+      .text(function(d) { return d.name; });
+    </script>
+  </body>
+</html>

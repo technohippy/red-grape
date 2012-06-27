@@ -1,14 +1,33 @@
 #!/usr/bin/env ruby
 $: << File.expand_path('../../lib', __FILE__)
 
+require 'optparse'
 require 'sinatra'
 require 'red_grape'
+require 'red_grape/tools/trellis'
 
+# interprete options
+::Version = RedGrape::VERSION
+COMMAND_LINE = "#{$0} #{ARGV.join(' ')}"
+OPT = {}
+#  port:RedGrape::Tools::Trellis::DEFAULT_PORT
+opts = OptionParser.new
+opts.on('-p', '--port <port number>', 
+  "Set the port number (default: #{OPT[:port]})"){|v| OPT[:port] = v.to_i}
+opts.on_tail('-v', '--version', 'Show version'){puts(opts.ver); exit}
+opts.on_tail('-h', '--help', 'Show this message'){puts(opts.help); exit}
+opts.order! ARGV
+
+# start
 use Rack::Static, :urls => ['/cellar', '/js', '/css'], :root => 'public'
 
-graphs = {
-  'tinkergraph' => RedGrape.create_tinker_graph
-}
+graphs = nil
+if OPT[:port]
+  graphs = RedGrape::Tools::Trellis.open OPT[:port]
+else
+  graphs = RedGrape::GraphStore.new
+  graphs[:tinkergraph] = RedGrape.create_tinker_graph
+end
 
 get '/' do
   {
@@ -57,7 +76,7 @@ get %r{/graphs/?$} do
   {
     version: RedGrape::VERSION,
     name: 'Juicer: A Graph Server',
-    graphs: graphs.keys
+    graphs: graphs.graph_names
   }.to_pretty_json
 end
 
@@ -108,4 +127,3 @@ get %r{/graphs/([^/]+)/vertices/([^/]+)/(out_e|in_e|both_e|outE|inE|bothE)/?$} d
     vertex.send(dir)[].map(&:to_h).to_pretty_json
   end
 end
-

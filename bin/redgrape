@@ -3,14 +3,14 @@ $: << File.expand_path('../../lib', __FILE__)
 
 require 'optparse'
 require 'red_grape'
-require 'red_grape/tools/graph_store'
+require 'red_grape/tools/trellis'
 require 'red_grape/tools/irg'
 
 # interprete options
 ::Version = RedGrape::VERSION
 COMMAND_LINE = "#{$0} #{ARGV.join(' ')}"
 OPT = {
-  port:RedGrape::Tools::GraphStore::DEFAULT_PORT
+  port:RedGrape::Tools::Trellis::DEFAULT_PORT
 }
 opts = OptionParser.new
 opts.on('-p', '--port <port number>', 

@@ -1,9 +1,10 @@
 require 'drb/drb'
 require 'red_grape'
+require 'red_grape/graph_store'
 
 module RedGrape
   module Tools
-    class GraphStore
+    class Trellis < GraphStore
       DEFAULT_PORT = 28282
 
       class << self
@@ -30,26 +31,6 @@ module RedGrape
           else
             {tinker:RedGrape::Graph.create_tinker_graph}
           end
-      end
-
-      def graphs
-        @graphs.keys.sort
-      end
-
-      def graph(key)
-        self[key]
-      end
-
-      def put_graph(key, graph)
-        self[key] = graph
-      end
-
-      def [](key)
-        @graphs[key.to_sym]
-      end
-
-      def []=(key, graph)
-        @graphs[key.to_sym] = graph
       end
 
       def start(port=nil, &block)

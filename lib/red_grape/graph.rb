@@ -17,7 +17,7 @@ module RedGrape
 
       # Returns the default graph which has 6 vertices and 6 edges.
       def create_tinker_graph
-        self.new do |g|
+        self.new :tinkergraph do |g|
           v1 = g.add_vertex 1, name:'marko', age:29
           v2 = g.add_vertex 2, name:'vadas', age:27
           v3 = g.add_vertex 3, name:'lop', lang:'java'
@@ -67,12 +67,13 @@ module RedGrape
       end
     end
 
-    attr_accessor :serializer
+    attr_accessor :name, :serializer
       
     # Returns a new instance
     # _block_ :: a block which is given the instance as the first argument 
     # to initialize it
-    def initialize(&block)
+    def initialize(name=nil, &block)
+      @name = name || uid
       @serializer = Serializer::GraphMLSerializer.new self
       @vertices = {}
       @edges = {}

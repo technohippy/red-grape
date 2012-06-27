@@ -7,15 +7,39 @@
       '/graphs',
       function(data) {
         data = eval('(' + data + ')');
+        $.each(data.graphs, function(i, graph) {
+          ul = $('aside ul');
+          ul.append($('<li><a href="/cellar/graph.html#' + graph + '" target="graph">' + graph + '</a></li>'));
+        });
       }
     );
   });
   </script>
+  <style>
+  aside {
+    width:150px;    
+    position:absolute;
+    top:0;
+    left:0;
+  }
+  iframe {
+    margin-left:160px;
+    position:absolute;
+    top:0;
+    left:0;
+    width:800px;
+    height:500px;
+    border:1px solid black;
+  }
+  </style>
 </head>
 <body>
   <aside>
+    <ul>
+    </ul>
   </aside>
   <section>
+    <iframe name="graph"></iframe>
   </seciton>
 </body>
 </html>

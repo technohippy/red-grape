@@ -36,10 +36,13 @@ div.link {
   font-size:0.1em;
   padding-left:10px;
   white-space:nowrap;
+  color:#999;
 }
 
 div.graph {
+/*
   border:1px solid black;
+*/
 }
 
 div.inspector {
@@ -63,7 +66,7 @@ function isIn(array, key) {
 
 var graphId = window.location.hash.substring(1);
 
-var width = 960,
+var width = 800,
     height = 500,
     radius = 6,
     fill = d3.scale.category20();

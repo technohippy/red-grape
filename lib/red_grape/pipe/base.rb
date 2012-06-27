@@ -62,12 +62,8 @@ module RedGrape
             context.resume_from_aggregating
           elsif context.grouping?
             context.resume_from_grouping
-          elsif context.gathering?
-            context.resume_from_gathering
-          elsif context.counting?
-            context.resume_from_counting
-          elsif context.ordering?
-            context.resume_from_ordering
+          elsif context.accumulating?
+            context.resume_from_accumulating
           else
             val
           end

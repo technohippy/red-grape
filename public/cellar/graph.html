@@ -40,18 +40,47 @@ div.link {
 }
 
 div.graph {
-/*
-  border:1px solid black;
-*/
+  position:absolute;
+  left:200px;
+  top:0;
+  height:auto;
 }
 
 div.inspector {
   position:absolute;
-  top:30px;
-  left:30px;
-  width:150px;
-  height:200px;
-  border:1px solid black;
+  top:0;
+  left:0;
+  width:200px;
+  height:500px;
+  height:100%;
+  background-color:#eee;
+  box-shadow: -2px 2px 3px #888 inset;
+}
+
+div.inspector h2 {
+  margin:0;
+  padding-left:10px;
+  margin-top:10px;
+  font-size:1em;
+  font-weight:normal;
+  background-color:gray;
+  color:white;
+}
+
+div.inspector dt {
+  border-bottom:1px solid gray;
+  display:block;
+  width:80px;
+  float:left;
+  padding-left:10px;
+  font-weight:bold;
+}
+
+div.inspector dd {
+  border-bottom:1px solid gray;
+  display:block;
+  width:160px;
+  height:auto;
 }
     </style>
   </head>
@@ -64,19 +93,16 @@ function isIn(array, key) {
   return false;
 }
 
+var height = window.document.body.scrollHeight;
+var width = window.document.body.scrollWidth - 200;
 var graphId = window.location.hash.substring(1);
-
-var width = 800,
-    height = 500,
-    radius = 6,
+var radius = 6,
     fill = d3.scale.category20();
-
 var force = d3.layout.force()
     .charge(-120)
     .linkDistance(100)
     .gravity(0)
     .size([width, height]);
-
 var vis = d3.select('body').append('div')
     .attr('class', 'graph')
     .style('width', width + 'px')
@@ -142,10 +168,10 @@ d3.json('/graphs/' + graphId + '/vertices', function(json) {
           var props = '';
           for (var k in d) {
             if (!isIn(['_type', 'index', 'weight', 'x', 'y', 'px', 'py', 'fixed'], k)) {
-              props += k + ':' + d[k] + '<br/>'; 
+              props += '<dt>' + k + '</dt><dd>' + d[k] + '</dd>'; 
             }
           }
-          d3.select('.inspector').html(props); 
+          d3.select('.inspector').html('<h2>Properties</h2><dl>' + props + '</dl>'); 
         })
         .call(force.drag);
 
@@ -187,6 +213,8 @@ d3.json('/graphs/' + graphId + '/vertices', function(json) {
 });
     </script>
     <div class='inspector'>
+      <h2>Properties</h2>
+      &nbsp;Click a node.
     </div>
   </body>
 </html>

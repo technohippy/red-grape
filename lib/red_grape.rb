@@ -1,5 +1,5 @@
 module RedGrape
-  VERSION = '0.0.13'
+  VERSION = '0.1.0'
 end
 
 require 'ext/nil_class_ext'

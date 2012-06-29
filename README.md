@@ -96,6 +96,41 @@ In REPL, the `take' method which invokes all pipes is automatically called.
 
 Changes on a graph are not committed until the put_graph method is called.
 
+## REST API:
+
+Start the server: 
+
+    $ ./bin/juicer 
+    [2012-06-30 02:03:01] INFO  WEBrick 1.3.1
+    [2012-06-30 02:03:01] INFO  ruby 1.9.3 (2011-10-30) [x86_64-darwin11.0.1]
+    == Sinatra/1.3.2 has taken the stage on 4567 for development with backup from WEBrick
+    [2012-06-30 02:03:01] INFO  WEBrick::HTTPServer#start: pid=12098 port=4567
+
+Access:
+
+    $ curl http://localhost:4567/graphs
+    {
+      "version": "0.1.0",
+      "name": "Juicer: A Graph Server",
+      "graphs": [
+        "tinkergraph"
+      ]
+    }
+    $ curl http://localhost:4567/graphs/tinkergraph/vertices/1
+    {
+      "version": "0.1.0",
+      "results": {
+        "_type": "_vertex",
+        "_id": "1",
+        "name": "marko",
+        "age": 29
+      }
+    }
+
+### Graph Viewer:
+
+    http://localhost:4567/cellar/index.html
+
 ## Requirements:
 
 * Nokogiri (http://nokogiri.org/)

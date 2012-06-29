@@ -131,6 +131,8 @@ Access:
 
     http://localhost:4567/cellar/index.html
 
+![Screenshot](https://raw.github.com/technohippy/red-grape/master/public/image/cellar.png)
+
 ## Requirements:
 
 * Nokogiri (http://nokogiri.org/)

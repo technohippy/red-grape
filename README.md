@@ -12,6 +12,8 @@ RedGrape is an in-memory graph database written in ruby. I made this application
 * load GraphML
 * construct a graph programmatically
 * traverse nodes and edges using a gremlin-like DSL
+* REST API
+* Graph viewer
 
 ## Synopsis:
 

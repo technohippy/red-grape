@@ -151,8 +151,9 @@ and generate the RDoc.
 
 ## References:
 
-* [Gremlin](https://github.com/tinkerpop/gremlin/wiki)
+* [Gremlin](https://github.com/tinkerpop/gremlin/wiki/)
 * [Pipes](https://github.com/tinkerpop/pipes/wiki/)
+* [Rexter](https://github.com/tinkerpop/rexster/wiki/)
 
 ## License:
 

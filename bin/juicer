@@ -52,10 +52,10 @@ get '/' do
       ],
       POST: [
         #'/graphs/[graph]/vertices',
-        #'/graphs/[graph]/vertices/[vertex]',
-        #'/graphs/[graph]/vertices/[vertex]?[key1]=[value1]&[key2]=[value2]',
+        '/graphs/[graph]/vertices/[vertex]',
+        '/graphs/[graph]/vertices/[vertex]?[key1]=[value1]&[key2]=[value2]',
         #'/graphs/[graph]/edges?_outV=[vertex1]&_label=[label]&_inV=[vertex2]&[key1]=[value1]&=[key2]=[value2]',
-        #'/graphs/[graph]/edges/[edge]?_outV=[vertex1]&_label=[label]&_inV=[vertex2]&[key1]=[value1]&=[key2]=[value2]',
+        '/graphs/[graph]/edges/[edge]?_outV=[vertex1]&_label=[label]&_inV=[vertex2]&[key1]=[value1]&=[key2]=[value2]',
         #'/graphs/[graph]/edges/[edge]?[key1]=[key2]'
       ],
       PUT: [
@@ -126,4 +126,31 @@ get %r{/graphs/([^/]+)/vertices/([^/]+)/(out_e|in_e|both_e|outE|inE|bothE)/?$} d
   else
     vertex.send(dir)[].map(&:to_h).to_pretty_json
   end
+end
+
+=begin
+post %r{/graphs/([^/]+)/vertices/?$} do |graph_id|
+  params['splat'] = nil
+  params['captures'] = nil
+  graph = graphs[graph_id]
+end
+=end
+
+post %r{/graphs/([^/]+)/vertices/([^/]+)/?$} do |graph_id, vertex_id|
+  params.delete 'splat'
+  params.delete 'captures'
+  graph = graphs[graph_id]
+  vertex = graph.add_vertex vertex_id, params
+  vertex.to_h.to_pretty_json
+end
+
+post %r{/graphs/([^/]+)/edges/([^/]+)/?$} do |graph_id, edge_id|
+  params.delete 'splat'
+  params.delete 'captures'
+  label = params.delete '_label'
+  source = params.delete '_outV'
+  target = params.delete '_inV'
+  graph = graphs[graph_id]
+  edge = graph.add_edge edge_id, source, target, label, params
+  edge.to_h.to_pretty_json
 end

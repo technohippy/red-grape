@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Force-Directed Layout</title>
+    <script src="/js/jquery-1.7.2.min.js"></script>
     <!--script type='text/javascript' src='/js/d3.v3.js'></script-->
     <script type='text/javascript' src='/js/d3.v2.js'></script>
     <style type='text/css'>
@@ -46,7 +47,7 @@ div.graph {
   height:auto;
 }
 
-div.inspector {
+aside {
   position:absolute;
   top:0;
   left:0;
@@ -57,7 +58,7 @@ div.inspector {
   box-shadow: -2px 2px 3px #888 inset;
 }
 
-div.inspector h2 {
+aside h2 {
   margin:0;
   padding-left:10px;
   margin-top:10px;
@@ -67,7 +68,7 @@ div.inspector h2 {
   color:white;
 }
 
-div.inspector dt {
+aside div.inspector dt {
   border-bottom:1px solid gray;
   display:block;
   width:80px;
@@ -76,23 +77,40 @@ div.inspector dt {
   font-weight:bold;
 }
 
-div.inspector dd {
+aside div.inspector dd {
   border-bottom:1px solid gray;
   display:block;
   width:160px;
   height:auto;
 }
+
+aside select {
+  margin:10px;
+  width:160px;
+}
+
+aside button {
+  margin-left:10px;
+  width:160px;
+}
+
+aside label {
+  margin-left:10px;
+}
+
+aside input {
+  margin-left:10px;
+  width:160px;
+}
+
+aside textarea {
+  margin-left:10px;
+  width:160px;
+}
     </style>
   </head>
   <body>
     <script type='text/javascript'>
-function isIn(array, key) {
-  for (var i in array) {
-    if (array[i] == key) return true
-  }
-  return false;
-}
-
 var height = window.document.body.scrollHeight;
 var width = window.document.body.scrollWidth - 200;
 var graphId = window.location.hash.substring(1);
@@ -107,6 +125,72 @@ var vis = d3.select('body').append('div')
     .attr('class', 'graph')
     .style('width', width + 'px')
     .style('height', height + 'px');
+
+$(function() {
+  $('#element').change(function(evt) {
+    if ($('#element').val() == 'vertex') {
+      $('#vertex').css('display', 'block');
+      $('#edge').css('display', 'none');
+    }
+    else {
+      $('#vertex').css('display', 'none');
+      $('#edge').css('display', 'block');
+    }
+  });
+
+  $('#vbutton').click(function(evt) {
+    var id = $('#vid').val();
+    if (!id) return; // TODO
+    var params = {};
+    var pairs = $('#vprop').val().split('\n')
+    for (var i in pairs) {
+      var kv = pairs[i].split('=');
+      params[kv[0]] = kv[1];
+    }
+    $.post(
+      '/graphs/' + 'tinkergraph' + '/vertices/' + id,
+      params,
+      function(data) {
+        window.location.reload(); // TODO
+        //vertices.push(data.results);
+        //force.stop();
+        //force.start();
+      }
+    );
+  });
+
+  $('#ebutton').click(function(evt) {
+    var id = $('#eid').val();        if (!id) return; // TODO
+    var label = $('#label').val();   if (!label) return; // TODO
+    var source = $('#source').val(); if (!source) return; // TODO
+    var target = $('#target').val(); if (!target) return; // TODO
+    var params = {
+      _outV:target,
+      _inV:source,
+      _label:label
+    };
+    var pairs = $('#eprop').val().split('\n')
+    for (var i in pairs) {
+      var kv = pairs[i].split('=');
+      params[kv[0]] = kv[1];
+    }
+    $.post(
+      '/graphs/' + 'tinkergraph' + '/edges/' + id,
+      params,
+      function(data) {
+        window.location.reload(); // TODO
+      }
+    );
+  });
+});
+
+
+function isIn(array, key) {
+  for (var i in array) {
+    if (array[i] == key) return true
+  }
+  return false;
+}
 
 /*
 setTimeout(function() {
@@ -171,7 +255,7 @@ d3.json('/graphs/' + graphId + '/vertices', function(json) {
               props += '<dt>' + k + '</dt><dd>' + d[k] + '</dd>'; 
             }
           }
-          d3.select('.inspector').html('<h2>Properties</h2><dl>' + props + '</dl>'); 
+          d3.select('.inspector').html('<dl>' + props + '</dl>'); 
         })
         .call(force.drag);
 
@@ -212,9 +296,36 @@ d3.json('/graphs/' + graphId + '/vertices', function(json) {
   });
 });
     </script>
-    <div class='inspector'>
-      <h2>Properties</h2>
-      &nbsp;Click a node.
-    </div>
+    <aside>
+      <h2>View Properties</h2>
+      <div class='inspector'>
+        &nbsp;Click a node.
+      </div>
+      <h2>Add Element</h2>
+      <select id="element">
+        <option value="vertex" selected>Vertex</option>
+        <option value="edge">Edge</option>
+      </select>
+      <div id="vertex">
+        <label for="vid">ID</label><br/>
+        <input id="vid" name="vid"></input><br/>
+        <label for="vprop">Properties</label><br/>
+        <textarea id="vprop" name="vprop"></textarea>
+        <button id="vbutton">Create</button>
+      </div>
+      <div id="edge" style="display:none">
+        <label for="eid">ID</label><br/>
+        <input id="eid" name="eid"></input><br/>
+        <label for="label">Label<strong>*</strong></label><br/>
+        <input id="label" name="label"></input><br/>
+        <label for="source">Source<strong>*</strong></label><br/>
+        <input id="source" name="source"></input><br/>
+        <label for="target">Target<strong>*</strong></label><br/>
+        <input id="target" name="target"></input><br/>
+        <label for="eprop">Properties</label><br/>
+        <textarea id="eprop" name="eprop"></textarea>
+        <button id="ebutton">Create</button>
+      </div>
+    </aside>
   </body>
 </html>

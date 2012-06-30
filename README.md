@@ -13,7 +13,7 @@ RedGrape is an in-memory graph database written in ruby. I made this application
 * construct a graph programmatically
 * traverse nodes and edges using a gremlin-like DSL
 * REST API
-* Graph viewer
+* Graph viewer (in progress)
 
 ## Synopsis:
 
@@ -100,7 +100,7 @@ Changes on a graph are not committed until the put_graph method is called.
 
 ## REST API:
 
-Start the server: 
+### Server: 
 
     $ ./bin/juicer 
     [2012-06-30 02:03:01] INFO  WEBrick 1.3.1
@@ -108,7 +108,7 @@ Start the server:
     == Sinatra/1.3.2 has taken the stage on 4567 for development with backup from WEBrick
     [2012-06-30 02:03:01] INFO  WEBrick::HTTPServer#start: pid=12098 port=4567
 
-Access:
+### Use from Console:
 
     $ curl http://localhost:4567/graphs
     {
@@ -129,7 +129,7 @@ Access:
       }
     }
 
-### Graph Viewer:
+### Use from Browser:
 
     http://localhost:4567/cellar/index.html
 

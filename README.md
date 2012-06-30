@@ -110,6 +110,31 @@ Changes on a graph are not committed until the put_graph method is called.
 
 ### Use from Console:
 
+    $ curl http://localhost:4567/
+    {
+      "version": "0.1.0",
+      "supportedPaths": {
+        "GET": [
+          "/graphs",
+          "/graphs/[graph]",
+          "/graphs/[graph]/vertices",
+          "/graphs/[graph]/vertices?key=[key]&value=[value]",
+          "/graphs/[graph]/vertices/[vertex]",
+          "/graphs/[graph]/vertices/[vertex]/out",
+          ...
+        ],
+        "POST": [
+          ...
+        ],
+        "PUT": [
+          ...
+        ],
+        "DELETE": [
+          ...
+        ]
+      }
+    }
+
     $ curl http://localhost:4567/graphs
     {
       "version": "0.1.0",
@@ -118,6 +143,7 @@ Changes on a graph are not committed until the put_graph method is called.
         "tinkergraph"
       ]
     }
+
     $ curl http://localhost:4567/graphs/tinkergraph/vertices/1
     {
       "version": "0.1.0",

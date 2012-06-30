@@ -148,7 +148,7 @@ $(function() {
       params[kv[0]] = kv[1];
     }
     $.post(
-      '/graphs/' + 'tinkergraph' + '/vertices/' + id,
+      '/graphs/' + graphId + '/vertices/' + id,
       params,
       function(data) {
         window.location.reload(); // TODO
@@ -175,7 +175,7 @@ $(function() {
       params[kv[0]] = kv[1];
     }
     $.post(
-      '/graphs/' + 'tinkergraph' + '/edges/' + id,
+      '/graphs/' + graphId + '/edges/' + id,
       params,
       function(data) {
         window.location.reload(); // TODO

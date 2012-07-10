@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Red-grape : Extremely Simple Graph DB" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Red-grape</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/technohippy/red-grape">View on GitHub</a>
+
+          <h1 id="project_title">Red-grape</h1>
+          <h2 id="project_tagline">Extremely Simple Graph DB</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/technohippy/red-grape/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/technohippy/red-grape/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>RedGrape is an in-memory graph database written in ruby. I made this application in order to learn how a graph database works so that please do not use this for any serious purpose.</p>
+
+<h2>Features/Problems:</h2>
+
+<ul>
+<li>REPL</li>
+<li>load GraphML</li>
+<li>construct a graph programmatically</li>
+<li>traverse nodes and edges using a gremlin-like DSL</li>
+<li>REST API</li>
+<li>Graph viewer (in progress)</li>
+</ul><h2>Synopsis:</h2>
+
+<pre><code>g1 = RedGrape.load_graph 'data/graph-example-1.xml'
+g1.v(1).out('knows').filter{it.age &lt; 30}.name.transform{it.size}.take
+# =&gt; [5]
+
+g2 = RedGrape.load_graph 'data/graph-example-2.xml'
+g2.v(89).as('x').outE.inV.loop('x'){it.loops &lt; 3}.path.take
+# =&gt; [[v[89], e[7006][89-followed_by-&gt;127], v[127], e[7786][127-sung_by-&gt;340], v[340]], [v[89], 
+</code></pre>
+
+<h2>REPL:</h2>
+
+<pre><code>$ bin/redgrape
+         T
+       oOOOo
+        oOo
+-------- O --------
+irb(main):001:0&gt; g = RedGrape.create_tinker_graph
+ =&gt; redgrape[vertices:6 edges:6] 
+irb(main):002:0&gt; g.class
+ =&gt; RedGrape::Graph 
+irb(main):003:0&gt; g.V
+ =&gt; [v[1], v[2], v[3], v[4], v[5], v[6]] 
+irb(main):004:0&gt; g.V.name
+ =&gt; ["marko", "vadas", "lop", "josh", "ripple", "peter"] 
+irb(main):005:0&gt; g.E
+ =&gt; [e[7][1-knows-&gt;2], e[8][1-knows-&gt;4], e[9][1-created-&gt;3], e[10][4-created-&gt;5], e[11][4-created-&gt;3], e[12][6-created-&gt;3]] 
+irb(main):006:0&gt; v = g.v(1)
+ =&gt; v[1] 
+irb(main):007:0&gt; "#{v.name} is #{v.age} years old."
+ =&gt; "marko is 29 years old." 
+irb(main):008:0&gt; v.out
+ =&gt; [v[2], v[4], v[3]] 
+irb(main):009:0&gt; v.out('knows')
+ =&gt; [v[2], v[4]] 
+irb(main):010:0&gt; v.outE
+ =&gt; [e[7][1-knows-&gt;2], e[8][1-knows-&gt;4], e[9][1-created-&gt;3]] 
+irb(main):011:0&gt; v.outE('knows')
+ =&gt; [e[7][1-knows-&gt;2], e[8][1-knows-&gt;4]] 
+irb(main):012:0&gt; v.outE.weight
+ =&gt; [0.5, 1.0, 0.4] 
+irb(main):013:0&gt; v.outE.has('weight', :lt, 1).inV
+ =&gt; [v[2], v[3]] 
+irb(main):014:0&gt; v.outE.filter{it.weight &lt; 1}.inV
+ =&gt; [v[2], v[3]] 
+irb(main):015:0&gt; v.out('knows').filter{it.age:0&gt; 30}.out('created').name
+ =&gt; ["ripple", "lop"] 
+</code></pre>
+
+<p>In REPL, the `take' method which invokes all pipes is automatically called.</p>
+
+<h2>Server/Client:</h2>
+
+<h3>Server:</h3>
+
+<pre><code>$ ./bin/trellis
+  +=================+
+  |  +     T     +  |
+  | oOo  oOOOo  oOo |
+  |  8    oOo    8  |
+  |        O        |       
+Start server: druby://localhost:28282
+[Ctrl+C to stop]
+</code></pre>
+
+<h3>Client:</h3>
+
+<pre><code>$ ./bin/redgrape 
+         T
+       oOOOo
+        oOo
+-------- O --------
+irb(main):001:0&gt; $store
+ =&gt; #&lt;RedGrape::GraphStore:0x007fb615137a90&gt; 
+irb(main):002:0&gt; $store.graphs
+ =&gt; [:tinker] 
+irb(main):003:0&gt; g = $store.graph :tinker
+ =&gt; redgrape[vertices:6 edges:6] 
+irb(main):004:0&gt; g.add_vertex 7
+ =&gt; redgrape[vertices:7 edges:6] 
+irb(main):005:0&gt; store.put_graph :tinker, g
+ =&gt; redgrape[vertices:7 edges:6] 
+</code></pre>
+
+<p>Changes on a graph are not committed until the put_graph method is called.</p>
+
+<h2>REST API:</h2>
+
+<h3>Server:</h3>
+
+<pre><code>$ ./bin/juicer 
+[2012-06-30 02:03:01] INFO  WEBrick 1.3.1
+[2012-06-30 02:03:01] INFO  ruby 1.9.3 (2011-10-30) [x86_64-darwin11.0.1]
+== Sinatra/1.3.2 has taken the stage on 4567 for development with backup from WEBrick
+[2012-06-30 02:03:01] INFO  WEBrick::HTTPServer#start: pid=12098 port=4567
+</code></pre>
+
+<h3>Use from Console:</h3>
+
+<pre><code>$ curl http://localhost:4567/
+{
+  "version": "0.1.0",
+  "supportedPaths": {
+    "GET": [
+      "/graphs",
+      "/graphs/[graph]",
+      "/graphs/[graph]/vertices",
+      "/graphs/[graph]/vertices?key=[key]&amp;value=[value]",
+      "/graphs/[graph]/vertices/[vertex]",
+      "/graphs/[graph]/vertices/[vertex]/out",
+      ...
+    ],
+    "POST": [
+      ...
+    ],
+    "PUT": [
+      ...
+    ],
+    "DELETE": [
+      ...
+    ]
+  }
+}
+
+$ curl http://localhost:4567/graphs
+{
+  "version": "0.1.0",
+  "name": "Juicer: A Graph Server",
+  "graphs": [
+    "tinkergraph"
+  ]
+}
+
+$ curl http://localhost:4567/graphs/tinkergraph/vertices/1
+{
+  "version": "0.1.0",
+  "results": {
+    "_type": "_vertex",
+    "_id": "1",
+    "name": "marko",
+    "age": 29
+  }
+}
+</code></pre>
+
+<h3>Use from Browser:</h3>
+
+<pre><code>http://localhost:4567/cellar/index.html
+</code></pre>
+
+<p><img src="https://raw.github.com/technohippy/red-grape/master/public/image/cellar.png" alt="Screenshot"></p>
+
+<h2>Requirements:</h2>
+
+<ul>
+<li>Nokogiri (<a href="http://nokogiri.org/">http://nokogiri.org/</a>)</li>
+<li>Sinatra (<a href="http://www.sinatrarb.com/">http://www.sinatrarb.com/</a>)</li>
+</ul><h2>Developers:</h2>
+
+<p>after checking out the source, run:</p>
+
+<pre><code>$ rake newb
+</code></pre>
+
+<p>This task will install any missing dependencies, run the tests/specs,
+and generate the RDoc.</p>
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="https://github.com/tinkerpop/gremlin/wiki/">Gremlin</a></li>
+<li><a href="https://github.com/tinkerpop/pipes/wiki/">Pipes</a></li>
+<li><a href="https://github.com/tinkerpop/rexster/wiki/">Rexter</a></li>
+</ul><h2>License:</h2>
+
+<p>(The MIT License)</p>
+
+<p>Copyright (c) 2012 ANDO Yasushi</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Red-grape maintained by <a href="https://github.com/technohippy">technohippy</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
